@@ -1,38 +1,81 @@
 .App {
-  text-align: center;
+  margin: 0 10%;
+  font-size: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.homepage {
+  margin-top: 15%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.homepage-btn {
+  padding: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.problem-views {
 }
 
-.App-link {
-  color: #61dafb;
+.nevigation-bar {
+  /* border: 1px solid black; */
+  /* padding: 0; */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-link {
+  color: black;
+  font-size: 20px;
+  border-radius: 15px;
+  /* border: 1px solid rgba(0, 0, 0, 0); */
+}
+
+.nav-link:hover {
+  color: #523c00;
+  font-size: 20px;
+  background-color: white;
+  /* border: 1px solid rgba(0, 0, 0, 0); */
+}
+
+
+.problem-card {
+  border: 2px solid rgb(32, 32, 32);
+  margin-bottom: 10px;
+  padding: 12px 0 20px 20px;
+  background-color: white;
+  width: 100%;
+
+  transition: background-color 0.2s;
+}
+
+.problem-card:hover {
+  background-color: rgb(238, 238, 238);
+  /* transform: scale(1.01) */
+}
+
+.problem-card-list {
+  height: 685px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 5px;
+}
+
+.input-code {
+  font-family: monospace !important;
+  color: rgb(0, 39, 99) !important;
+  font-size: 20px !important;
+}
+
+pre.output {
+  border: 1px dashed rgb(34, 34, 34);
+  background-color: rgb(241, 241, 241);
+  padding: 15px;
+}
+
+.login-btn {
+  background-color: rgb(255, 145, 0);
+  border-radius: 15px;
+}
+
+.login-card {
+  /* border: 1px solid black; */
+  padding: 50px;
+  margin: 10% 30%;
+  border-radius: 20px;
 }
