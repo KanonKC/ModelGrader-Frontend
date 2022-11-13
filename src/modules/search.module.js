@@ -3,7 +3,7 @@ export function hasSubstring(text,sub){
     sub = sub.toLowerCase()
     const sl = sub.length
     for(var i=0;i<text.length-sl+1;i++){
-        if(text.slice(i,i+sl) == sub){
+        if(text.slice(i,i+sl) === sub){
             return true
         }
     }

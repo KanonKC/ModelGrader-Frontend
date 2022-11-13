@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getAccount } from "./account.service";
 import { URL } from "./constant.service";
 
 export async function login(body){

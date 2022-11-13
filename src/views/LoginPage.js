@@ -10,7 +10,6 @@ import {
     Input,
     Label,
 } from "reactstrap";
-import { emmitError } from "../modules/toast.module";
 import { getAuthorization, login } from "../services/auth.service";
 
 const LoginPage = () => {
@@ -36,7 +35,7 @@ const LoginPage = () => {
                 window.location.reload(false);
             })
             .catch((err) => {
-                if (err.response.status == 404) {
+                if (err.response.status === 404) {
                     setInvalid({ ...invalid, username: true, password: false });
                 } 
                 else {
@@ -52,7 +51,7 @@ const LoginPage = () => {
                 nevigate("/problems");
             }
         });
-    }, []);
+    }, [nevigate]);
 
     return (
         <div>
