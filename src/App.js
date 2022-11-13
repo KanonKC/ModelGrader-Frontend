@@ -2,7 +2,17 @@ import "./App.css";
 import NevigationBar from "./components/NevigationBar";
 import Views from "./views";
 import { ToastContainer } from "react-toastify";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 function App() {
+    const location = useLocation()
+    useEffect(() => {
+        if(location.pathname == '/'){
+            const wallpeper = require('./imgs/Polygon-Wallpaper.png')
+            document.body.style.backgroundImage = `url(${wallpeper})`;
+        }
+    }, [location]);
     return (
         <div>
             <NevigationBar />
@@ -20,8 +30,6 @@ function App() {
                     pauseOnHover
                     theme="light"
                 />
-                {/* Same as */}
-                <ToastContainer />
             </div>
         </div>
     );

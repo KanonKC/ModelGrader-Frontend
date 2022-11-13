@@ -3,9 +3,11 @@ import { Route, Routes } from "react-router-dom";
 import { getAuthorization } from "../services/auth.service";
 import AllProblem from "./AllProblem";
 import CreateProblem from "./CreateProblem";
+import EditProblem from "./EditProblems";
 import Homepage from "./Homepage";
 import LoginPage from "./LoginPage";
 import Problem from "./Problem";
+import MyProfile from "./MyProfile";
 import RegisterPage from "./RegisterPage";
 
 const Views = () => {
@@ -35,6 +37,14 @@ const Views = () => {
                         <Route
                             path={"/problems/:problem_id"}
                             element={<Problem />}
+                        />
+                        <Route
+                            path={`/my-profile`}
+                            element={<MyProfile />}
+                        />
+                        <Route
+                            path={`/edit/:problem_id`}
+                            element={<EditProblem />}
                         />
                     </>
                 )

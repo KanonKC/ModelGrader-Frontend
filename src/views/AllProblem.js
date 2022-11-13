@@ -22,17 +22,28 @@ const columns = [
         selector: (row) => Language[row.language],
         sortable: true,
     },
+
     {
-        name: "Best Submission",
-        selector: (row) => row.best_submission_result,
+        name: "Status",
+        center: true,
+        selector: (row) => row.pass_status,
         sortable: false,
     },
+
     {
-        name: "Score (%)",
-        right: true,
+        name: "Score",
+        center: true,
         selector: (row) => row.best_submission_score,
-        sortable: true,
+        sortable: false,
     },
+
+    {
+        name: "Best Submission",
+        center: true,
+        selector: (row) => <span className="font-mono">{row.best_submission_result}</span>,
+        sortable: false,
+    },
+    
 
     {
         name: "Created By",
@@ -41,7 +52,7 @@ const columns = [
     },
 
     {
-        name: "asdw",
+        name: "",
         selector: (row) => row.solve_button,
     },
 ];
@@ -96,12 +107,10 @@ const AllProblem = () => {
                             ? best_submission.result
                             : "",
                         best_submission_score: best_submission
-                            ? (
-                                  (best_submission.score * 100) /
-                                  best_submission.result.length
-                              ).toFixed(2)
+                            ? `${best_submission.score}/${best_submission.result.length}`
                             : "",
-                        solve_button: <Button onClick={() => nevigate(`/problems/${problem.problem_id}`)} className="" color="info">Solve This Problem</Button>
+                        solve_button: <Button onClick={() => nevigate(`/problems/${problem.problem_id}`)} className="text-white" color="success">Solve This Problem</Button>,
+                        pass_status: best_submission ? (best_submission.is_passed ? <img src={require("../imgs/passed_icon.png")}/> : <img src={require("../imgs/unpassed_icon.png")}/>) : ""
                     };
                 })
             );
@@ -148,9 +157,24 @@ const AllProblem = () => {
 
             <div className="problem-card-list">
                 <DataTable
-                    className="text-md"
+                    className="text-md border-2"
                     columns={columns}
                     data={displayProblems}
+                    pagination
+                    highlightOnHover
+                    customStyles={{
+                        headCells: {
+                            style: {
+                                fontSize: "16px",
+                            },
+                        },
+                        cells: {
+                            style: {
+                                fontSize: "16px",
+                                fontFamily: "monospace"
+                            },
+                        },
+                    }}
                     striped
                 />
             </div>

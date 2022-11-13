@@ -1,27 +1,27 @@
 import { toast } from "react-toastify";
 
-export function emmitError(text) {
+export function emitError(text) {
     toast.error(text, {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
-    });
+        theme: "colored",
+        });
 }
 
-export function emmitSuccess(text) {
+export function emitSuccess(text) {
     toast.success(text, {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
-    });
+        theme: "colored",
+        });
 }

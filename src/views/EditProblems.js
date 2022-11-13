@@ -12,10 +12,17 @@ import {
     ModalHeader,
     Row,
 } from "reactstrap";
-import { createProblem } from "../services/problem.service";
+import { createProblem, editProblem, getProblem } from "../services/problem.service";
 import { emitError, emitSuccess } from "../modules/toast.module";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreateProblem = () => {
+const EditProblem = () => {
+
+    const nevigate = useNavigate()
+
+    const { problem_id } = useParams()
+    const [problem,setproblem] = useState({})
+
     // Form
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -32,11 +39,27 @@ const CreateProblem = () => {
 
     const [invisible,setinvisible] = useState(true)
 
-    useEffect(()=>{
+    useEffect(()=> {
         setTimeout(()=>{
             setinvisible(false)
         },250)
     },[])
+
+    useEffect(() => {
+        getProblem(problem_id).then(response => {
+            setproblem(response.data)
+        })
+    },[])
+
+    useEffect(() => {
+        try{
+            setTitle(problem.title)
+            setDescription(problem.description)
+            setSolution(problem.solution)
+            setTimelimit(problem.time_limit)
+            setTestcases(problem.testcases.map(test => test.input).join("\n:::\n") + "\n:::")
+        }catch(err){}
+    },[problem])
 
     const clearForm = () => {
         setTitle("");
@@ -63,12 +86,11 @@ const CreateProblem = () => {
                 testcases: formatted_tc,
             };
             setloading(true);
-            createProblem(body)
+            editProblem(problem_id,body)
                 .then((response) => {
                     setloading(false);
                     if (response.status < 400) {
-                        clearForm();
-                        emitSuccess("Problem Created!");
+                        emitSuccess("Problem Edited!");
                         setinvalidTestcases(false);
                     }
                 })
@@ -83,7 +105,7 @@ const CreateProblem = () => {
 
     return (
         <div className={invisible ? "d-none" : ""}>
-            <h1>Create Problem</h1>
+            <h1>Edit Problem</h1>
             <Form onSubmit={(e) => handleSubmit(e)} className="mt-5">
                 <Row>
                     <Col>
@@ -152,15 +174,9 @@ const CreateProblem = () => {
                             <Label for="testcases">
                                 Testcases (Seperate each case by using :::){" "}
                                 <span style={{ color: "red" }}>*</span>
-                                {/* <Button
-                                    onClick={() => setopenModal(true)}
-                                    className="ml-10"
-                                    color="info"
-                                >
-                                    Auto-Generate
-                                </Button> */}
                             </Label>
                             <Input
+                                className="font-mono"
                                 onChange={(e) => setTestcases(e.target.value)}
                                 value={testcases}
                                 id="testcases"
@@ -174,13 +190,21 @@ const CreateProblem = () => {
                     </Col>
                 </Row>
                 <Button
-                    className="w-1/4"
+                    className="w-1/4 mr-5"
                     type="submit"
                     size="lg"
                     color="primary"
                     disabled={loading}
                 >
-                    Create
+                    Save
+                </Button>
+                <Button
+                    className="w-1/4"
+                    size="lg"
+                    color="secondary"
+                    onClick={() => nevigate('/my-profile')}
+                >
+                    Back
                 </Button>
             </Form>
 
@@ -237,4 +261,4 @@ const CreateProblem = () => {
     );
 };
 
-export default CreateProblem;
+export default EditProblem;

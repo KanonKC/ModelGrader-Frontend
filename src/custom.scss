@@ -1,12 +1,13 @@
 // change the theme
 $theme-colors: (
-  "primary": #FFAA06,
+  "primary": #ffc107,
   "secondary": #6c757d,
   "success" : #28a745,
-  "danger" : #e24545,
-  "warning": #e24545,
+  "danger" : #dc3545,
+  "warning": #ffd500,
   "info": #007bff,
 );
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
+@import "~react-toastify/dist/ReactToastify.css";

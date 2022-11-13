@@ -5,10 +5,14 @@ export function createProblem(body){
     return axios.post(`${URL}/api/accounts/${localStorage.getItem('account_id')}/problems`,body)
 }
 
-export function getProblem(id){
-    return axios.get(`${URL}/api/problems/${id}`)
+export function getProblem(problem_id){
+    return axios.get(`${URL}/api/problems/${problem_id}`)
 }
 
 export function getAllProblems(){
     return axios.get(`${URL}/api/problems`)
+}
+
+export function editProblem(problem_id,body){
+    return axios.put(`${URL}/api/problems/${problem_id}`,body)
 }

@@ -13,6 +13,7 @@ import { Navbar, Nav, NavItem, NavLink } from "reactstrap";
 import { getAuthorization, logout } from "../services/auth.service";
 
 function NevigationBar() {
+
     const [isLoggin, setisLoggin] = useState(true);
 
     const handleLogout = () => {
@@ -61,7 +62,7 @@ function NevigationBar() {
                 </Nav>
                 {isLoggin ? (
                     <Nav className="float-right">
-                        <NavLink className="login-btn" href="/login">
+                        <NavLink className="login-btn" href={`/my-profile`}>
                             <FontAwesomeIcon className="mr-2" icon={faUser} />
                             {localStorage.getItem("username")}
                         </NavLink>

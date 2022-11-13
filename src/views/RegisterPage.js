@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {  useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
-import { emmitError, emmitSuccess } from "../modules/toast.module";
+import { emitError, emitSuccess } from "../modules/toast.module";
 import { register } from "../services/account.service";
 
 const RegisterPage = () => {
@@ -16,14 +16,14 @@ const RegisterPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if(regisBody.password.length < 8){
-            emmitError('The password length must be greater than or equal to 8')
+            emitError('The password length must be greater than or equal to 8')
         }
         else if(regisBody.password !== confirmPassword){
-            emmitError("Password and Confirmation Password doesn't match")
+            emitError("Password and Confirmation Password doesn't match")
         }
         else{
             register(regisBody).then(response => {
-                emmitSuccess("Your account has been created!")
+                emitSuccess("Your account has been created!")
                 nevigate('/login')
             })
         }

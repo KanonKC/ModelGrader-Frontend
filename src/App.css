@@ -3,12 +3,19 @@
   font-size: 20px;
 }
 
+.collapse {
+  visibility: visible;
+}
+
 .homepage {
+  color: white;
   margin-top: 15%;
 }
 
 .homepage-btn {
+  font-family: monospace;
   padding: 20px;
+  font-size: 40px;
 }
 
 .problem-views {

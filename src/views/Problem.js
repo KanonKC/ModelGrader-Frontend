@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProblem } from "../services/problem.service";
 import ReactMarkdown from "react-markdown";
 import { Button, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
@@ -7,19 +7,15 @@ import {
     submitProblem,
     viewAllSubmissions,
 } from "../services/submission.service";
-import LinkButton from "../components/LinkButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import rehypeRaw from "rehype-raw";
-import {
-    faCheck,
-    faReply,
-    faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faReply, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 import { formatDate } from "../modules/date.module";
 
 const Problem = () => {
     const { problem_id } = useParams();
+    const nevigate = useNavigate();
     const [PROBLEM, setPROBLEM] = useState({});
     const [submissionCode, setSubmissionCode] = useState("");
     const [submissionResult, setSubmissionResult] = useState({});
@@ -68,24 +64,30 @@ const Problem = () => {
                     index = i;
                 }
                 option.push({
-                    label: `${formatDate(recentSubmitted.result[i].date)} ${recentSubmitted.result[i].result}`,
+                    label: `${formatDate(recentSubmitted.result[i].date)} ${
+                        recentSubmitted.result[i].result
+                    }`,
                     value: recentSubmitted.result[i].submission_code,
                 });
             }
             setrecentOption([
                 {
                     label: "Best Submission",
-                    options: [{
-                        label: `${formatDate(recentSubmitted.result[index].date)} ${recentSubmitted.result[index].result}`,
-                        value: recentSubmitted.result[index].submission_code,
-                    }]
+                    options: [
+                        {
+                            label: `${formatDate(
+                                recentSubmitted.result[index].date
+                            )} ${recentSubmitted.result[index].result}`,
+                            value: recentSubmitted.result[index]
+                                .submission_code,
+                        },
+                    ],
                 },
                 {
                     label: "Previous Submission",
-                    options: option
+                    options: option,
                 },
-    
-            ])
+            ]);
         } catch (err) {}
     }, [recentSubmitted]);
 
@@ -114,18 +116,15 @@ const Problem = () => {
 
     return (
         <div className="problem-views">
-            <LinkButton
-                label={
-                    <>
-                        <FontAwesomeIcon icon={faReply} className="pr-2" />
-                        Back
-                    </>
-                }
+            <Button
                 color="info"
-                className="mb-2"
+                className="mb-2 text-white"
                 size="lg"
-                to={"/problems"}
-            />
+                onClick={() => nevigate("/problems")}
+            >
+                <FontAwesomeIcon icon={faReply} className="pr-2" />
+                Back
+            </Button>
             <h1> {PROBLEM.title} </h1>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {PROBLEM.description}
@@ -134,54 +133,46 @@ const Problem = () => {
                 <FormGroup row>
                     <Label for="code">
                         <h3>Submit Your Code</h3>
-                        
                     </Label>
                     <Row>
-                            {/* <Col xs={3}>
-                                <h5>
-                                    Best Submission: {bestSubmission ? [
-                                    <span style={{ color: "red" }}>
-                                        {bestSubmission.result}
-                                    </span>
-                                    ] : "[]"}
-                                </h5>
-                            </Col> */}
-                            <Col>
-                                {isShowSub ? (
-                                    <div>
-                                        {loadingSub ? (
-                                            <div>
-                                                <div
-                                                    className="spinner-border text-warning ml-10 mr-3"
-                                                    role="status"
-                                                >
-                                                    <span class="visually-hidden"></span>
-                                                </div>
-                                                Grading...
+                        <Col>
+                            {isShowSub ? (
+                                <div>
+                                    {loadingSub ? (
+                                        <div>
+                                            <div
+                                                className="spinner-border text-warning ml-10 mr-3"
+                                                role="status"
+                                            >
+                                                <span class="visually-hidden"></span>
                                             </div>
-                                        ) : (
-                                            <h5>
-                                                Recent Submission Result:
-                                                <span className="ml-1" style={{ color: "red" }}>
-                                                     {submissionResult.result}
-                                                </span>
-                                                
-                                            </h5>
-                                        )}
-                                    </div>
-                                ) : (
-                                    <></>
-                                )}
-                            </Col>
-                            <Col>
-                                <Select
-                                    onChange={(e) => setSubmissionCode(e.value)}
-                                    options={recentOption}
-                                    className="pb-3 text-base font-mono"
-                                    placeholder="Previous Submission"
-                                />
-                            </Col>
-                        </Row>
+                                            Grading...
+                                        </div>
+                                    ) : (
+                                        <h5>
+                                            Recent Submission Result:
+                                            <span
+                                                className="ml-1"
+                                                style={{ color: "red" }}
+                                            >
+                                                {submissionResult.result}
+                                            </span>
+                                        </h5>
+                                    )}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+                        </Col>
+                        <Col>
+                            <Select
+                                onChange={(e) => setSubmissionCode(e.value)}
+                                options={recentOption}
+                                className="pb-3 text-base font-mono"
+                                placeholder="Previous Submission"
+                            />
+                        </Col>
+                    </Row>
                     <Input
                         className="input-code"
                         rows={textRow}
