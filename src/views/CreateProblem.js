@@ -157,7 +157,7 @@ const CreateProblem = () => {
                                 {/* <Button
                                     onClick={() => setopenModal(true)}
                                     className="ml-10"
-                                    color="primary"
+                                    color="info"
                                 >
                                     Auto-Generate
                                 </Button> */}
@@ -179,7 +179,7 @@ const CreateProblem = () => {
                     className="w-1/4"
                     type="submit"
                     size="lg"
-                    color="warning"
+                    color="primary"
                     disabled={loading}
                 >
                     Create
@@ -231,7 +231,7 @@ const CreateProblem = () => {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={()=>setopenModal(false)}>Generate</Button>
+                    <Button color="info" onClick={()=>setopenModal(false)}>Generate</Button>
                     <Button color="secondary" onClick={()=>setopenModal(false)}>Close</Button>
                 </ModalFooter>
             </Modal>

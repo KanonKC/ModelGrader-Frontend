@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import {  useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import { emmitError, emmitSuccess } from "../modules/toast.module";
 import { register } from "../services/account.service";
@@ -18,7 +18,7 @@ const RegisterPage = () => {
         if(regisBody.password.length < 8){
             emmitError('The password length must be greater than or equal to 8')
         }
-        else if(regisBody.password != confirmPassword){
+        else if(regisBody.password !== confirmPassword){
             emmitError("Password and Confirmation Password doesn't match")
         }
         else{
@@ -80,7 +80,7 @@ const RegisterPage = () => {
                 <Button
                     className="px-10"
                     type="submit"
-                    color="warning"
+                    color="primary"
                     size="lg"
                 >
                     Create An Account

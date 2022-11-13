@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { getAuthorization } from "../services/auth.service";
 import AllProblem from "./AllProblem";

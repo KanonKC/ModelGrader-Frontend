@@ -1,47 +1,37 @@
 import { faClipboard } from "@fortawesome/free-regular-svg-icons";
-import { faBorderAll, faPlus, faRightFromBracket, faRightToBracket, faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+    faBorderAll,
+    faPlus,
+    faRightFromBracket,
+    faRightToBracket,
+    faUser,
+    faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    NavbarText,
-} from "reactstrap";
+import { Navbar, Nav, NavItem, NavLink } from "reactstrap";
 import { getAuthorization, logout } from "../services/auth.service";
-import LinkButton from './LinkButton'
 
 function NevigationBar() {
-    
-    const [isOpen, setIsOpen] = useState(false);
-    const [isLoggin,setisLoggin] = useState(true)
-    
-    const toggle = () => setIsOpen(!isOpen);
-    
+    const [isLoggin, setisLoggin] = useState(true);
+
     const handleLogout = () => {
-        logout()
-        setisLoggin(false)
+        logout();
+        setisLoggin(false);
         window.location.reload(false);
-    }
-    
-    useEffect(()=>{
-        getAuthorization().then(response=>{
-            setisLoggin(response.data.result)
-        }).catch(err=>{})
-    },[])
+    };
+
+    useEffect(() => {
+        getAuthorization()
+            .then((response) => {
+                setisLoggin(response.data.result);
+            })
+            .catch((err) => {});
+    }, []);
 
     return (
         <div className="nevigation-bar">
-            <Navbar light color="warning" fixed="top">
+            <Navbar light color="primary" fixed="top">
                 <Nav>
                     <NavItem>
                         <NavLink className=" bg-white" href="/">
@@ -54,37 +44,54 @@ function NevigationBar() {
                     </NavItem>
                     <NavItem>
                         <NavLink className="mx-3" href="/problems">
-                        <FontAwesomeIcon className="mr-2" icon={faBorderAll}/>
+                            <FontAwesomeIcon
+                                className="mr-2"
+                                icon={faBorderAll}
+                            />
                             All Problems
                         </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink href="/problems/create">
-                        <FontAwesomeIcon className="mr-2" icon={faPlus}/>
+                            <FontAwesomeIcon className="mr-2" icon={faPlus} />
                             Create
-                        </NavLink>                        
+                        </NavLink>
                     </NavItem>
                     <NavItem></NavItem>
                 </Nav>
                 {isLoggin ? (
                     <Nav className="float-right">
                         <NavLink className="login-btn" href="/login">
-                        <FontAwesomeIcon className="mr-2" icon={faUser}/>
+                            <FontAwesomeIcon className="mr-2" icon={faUser} />
                             {localStorage.getItem("username")}
                         </NavLink>
-                        <NavLink onClick={handleLogout} className="login-btn mx-2" href="/">
-                        <FontAwesomeIcon className="mr-2" icon={faRightFromBracket}/>
+                        <NavLink
+                            onClick={handleLogout}
+                            className="login-btn mx-2"
+                            href="/"
+                        >
+                            <FontAwesomeIcon
+                                className="mr-2"
+                                icon={faRightFromBracket}
+                            />
                             Logout
                         </NavLink>
                     </Nav>
                 ) : (
                     <Nav className="float-right">
                         <NavLink className="login-btn" href="/login">
-                            
-                            <FontAwesomeIcon className="mr-2" icon={faRightToBracket}/>Login
+                            <FontAwesomeIcon
+                                className="mr-2"
+                                icon={faRightToBracket}
+                            />
+                            Login
                         </NavLink>
                         <NavLink className="login-btn mx-2" href="/register">
-                        <FontAwesomeIcon className="mr-2" icon={faUserPlus}/>Register
+                            <FontAwesomeIcon
+                                className="mr-2"
+                                icon={faUserPlus}
+                            />
+                            Register
                         </NavLink>
                     </Nav>
                 )}

@@ -9,14 +9,9 @@ import {
 } from "../services/submission.service";
 import LinkButton from "../components/LinkButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import {
-    faArrowRotateLeft,
-    faCake,
     faCheck,
-    faCoffee,
     faReply,
     faTrash,
 } from "@fortawesome/free-solid-svg-icons";
@@ -31,10 +26,8 @@ const Problem = () => {
     const [recentSubmitted, setRecentSubmitted] = useState({});
     const [isShowSub, setIsShowSub] = useState(false);
     const [loadingSub, setLoadingSub] = useState(false);
-    const [score, setScore] = useState(0);
     const [textRow, setTextRow] = useState(5);
 
-    const [bestSubmission, setbestSubmission] = useState({});
     const [recentOption, setrecentOption] = useState([]);
 
     const handleSubmit = (e) => {
@@ -46,13 +39,6 @@ const Problem = () => {
             setSubmissionResult(response.data);
             setLoadingSub(false);
         });
-    };
-
-    const getRecentSubmission = () => {
-        setSubmissionCode(
-            recentSubmitted.result[recentSubmitted.result.length - 1]
-                .submission_code
-        );
     };
 
     const handleTextChange = (e) => {
@@ -69,7 +55,7 @@ const Problem = () => {
         }).then((response) => {
             setRecentSubmitted(response.data);
         });
-    }, []);
+    }, [problem_id]);
 
     useEffect(() => {
         try {
@@ -86,7 +72,6 @@ const Problem = () => {
                     value: recentSubmitted.result[i].submission_code,
                 });
             }
-            setbestSubmission(recentSubmitted.result[index]);
             setrecentOption([
                 {
                     label: "Best Submission",
@@ -103,30 +88,6 @@ const Problem = () => {
             ])
         } catch (err) {}
     }, [recentSubmitted]);
-
-    useEffect(() => {
-        // setrecentOption([
-        //     {
-        //         label: "Best Submission",
-        //         options: [{
-        //             label: `${formatDate(bestSubmission.date)} ${bestSubmission.result}`,
-        //             value: bestSubmission.submission_code,
-        //         }]
-        //     },
-        //     {
-        //         label: "Previous Submission",
-        //         options: recentOption
-        //     },
-
-        // ])
-        // setrecentOption([
-        //     {
-        //         label: `(Best Submission) ${formatDate(bestSubmission.date)} ${bestSubmission.result}`,
-        //         value: bestSubmission.submission_code,
-        //     },
-        //     ...recentOption
-        // ])
-    },[bestSubmission])
 
     useEffect(() => {
         const total_row = submissionCode.split("\n").length;
@@ -151,15 +112,6 @@ const Problem = () => {
             });
     }, [problem_id]);
 
-    useEffect(() => {
-        setScore(0);
-        try {
-            submissionResult.result.map((score) =>
-                score === "P" ? setScore(score + 1) : ""
-            );
-        } catch (err) {}
-    }, [submissionResult]);
-
     return (
         <div className="problem-views">
             <LinkButton
@@ -169,7 +121,7 @@ const Problem = () => {
                         Back
                     </>
                 }
-                color="primary"
+                color="info"
                 className="mb-2"
                 size="lg"
                 to={"/problems"}
@@ -259,7 +211,7 @@ const Problem = () => {
                         <Button
                             size="lg"
                             type="submit"
-                            color="warning"
+                            color="primary"
                             disabled={loadingSub}
                             className="px-10"
                         >
