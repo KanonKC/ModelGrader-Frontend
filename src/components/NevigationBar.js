@@ -23,6 +23,7 @@ import LinkButton from './LinkButton'
 function NevigationBar() {
     
     const [isOpen, setIsOpen] = useState(false);
+    const [isLoggin,setisLoggin] = useState(true)
     
     const toggle = () => setIsOpen(!isOpen);
     
@@ -32,7 +33,6 @@ function NevigationBar() {
         window.location.reload(false);
     }
     
-    const [isLoggin,setisLoggin] = useState(true)
     useEffect(()=>{
         getAuthorization().then(response=>{
             setisLoggin(response.data.result)

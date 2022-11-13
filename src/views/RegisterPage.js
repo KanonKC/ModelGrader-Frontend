@@ -8,6 +8,7 @@ const RegisterPage = () => {
     const nevigate = useNavigate()
     const [regisBody,setregisBody] = useState({
         username: '',
+        email: '',
         password: ''
     })
     const [confirmPassword,setconfirmPassword] = useState('')
@@ -40,6 +41,17 @@ const RegisterPage = () => {
                         id="username"
                         name="username"
                         type="text"
+                        required={true}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="email">Email</Label>
+                    <Input
+                        onChange={(e) => setregisBody({...regisBody,email: e.target.value})}
+                        value={regisBody.email}
+                        id="email"
+                        name="email"
+                        type="email"
                         required={true}
                     />
                 </FormGroup>

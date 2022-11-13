@@ -185,7 +185,7 @@ const Problem = () => {
                         
                     </Label>
                     <Row>
-                            <Col xs={3}>
+                            {/* <Col xs={3}>
                                 <h5>
                                     Best Submission: {bestSubmission ? [
                                     <span style={{ color: "red" }}>
@@ -193,7 +193,7 @@ const Problem = () => {
                                     </span>
                                     ] : "[]"}
                                 </h5>
-                            </Col>
+                            </Col> */}
                             <Col>
                                 {isShowSub ? (
                                     <div>
