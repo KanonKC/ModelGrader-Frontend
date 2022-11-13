@@ -9,20 +9,15 @@ import LoginPage from "./LoginPage";
 import Problem from "./Problem";
 import MyProfile from "./MyProfile";
 import RegisterPage from "./RegisterPage";
+import Dummy from "./Dummy";
 
-const Views = () => {
-    const [isLoggin, setisLoggin] = useState(true);
-    useEffect(() => {
-        getAuthorization()
-            .then((response) => {
-                setisLoggin(response.data.result);
-            })
-            .catch((err) => {});
-    }, []);
+const Views = ({setshowNavbar,isLoggin}) => {
+    
     return (
         <Routes>
             {/* General Page */}
-            <Route path={"/"} element={<Homepage />} />
+            <Route path={"/"} element={<Homepage setshowNavbar={setshowNavbar}/>} />
+            <Route path={"/dummy"} element={<Dummy />} />
             <Route path={"/register"} element={<RegisterPage />} />
             <Route path={"/problems"} element={<AllProblem />} />
             <Route path={"/*"} element={<LoginPage />} />

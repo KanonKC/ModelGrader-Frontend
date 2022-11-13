@@ -1,4 +1,4 @@
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
@@ -20,7 +20,12 @@ const columns = [
     },
     {
         name: "",
+        right: true,
         selector: (row) => row.edit_button,
+    },
+    {
+        name: "",
+        selector: (row) => row.view_button,
     },
 ];
 
@@ -35,13 +40,14 @@ const MyProfile = () => {
         getAllProblems().then((response) => {
             setmyProblems(
                 response.data.result.filter(
-                    (problem) => problem.account_id === account_id
+                    (problem) => problem.account_id === Number(account_id)
                 )
             );
         });
     }, [account_id]);
 
     useEffect(() => {
+        console.log(myProblems)
         setfilteredProblems(
             myProblems.map((problem) => ({
                 ...problem,
@@ -55,6 +61,16 @@ const MyProfile = () => {
                         Edit This Problem
                     </Button>
                 ),
+                view_button: (
+                    <Button
+                        onClick={() => nevigate(`/problems/${problem.problem_id}`)}
+                        className="text-white"
+                        color="success"
+                    >
+                        <FontAwesomeIcon icon={faEye} className="mr-2" />
+                        View This Problem
+                    </Button>
+                )
             }))
         );
     }, [myProblems,nevigate]);

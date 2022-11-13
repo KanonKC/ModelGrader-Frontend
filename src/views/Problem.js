@@ -12,6 +12,7 @@ import rehypeRaw from "rehype-raw";
 import { faCheck, faReply, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 import { formatDate } from "../modules/date.module";
+import { descriptionFormatter } from "../modules/markdown.module";
 
 const Problem = () => {
     const { problem_id } = useParams();
@@ -127,7 +128,7 @@ const Problem = () => {
             </Button>
             <h1> {PROBLEM.title} </h1>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-                {PROBLEM.description}
+                {descriptionFormatter(PROBLEM.description)}
             </ReactMarkdown>
             <Form className="my-10" onSubmit={(e) => handleSubmit(e)}>
                 <FormGroup row>

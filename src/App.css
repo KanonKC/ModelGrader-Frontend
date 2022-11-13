@@ -72,6 +72,10 @@ pre.output {
   padding: 15px;
 }
 
+.custom-nav-btn {
+  cursor: pointer;
+}
+
 .login-btn {
   background-color: rgb(255, 145, 0);
   border-radius: 15px;

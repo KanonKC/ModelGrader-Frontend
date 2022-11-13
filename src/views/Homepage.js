@@ -1,10 +1,14 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { faPuzzlePiece } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect } from "react";
 import { Button } from "reactstrap";
-import LinkButton from "../components/LinkButton";
 
-const Homepage = () => {
-    const nevigate = useNavigate();
+const Homepage = ({setshowNavbar}) => {
+
+    useEffect(()=>{
+        setshowNavbar(false)
+    },[])
+
     return (
         <div className="homepage text-center">
             <h1 className="text-7xl">Welcome to Model Grader</h1>
@@ -12,11 +16,12 @@ const Homepage = () => {
                 This is very prototype grader software.
             </p>
             <Button
-                className="homepage-btn px-4"
-                color="primary"
+                className="homepage-btn px-4 text-white"
+                color="tertiary"
                 size="lg"
                 onClick={() => window.location.pathname = '/problems'}
-            >
+            >   
+                <FontAwesomeIcon icon={faPuzzlePiece} className='mr-2'/>
                 Solving Problem
             </Button>
         </div>

@@ -91,7 +91,7 @@ const LoginPage = () => {
                     <Button
                         className="px-10"
                         type="submit"
-                        color="warning"
+                        color="tertiary"
                         size="lg"
                     >
                         <FontAwesomeIcon className="mr-2" icon={faKey}/>

@@ -2,22 +2,39 @@ import "./App.css";
 import NevigationBar from "./components/NevigationBar";
 import Views from "./views";
 import { ToastContainer } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { getAuthorization } from "./services/auth.service";
 
 function App() {
-    const location = useLocation()
+    const location = useLocation();
+    const [isLoggin, setisLoggin] = useState(true);
+    const [showNavbar, setshowNavbar] = useState(true);
+
     useEffect(() => {
-        if(location.pathname == '/'){
-            const wallpeper = require('./imgs/Polygon-Wallpaper.png')
+        getAuthorization()
+            .then((response) => {
+                setisLoggin(response.data.result);
+            })
+            .catch((err) => {});
+    }, []);
+
+    useEffect(() => {
+        if (location.pathname == "/") {
+            const wallpeper = require("./imgs/Polygon-Wallpaper.png");
             document.body.style.backgroundImage = `url(${wallpeper})`;
         }
     }, [location]);
+
     return (
         <div>
-            <NevigationBar />
+            <NevigationBar
+                isShow={showNavbar}
+                isLoggin={isLoggin}
+                setisLoggin={setisLoggin}
+            />
             <div className="App pt-20">
-                <Views />
+                <Views setshowNavbar={setshowNavbar} isLoggin={isLoggin} />
                 <ToastContainer
                     position="top-right"
                     autoClose={5000}
