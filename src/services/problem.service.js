@@ -16,3 +16,11 @@ export function getAllProblems(){
 export function editProblem(problem_id,body){
     return axios.put(`${URL}/api/problems/${problem_id}`,body)
 }
+
+export function deleteProblem(problem_id){
+    return axios.delete(`${URL}/api/problems/${problem_id}`)
+}
+
+export function deleteMultipleProblem(problems_id){
+    return axios.delete(`${URL}/api/problems`,{data:{problem: problems_id}})
+}

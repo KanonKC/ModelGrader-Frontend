@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProblem } from "../services/problem.service";
+import { deleteProblem, getProblem } from "../services/problem.service";
 import ReactMarkdown from "react-markdown";
 import { Button, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import {
@@ -15,8 +15,9 @@ import { formatDate } from "../modules/date.module";
 import { descriptionFormatter } from "../modules/markdown.module";
 
 const Problem = () => {
-    const { problem_id } = useParams();
     const nevigate = useNavigate();
+
+    const { problem_id } = useParams();
     const [PROBLEM, setPROBLEM] = useState({});
     const [submissionCode, setSubmissionCode] = useState("");
     const [submissionResult, setSubmissionResult] = useState({});
@@ -127,9 +128,14 @@ const Problem = () => {
                 Back
             </Button>
             <h1> {PROBLEM.title} </h1>
+            <h4><i>Created By <span style={{color:"#ff8400"}}>{PROBLEM.creator && PROBLEM.creator.username}</span></i></h4>
+
+            <div className="my-5">
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {descriptionFormatter(PROBLEM.description)}
             </ReactMarkdown>
+            </div>
+
             <Form className="my-10" onSubmit={(e) => handleSubmit(e)}>
                 <FormGroup row>
                     <Label for="code">

@@ -8,7 +8,7 @@ import { hasSubstring } from "../modules/search.module";
 import { viewAllSubmissions } from "../services/submission.service";
 import { getAuthorization } from "../services/auth.service";
 import DataTable from "react-data-table-component";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Language } from "../constants/language.constant";
 
 const columns = [
@@ -59,6 +59,7 @@ const columns = [
 
 const AllProblem = () => {
     const nevigate = useNavigate()
+    const { account_id } = useParams()
     const [allProblems, setAllProblems] = useState([]);
     const [allSubmissions, setallSubmissions] = useState([]);
     const [isloggin, setisloggin] = useState(false);
@@ -79,13 +80,15 @@ const AllProblem = () => {
     }, [allProblems]);
 
     useEffect(() => {
-        viewAllSubmissions({
-            account_id: localStorage.getItem("account_id"),
-            sort_score: 1,
-        }).then((response) => {
-            setallSubmissions(response.data.result);
-        });
-    }, [isloggin]);
+        if(isloggin){
+            viewAllSubmissions({
+                account_id: account_id,
+                sort_score: 1,
+            }).then((response) => {
+                setallSubmissions(response.data.result);
+            });
+        }
+    }, [account_id,isloggin]);
 
     useEffect(() => {
         try {
@@ -116,10 +119,6 @@ const AllProblem = () => {
             );
         } catch (err) {}
     }, [allProblems,allSubmissions,search,nevigate]);
-
-    useEffect(() => {
-        console.log("dp", displayProblems);
-    }, [displayProblems]);
 
     return (
         <div className="mt-3">

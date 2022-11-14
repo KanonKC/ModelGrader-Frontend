@@ -47,7 +47,6 @@ const LoginPage = () => {
     useEffect(() => {
         getAuthorization().then((response) => {
             if (response.data.result) {
-                console.log("Go");
                 nevigate("/problems");
             }
         });

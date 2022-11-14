@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getAuthorization } from "./services/auth.service";
+import ConfirmationModal from "./components/ConfirmationModal";
 
 function App() {
     const location = useLocation();
@@ -33,6 +34,7 @@ function App() {
                 isLoggin={isLoggin}
                 setisLoggin={setisLoggin}
             />
+            <ConfirmationModal/>
             <div className="App pt-20">
                 <Views setshowNavbar={setshowNavbar} isLoggin={isLoggin} />
                 <ToastContainer
