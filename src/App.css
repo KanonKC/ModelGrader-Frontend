@@ -85,6 +85,26 @@ pre.output {
   border-radius: 15px;
 }
 
+.account-dropdown {
+  background-color: rgb(255, 145, 0);
+  border-radius: 15px;
+  padding: 9px 15px;
+  border: none;
+}
+
+.account-dropdown:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+.account-dropdown:active {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.dropdown-item:active {
+  background-color: #ffc507;
+  color: black;
+  }
+
 .login-card {
   /* border: 1px solid black; */
   padding: 50px;
