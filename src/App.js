@@ -35,7 +35,7 @@ function App() {
                 setisLoggin={setisLoggin}
             />
             <ConfirmationModal/>
-            <div className="App pt-20">
+            <div className="App">
                 <Views setshowNavbar={setshowNavbar} isLoggin={isLoggin} />
                 <ToastContainer
                     position="top-right"

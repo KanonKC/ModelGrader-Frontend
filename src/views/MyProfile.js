@@ -5,11 +5,16 @@ import DataTable from "react-data-table-component";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Row } from "reactstrap";
+import CreateNewProblemButton from "../components/Button/CreateNewProblemButton";
 import { Language } from "../constants/language.constant";
 import { formatDate } from "../modules/date.module";
 import { emitError, emitSuccess } from "../modules/toast.module";
 import { openComfirmation } from "../redux/confirmation.reducer";
-import { deleteMultipleProblem, deleteProblem, getAllProblems } from "../services/problem.service";
+import {
+    deleteMultipleProblem,
+    deleteProblem,
+    getAllProblems,
+} from "../services/problem.service";
 import { viewAllSubmissions } from "../services/submission.service";
 
 const mySubmissionColumns = [
@@ -50,6 +55,10 @@ const mySubmissionColumns = [
     {
         name: "Sent Date",
         selector: (row) => formatDate(row.date),
+    },
+    {
+        name: "",
+        selector: (row) => row.view_button,
     },
 ];
 
@@ -94,12 +103,18 @@ const MyProfile = () => {
     const [selectedRow, setselectedRow] = useState([]);
 
     const handleDeleteProblem = () => {
-        deleteMultipleProblem(selectedRow.map(problem => problem.problem_id)).then(response => {
-            setfilteredProblems(filteredProblems.filter((problem) =>!selectedRow.includes(problem)))
-            emitSuccess("Your problems have been deleted!")
-        }).catch(err => {
-            emitError("Something went wrong! Please try again")
-        })
+        deleteMultipleProblem(selectedRow.map((problem) => problem.problem_id))
+            .then((response) => {
+                setfilteredProblems(
+                    filteredProblems.filter(
+                        (problem) => !selectedRow.includes(problem)
+                    )
+                );
+                emitSuccess("Your problems have been deleted!");
+            })
+            .catch((err) => {
+                emitError("Something went wrong! Please try again");
+            });
     };
 
     useEffect(() => {
@@ -175,76 +190,93 @@ const MyProfile = () => {
     return (
         <div>
             <h1 className="mb-10">My Profile</h1>
-            <h2>My Submission</h2>
-            <DataTable
-                responsive
-                className="text-md border-2"
-                columns={mySubmissionColumns}
-                data={filteredSubmissions}
-                pagination
-                highlightOnHover
-                customStyles={{
-                    headCells: {
-                        style: {
-                            fontSize: "16px",
-                        },
-                    },
-                    cells: {
-                        style: {
-                            fontSize: "16px",
-                            fontFamily: "monospace",
-                        },
-                    },
-                }}
-                striped
-            />
-            <Row>
-                <Col>
-                    <h2>My Problems</h2>
-                </Col>
-                <Col>
-                    <Button
-                        disabled={selectedRow.length == 0}
-                        onClick={() =>
-                            dispatch(
-                                openComfirmation({
-                                    message: "Are you sure do you want to delete those problems?",
-                                    onConfirm: handleDeleteProblem,
-                                })
-                            )
-                        }
-                        className="text-white float-right"
-                        color="danger"
-                    >
-                        <FontAwesomeIcon icon={faTrash} className="mr-2" />
-                        {selectedRow.length == 0 ? "Delete Problem" : `Delete Problem (${selectedRow.length})`}
-                    </Button>
-                </Col>
-            </Row>
 
-            <DataTable
-                selectableRows
-                onSelectedRowsChange={(e) => setselectedRow(e.selectedRows)}
-                className="text-md border-2"
-                columns={myProblemColumns}
-                data={filteredProblems}
-                pagination
-                highlightOnHover
-                customStyles={{
-                    headCells: {
-                        style: {
-                            fontSize: "16px",
+            <div className="mb-5">
+                <Row className="mb-1">
+                    <Col>
+                        <h2>My Submission</h2>
+                    </Col>
+                </Row>
+
+                <DataTable
+                    responsive
+                    className="text-md border-2"
+                    columns={mySubmissionColumns}
+                    data={filteredSubmissions}
+                    pagination
+                    highlightOnHover
+                    customStyles={{
+                        headCells: {
+                            style: {
+                                fontSize: "16px",
+                            },
                         },
-                    },
-                    cells: {
-                        style: {
-                            fontSize: "16px",
-                            fontFamily: "monospace",
+                        cells: {
+                            style: {
+                                fontSize: "16px",
+                                fontFamily: "monospace",
+                            },
                         },
-                    },
-                }}
-                striped
-            />
+                    }}
+                    striped
+                />
+            </div>
+
+            <div>
+                <Row className="mb-1">
+                    <Col xs={8}>
+                        <h2>My Problems</h2>
+                    </Col>
+                    <Col xs={2}>
+                        <CreateNewProblemButton className="float-right"/>
+                    </Col>
+                    <Col>
+                        <Button
+                            disabled={selectedRow.length == 0}
+                            onClick={() =>
+                                dispatch(
+                                    openComfirmation({
+                                        message:
+                                            "Are you sure do you want to delete those problems?",
+                                        onConfirm: handleDeleteProblem,
+                                    })
+                                )
+                            }
+                            className="text-white my-1"
+                            color="danger"
+                        >
+                            <FontAwesomeIcon icon={faTrash} className="mr-2" />
+                            {selectedRow.length == 0
+                                ? "Delete Problem"
+                                : `Delete Problem (${selectedRow.length})`}
+                        </Button>
+                    </Col>
+                </Row>
+
+                <DataTable
+                    selectableRows
+                    onSelectedRowsChange={(e) => setselectedRow(e.selectedRows)}
+                    className="text-md border-2"
+                    columns={myProblemColumns}
+                    data={filteredProblems}
+                    pagination
+                    highlightOnHover
+                    customStyles={{
+                        headCells: {
+                            style: {
+                                fontSize: "16px",
+                            },
+                        },
+                        cells: {
+                            style: {
+                                fontSize: "16px",
+                                fontFamily: "monospace",
+                            },
+                        },
+                    }}
+                    striped
+                />
+            </div>
         </div>
     );
 };

@@ -73,7 +73,7 @@ const CreateProblem = () => {
                     }
                 })
                 .catch(() => {
-                    emitError();
+                    emitError("Something went wrong! Please check your form and try again");
                     setloading(false);
                 });
         } catch (err) {
@@ -161,6 +161,7 @@ const CreateProblem = () => {
                                 </Button> */}
                             </Label>
                             <Input
+                                className="font-mono"
                                 onChange={(e) => setTestcases(e.target.value)}
                                 value={testcases}
                                 id="testcases"

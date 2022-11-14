@@ -10,6 +10,8 @@ import { getAuthorization } from "../services/auth.service";
 import DataTable from "react-data-table-component";
 import { useNavigate, useParams } from "react-router-dom";
 import { Language } from "../constants/language.constant";
+import SearchBar from "../components/SearchBar";
+import CreateNewProblemButton from "../components/Button/CreateNewProblemButton";
 
 const columns = [
     {
@@ -121,36 +123,19 @@ const AllProblem = () => {
     }, [allProblems,allSubmissions,search,nevigate]);
 
     return (
-        <div className="mt-3">
-            <Row>
+        <div className="">
+            <Row className="">
                 <Col>
-                    <h1 className="mb-5">All Problem</h1>
+                    <h1>All Problem</h1>
                 </Col>
                 <Col>
-                    <Input
+                    <SearchBar
                         value={search}
                         onChange={(e) => setsearch(e.target.value)}
-                        placeholder="Search"
-                        className="mt-2"
-                        type="text"
                     />
                 </Col>
                 <Col>
-                    <LinkButton
-                        className="float-right"
-                        color="info"
-                        label={
-                            <>
-                                <FontAwesomeIcon
-                                    icon={faPlus}
-                                    className="pr-2"
-                                    size="lg"
-                                />
-                                Create New Problem
-                            </>
-                        }
-                        to="/problems/create"
-                    />
+                    <CreateNewProblemButton className="float-right my-1"/>
                 </Col>
             </Row>
 
