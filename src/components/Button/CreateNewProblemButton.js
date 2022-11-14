@@ -8,17 +8,15 @@ const CreateNewProblemButton = ({...args}) => {
     const nevigate = useNavigate()
 
     return (
-        <div>
             <Button
                 {...args}
                 onClick={() => nevigate("/problems/create")}
                 className="text-white"
                 color="info"
             >
-                <FontAwesomeIcon icon={faPlus} className="pr-2" size="lg" />
+                <FontAwesomeIcon icon={faPlus} className="mr-2" size="lg" />
                 Create New Problem
             </Button>
-        </div>
     );
 };
 

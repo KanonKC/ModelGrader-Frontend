@@ -9,8 +9,11 @@
 }
 
 .homepage {
-  color: white;
+  /* color: white; */
   margin-top: 15%;
+}
+
+.search-bar {
 }
 
 .homepage-btn {

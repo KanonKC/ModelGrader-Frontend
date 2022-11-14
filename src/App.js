@@ -20,12 +20,12 @@ function App() {
             .catch((err) => {});
     }, []);
 
-    useEffect(() => {
-        if (location.pathname == "/") {
-            const wallpeper = require("./imgs/Polygon-Wallpaper.png");
-            document.body.style.backgroundImage = `url(${wallpeper})`;
-        }
-    }, [location]);
+    // useEffect(() => {
+    //     if (location.pathname == "/") {
+    //         const wallpeper = require("./imgs/Polygon-Wallpaper.png");
+    //         document.body.style.backgroundImage = `url(${wallpeper})`;
+    //     }
+    // }, [location]);
 
     return (
         <div>

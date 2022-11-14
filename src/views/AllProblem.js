@@ -61,7 +61,7 @@ const columns = [
 
 const AllProblem = () => {
     const nevigate = useNavigate()
-    const { account_id } = useParams()
+    const account_id = Number(localStorage.getItem("account_id"))
     const [allProblems, setAllProblems] = useState([]);
     const [allSubmissions, setallSubmissions] = useState([]);
     const [isloggin, setisloggin] = useState(false);
@@ -82,7 +82,7 @@ const AllProblem = () => {
     }, [allProblems]);
 
     useEffect(() => {
-        if(isloggin){
+        if(isloggin && account_id){
             viewAllSubmissions({
                 account_id: account_id,
                 sort_score: 1,
@@ -125,18 +125,16 @@ const AllProblem = () => {
     return (
         <div className="">
             <Row className="">
-                <Col>
+                <Col >
                     <h1>All Problem</h1>
                 </Col>
-                <Col>
+                <Col xs={4}>
                     <SearchBar
                         value={search}
                         onChange={(e) => setsearch(e.target.value)}
                     />
                 </Col>
-                <Col>
-                    <CreateNewProblemButton className="float-right my-1"/>
-                </Col>
+                
             </Row>
 
             <div className="problem-card-list">

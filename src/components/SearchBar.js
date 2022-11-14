@@ -1,15 +1,19 @@
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Input } from "reactstrap";
+import { Input, InputGroup, InputGroupText } from "reactstrap";
 
-const SearchBar = ({...args}) => {
+const SearchBar = ({ ...args }) => {
     return (
-        <div>
-            <Input
-                {...args}
-                placeholder="Search"
-                className="mt-2"
-                type="search"
-            />
+        <div className="search-bar">
+            <InputGroup>
+                <Input
+                    {...args}
+                    placeholder="Search"
+                    className="mt-2"
+                    type="search"
+                />
+            </InputGroup>
         </div>
     );
 };

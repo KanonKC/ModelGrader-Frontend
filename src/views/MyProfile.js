@@ -6,13 +6,14 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Row } from "reactstrap";
 import CreateNewProblemButton from "../components/Button/CreateNewProblemButton";
+import SearchBar from "../components/SearchBar";
 import { Language } from "../constants/language.constant";
 import { formatDate } from "../modules/date.module";
+import { hasSubstring } from "../modules/search.module";
 import { emitError, emitSuccess } from "../modules/toast.module";
 import { openComfirmation } from "../redux/confirmation.reducer";
 import {
     deleteMultipleProblem,
-    deleteProblem,
     getAllProblems,
 } from "../services/problem.service";
 import { viewAllSubmissions } from "../services/submission.service";
@@ -46,7 +47,7 @@ const mySubmissionColumns = [
     {
         name: "Score",
         maxWidth: "15px",
-        selector: (row) => row.score,
+        selector: (row) => `${row.score}/${row.result.length}`,
     },
     {
         name: "Result",
@@ -74,6 +75,12 @@ const myProblemColumns = [
         sortable: true,
     },
     {
+        name: "Submission Count",
+        center: true,
+        selector: (row) => Number(row.submission_count),
+        sortable: true,
+    },
+    {
         name: "",
         right: true,
         selector: (row) => row.edit_button,
@@ -94,13 +101,18 @@ const MyProfile = () => {
     const nevigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [myProblems, setmyProblems] = useState([]);
-    const [filteredProblems, setfilteredProblems] = useState([]);
+    const [allSubmissions,setallSubmissions] = useState([])
 
     const [mySubmissions, setmySubmissions] = useState([]);
     const [filteredSubmissions, setfilteredSubmissions] = useState([]);
 
+    const [myProblems, setmyProblems] = useState([]);
+    const [filteredProblems, setfilteredProblems] = useState([]);
+
     const [selectedRow, setselectedRow] = useState([]);
+
+    const [mySubmissionsSearch, setmySubmissionsSearch] = useState("");
+    const [myProblemsSearch, setmyProblemsSearch] = useState("");
 
     const handleDeleteProblem = () => {
         deleteMultipleProblem(selectedRow.map((problem) => problem.problem_id))
@@ -125,76 +137,101 @@ const MyProfile = () => {
                 )
             );
         });
-        viewAllSubmissions({ account_id: account_id, sort_score: 1 }).then(
+        viewAllSubmissions({ sort_date: 1 }).then(
             (response) => {
-                setmySubmissions(response.data.result);
+                setallSubmissions(response.data.result)
+                setmySubmissions(response.data.result.filter(submission => submission.account_id === account_id));
             }
         );
     }, [account_id]);
 
     useEffect(() => {
-        setfilteredProblems(
-            myProblems.map((problem) => ({
-                ...problem,
-                edit_button: (
-                    <Button
-                        onClick={() => nevigate(`/edit/${problem.problem_id}`)}
-                        className="text-white"
-                        color="info"
-                    >
-                        <FontAwesomeIcon icon={faPencil} className="mr-2" />
-                        Edit Problem
-                    </Button>
-                ),
-                view_button: (
-                    <Button
-                        onClick={() =>
-                            nevigate(`/problems/${problem.problem_id}`)
-                        }
-                        className="text-white"
-                        color="success"
-                    >
-                        <FontAwesomeIcon icon={faEye} className="mr-2" />
-                        View Problem
-                    </Button>
-                ),
-            }))
+        setfilteredSubmissions(
+            mySubmissions
+                .filter((sub) =>
+                    hasSubstring(sub.problem.title, mySubmissionsSearch) || hasSubstring(String(sub.problem_id), mySubmissionsSearch)
+                )
+                .map((submission) => ({
+                    ...submission,
+                    status_icon: submission.is_passed ? (
+                        <img alt='' src={require(`../imgs/passed_icon.png`)} />
+                    ) : (
+                        ""
+                    ),
+                    view_button: (
+                        <Button
+                            onClick={() =>
+                                nevigate(`/problems/${submission.problem_id}`)
+                            }
+                            className="text-white"
+                            color="success"
+                        >
+                            <FontAwesomeIcon icon={faEye} className="mr-2" />
+                            View Problem
+                        </Button>
+                    ),
+                    
+                }))
         );
-    }, [myProblems, nevigate]);
+    }, [mySubmissions,nevigate, mySubmissionsSearch]);
 
     useEffect(() => {
-        setfilteredSubmissions(
-            mySubmissions.map((submission) => ({
-                ...submission,
-                status_icon: submission.is_passed ? (
-                    <img src={require(`../imgs/passed_icon.png`)} />
-                ) : (
-                    ""
-                ),
-                view_button: (
-                    <Button
-                        onClick={() =>
-                            nevigate(`/problems/${submission.problem_id}`)
-                        }
-                        className="text-white"
-                        color="success"
-                    >
-                        <FontAwesomeIcon icon={faEye} className="mr-2" />
-                        View Problem
-                    </Button>
-                ),
-            }))
+        setselectedRow([])
+        setfilteredProblems(
+            myProblems
+                .filter((prob) => hasSubstring(prob.title, myProblemsSearch))
+                .map((problem) => ({
+                    ...problem,
+                    edit_button: (
+                        <Button
+                            onClick={() =>
+                                nevigate(`/edit/${problem.problem_id}`)
+                            }
+                            className="text-white"
+                            color="info"
+                        >
+                            <FontAwesomeIcon icon={faPencil} className="mr-2" />
+                            Edit Problem
+                        </Button>
+                    ),
+                    view_button: (
+                        <Button
+                            onClick={() =>
+                                nevigate(`/problems/${problem.problem_id}`)
+                            }
+                            className="text-white"
+                            color="success"
+                        >
+                            <FontAwesomeIcon icon={faEye} className="mr-2" />
+                            View Problem
+                        </Button>
+                    ),
+                    submission_count: allSubmissions.filter(sub => sub.problem_id === problem.problem_id).length
+                }))
         );
-    }, [mySubmissions]);
+    }, [myProblems, nevigate, myProblemsSearch,allSubmissions]);
+
+    useEffect(() => {
+        console.log(selectedRow)
+    },[selectedRow])
 
     return (
         <div>
             <h1 className="mb-10">My Profile</h1>
 
+            {/*------------ MY SUBMISSIONS ------------*/}
             <div className="mb-5">
                 <Row className="mb-1">
+                    <Col xs={8}>
+                        <h2>My Submissions</h2>
+                    </Col>
                     <Col>
-                        <h2>My Submission</h2>
+                        <SearchBar
+                            value={mySubmissionsSearch}
+                            onChange={(e) =>
+                                setmySubmissionsSearch(e.target.value)
+                            }
+                        />
                     </Col>
                 </Row>
 
@@ -222,17 +259,24 @@ const MyProfile = () => {
                 />
             </div>
 
-            <div>
+            {/*------------ MY PROBLEMS ------------*/}
+            <div className="mb-5">
                 <Row className="mb-1">
-                    <Col xs={8}>
+                    <Col>
                         <h2>My Problems</h2>
                     </Col>
-                    <Col xs={2}>
-                        <CreateNewProblemButton className="float-right"/>
-                    </Col>
-                    <Col>
+                    {/* <Col>
+                        <SearchBar
+                            value={myProblemsSearch}
+                            onChange={(e) =>
+                                setmyProblemsSearch(e.target.value)
+                            }
+                        />
+                    </Col> */}
+                    <Col xs={4} className="mt-1 flex justify-end">
+                        <CreateNewProblemButton />
                         <Button
-                            disabled={selectedRow.length == 0}
+                            disabled={selectedRow.length === 0}
                             onClick={() =>
                                 dispatch(
                                     openComfirmation({
@@ -242,11 +286,11 @@ const MyProfile = () => {
                                     })
                                 )
                             }
-                            className="text-white my-1"
+                            className="text-white ml-1"
                             color="danger"
                         >
                             <FontAwesomeIcon icon={faTrash} className="mr-2" />
-                            {selectedRow.length == 0
+                            {selectedRow.length === 0
                                 ? "Delete Problem"
                                 : `Delete Problem (${selectedRow.length})`}
                         </Button>
