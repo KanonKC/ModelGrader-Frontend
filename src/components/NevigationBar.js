@@ -1,6 +1,7 @@
 import { faClipboard } from "@fortawesome/free-regular-svg-icons";
 import {
     faBorderAll,
+    faListUl,
     faPlus,
     faRightFromBracket,
     faRightToBracket,
@@ -71,12 +72,12 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/problems/create">
+                            <NavLink href="/problems/topics">
                                 <FontAwesomeIcon
                                     className="mr-2"
-                                    icon={faPlus}
+                                    icon={faListUl}
                                 />
-                                Create
+                                Topics
                             </NavLink>
                         </NavItem>
                         <NavItem></NavItem>

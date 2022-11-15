@@ -12,6 +12,8 @@ import RegisterPage from "./RegisterPage";
 import Dummy from "./Dummy";
 import MySubmission from "./My/MySubmission";
 import MyProblem from "./My/MyProblem";
+import TopicProblem from "./TopicProblem";
+import Profile from "./Profile";
 
 const Views = ({setshowNavbar,isLoggin}) => {
     
@@ -22,6 +24,7 @@ const Views = ({setshowNavbar,isLoggin}) => {
             <Route path={"/dummy"} element={<Dummy />} />
             <Route path={"/register"} element={<RegisterPage />} />
             <Route path={"/problems"} element={<AllProblem />} />
+            <Route path={"/profiles/:account_id"} element={<Profile />} />
             <Route path={"/*"} element={<LoginPage />} />
             {
                 /* Authentication is Required */
@@ -34,6 +37,10 @@ const Views = ({setshowNavbar,isLoggin}) => {
                         <Route
                             path={"/problems/:problem_id"}
                             element={<Problem />}
+                        />
+                        <Route
+                            path={"/problems/topics"}
+                            element={<TopicProblem />}
                         />
                         <Route
                             path={`/my`}

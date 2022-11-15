@@ -3,25 +3,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Card, Col, Row } from "reactstrap";
-import CreateNewProblemButton from "../../components/Button/CreateNewProblemButton";
-import TrackerCard from "../../components/Card/TrackerCard";
-import SearchBar from "../../components/SearchBar";
-import { Language } from "../../constants/language.constant";
-import { formatDate } from "../../modules/date.module";
-import { hasSubstring } from "../../modules/search.module";
-import { emitError, emitSuccess } from "../../modules/toast.module";
-import { openComfirmation } from "../../redux/confirmation.reducer";
-import { getAccount } from "../../services/account.service";
+import CreateNewProblemButton from "../components/Button/CreateNewProblemButton";
+import TrackerCard from "../components/Card/TrackerCard";
+import SearchBar from "../components/SearchBar";
+import { Language } from "../constants/language.constant";
+import { formatDate } from "../modules/date.module";
+import { hasSubstring } from "../modules/search.module";
+import { emitError, emitSuccess } from "../modules/toast.module";
+import { openComfirmation } from "../redux/confirmation.reducer";
+import { getAccount } from "../services/account.service";
 import {
     deleteMultipleProblem,
     getAllProblems,
-} from "../../services/problem.service";
-import { viewAllSubmissions } from "../../services/submission.service";
+} from "../services/problem.service";
+import { viewAllSubmissions } from "../services/submission.service";
 
-const MyProfile = () => {
-    const account_id = Number(localStorage.getItem("account_id"));
+const Profile = () => {
+    const { account_id } = useParams();
 
     const [account, setaccount] = useState({});
     const [submissions, setsubmissions] = useState([]);
@@ -65,7 +65,7 @@ const MyProfile = () => {
 
     return (
         <div>
-            <h1 className="mb-10">Welcome, KanonKC</h1>
+            <h1 className="mb-10">You are visiting <span style={{color: "orange"}}>{account.username}</span></h1>
             <Row className="mx-20">
                 <Col>
                     <TrackerCard
@@ -95,4 +95,4 @@ const MyProfile = () => {
         </div>
     );
 };
-export default MyProfile;
+export default Profile;

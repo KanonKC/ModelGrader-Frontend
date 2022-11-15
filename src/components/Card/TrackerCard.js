@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "reactstrap";
 
-const StatCard = ({text,count,to,...args}) => {
+const TrackerCard = ({text,count,to,...args}) => {
 
     const nevigate = useNavigate()
 
@@ -17,4 +17,4 @@ const StatCard = ({text,count,to,...args}) => {
     );
 };
 
-export default StatCard;
+export default TrackerCard;
