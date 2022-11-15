@@ -103,15 +103,18 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
                                             <DropdownItem header>
                                                 My Profile
                                             </DropdownItem>
-                                            <DropdownItem href="/my-profile">
+                                            <DropdownItem href="/my">
+                                                View Profile
+                                            </DropdownItem>
+                                            <DropdownItem href="/my/submissions">
                                                 My Submissions
                                             </DropdownItem>
-                                            <DropdownItem>
+                                            <DropdownItem href="/my/problems">
                                                 My Problems
                                             </DropdownItem>
                                             <DropdownItem divider />
                                             <DropdownItem onClick={handleLogout}>
-                                                Log Out
+                                                <span className="text-red-600">Log Out</span>
                                             </DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown> 

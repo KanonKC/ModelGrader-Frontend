@@ -3,13 +3,15 @@ import { Route, Routes } from "react-router-dom";
 import { getAuthorization } from "../services/auth.service";
 import AllProblem from "./AllProblem";
 import CreateProblem from "./CreateProblem";
-import EditProblem from "./EditProblems";
+import EditProblem from "./EditProblem";
 import Homepage from "./Homepage";
 import LoginPage from "./LoginPage";
 import Problem from "./Problem";
-import MyProfile from "./MyProfile";
+import MyProfile from "./My/MyProfile";
 import RegisterPage from "./RegisterPage";
 import Dummy from "./Dummy";
+import MySubmission from "./My/MySubmission";
+import MyProblem from "./My/MyProblem";
 
 const Views = ({setshowNavbar,isLoggin}) => {
     
@@ -34,8 +36,16 @@ const Views = ({setshowNavbar,isLoggin}) => {
                             element={<Problem />}
                         />
                         <Route
-                            path={`/my-profile`}
+                            path={`/my`}
                             element={<MyProfile />}
+                        />
+                        <Route
+                            path={`/my/submissions`}
+                            element={<MySubmission />}
+                        />
+                        <Route
+                            path={`/my/problems`}
+                            element={<MyProblem />}
                         />
                         <Route
                             path={`/edit/:problem_id`}

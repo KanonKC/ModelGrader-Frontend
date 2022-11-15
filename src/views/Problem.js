@@ -13,6 +13,7 @@ import { faCheck, faReply, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 import { formatDate } from "../modules/date.module";
 import { descriptionFormatter } from "../modules/markdown.module";
+import BackButton from "../components/Button/BackButton";
 
 const Problem = () => {
     const nevigate = useNavigate();
@@ -118,15 +119,7 @@ const Problem = () => {
 
     return (
         <div className="problem-views">
-            <Button
-                color="info"
-                className="mb-2 text-white"
-                size="lg"
-                onClick={() => nevigate("/problems")}
-            >
-                <FontAwesomeIcon icon={faReply} className="pr-2" />
-                Back
-            </Button>
+            <BackButton to={"/problems"}/>
             <h1> {PROBLEM.title} </h1>
             <h4><i>Created By <span style={{color:"#ff8400"}}>{PROBLEM.creator && PROBLEM.creator.username}</span></i></h4>
 

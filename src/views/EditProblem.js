@@ -202,7 +202,7 @@ const EditProblem = () => {
                     className="w-1/4"
                     size="lg"
                     color="secondary"
-                    onClick={() => nevigate('/my-profile')}
+                    onClick={() => nevigate('/my')}
                 >
                     Back
                 </Button>

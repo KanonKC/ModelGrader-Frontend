@@ -5,18 +5,19 @@ import DataTable from "react-data-table-component";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Row } from "reactstrap";
-import CreateNewProblemButton from "../components/Button/CreateNewProblemButton";
-import SearchBar from "../components/SearchBar";
-import { Language } from "../constants/language.constant";
-import { formatDate } from "../modules/date.module";
-import { hasSubstring } from "../modules/search.module";
-import { emitError, emitSuccess } from "../modules/toast.module";
-import { openComfirmation } from "../redux/confirmation.reducer";
+import BackButton from "../../components/Button/BackButton";
+import CreateNewProblemButton from "../../components/Button/CreateNewProblemButton";
+import SearchBar from "../../components/SearchBar";
+import { Language } from "../../constants/language.constant";
+import { formatDate } from "../../modules/date.module";
+import { hasSubstring } from "../../modules/search.module";
+import { emitError, emitSuccess } from "../../modules/toast.module";
+import { openComfirmation } from "../../redux/confirmation.reducer";
 import {
     deleteMultipleProblem,
     getAllProblems,
-} from "../services/problem.service";
-import { viewAllSubmissions } from "../services/submission.service";
+} from "../../services/problem.service";
+import { viewAllSubmissions } from "../../services/submission.service";
 
 const mySubmissionColumns = [
     {
@@ -154,7 +155,7 @@ const MyProfile = () => {
                 .map((submission) => ({
                     ...submission,
                     status_icon: submission.is_passed ? (
-                        <img alt='' src={require(`../imgs/passed_icon.png`)} />
+                        <img alt='' src={require(`../../imgs/passed_icon.png`)} />
                     ) : (
                         ""
                     ),
@@ -211,53 +212,9 @@ const MyProfile = () => {
         );
     }, [myProblems, nevigate, myProblemsSearch,allSubmissions]);
 
-    useEffect(() => {
-        console.log(selectedRow)
-    },[selectedRow])
-
     return (
         <div>
-            <h1 className="mb-10">My Profile</h1>
-
-            {/*------------ MY SUBMISSIONS ------------*/}
-            <div className="mb-5">
-                <Row className="mb-1">
-                    <Col xs={8}>
-                        <h2>My Submissions</h2>
-                    </Col>
-                    <Col>
-                        <SearchBar
-                            value={mySubmissionsSearch}
-                            onChange={(e) =>
-                                setmySubmissionsSearch(e.target.value)
-                            }
-                        />
-                    </Col>
-                </Row>
-
-                <DataTable
-                    responsive
-                    className="text-md border-2"
-                    columns={mySubmissionColumns}
-                    data={filteredSubmissions}
-                    pagination
-                    highlightOnHover
-                    customStyles={{
-                        headCells: {
-                            style: {
-                                fontSize: "16px",
-                            },
-                        },
-                        cells: {
-                            style: {
-                                fontSize: "16px",
-                                fontFamily: "monospace",
-                            },
-                        },
-                    }}
-                    striped
-                />
-            </div>
+            <BackButton to={"/my"} />
 
             {/*------------ MY PROBLEMS ------------*/}
             <div className="mb-5">

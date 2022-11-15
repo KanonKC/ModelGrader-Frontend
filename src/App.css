@@ -16,6 +16,17 @@
 .search-bar {
 }
 
+.stat-card {
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.stat-card:hover {
+  background-color: rgb(68, 68, 68) !important;
+}
+
+
 .homepage-btn {
   font-family: monospace;
   padding: 20px;
