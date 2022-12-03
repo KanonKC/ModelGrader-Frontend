@@ -1,7 +1,7 @@
 .App {
   margin: 0 10%;
   font-size: 20px;
-  padding-top: 110px;
+  /* padding-top: 110px; */
 }
 
 .collapse {
@@ -10,7 +10,7 @@
 
 .homepage {
   /* color: white; */
-  margin-top: 15%;
+  margin-top: 25vh;
 }
 
 .topic-card {

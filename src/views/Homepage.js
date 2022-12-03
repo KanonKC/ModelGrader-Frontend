@@ -10,7 +10,8 @@ const Homepage = ({setshowNavbar}) => {
     },[])
 
     return (
-        <div className="homepage text-center">
+        <div className="flex h-screen">
+        <div className="m-auto text-center">
             <h1 className="text-7xl">Welcome to Model Grader</h1>
             <p className="text-3xl my-10">
                 This is very prototype grader software.
@@ -24,6 +25,7 @@ const Homepage = ({setshowNavbar}) => {
                 <FontAwesomeIcon icon={faPuzzlePiece} className='mr-2'/>
                 Solving Problem
             </Button>
+        </div>
         </div>
     );
 };
