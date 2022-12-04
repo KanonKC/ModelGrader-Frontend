@@ -1,5 +1,7 @@
 import React from "react";
+import { Button, Form, Input,FormData, FormGroup } from "reactstrap";
 import TopicCard from "../components/Card/TopicCard";
+import { createProblem } from "../services/problem.service";
 
 const TopicProblem = () => {
     return (
@@ -12,6 +14,12 @@ const TopicProblem = () => {
                 <TopicCard />
                 <TopicCard />
             </div>
+            <Form onSubmit={e => handleSubmit(e)}>
+                <FormGroup>
+                    <Input id="file" type="file"/>
+                    <Button type="submit">OK</Button>
+                </FormGroup>
+            </Form>
         </div>
     );
 };
