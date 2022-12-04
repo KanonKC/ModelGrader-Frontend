@@ -72,11 +72,13 @@ const myProblemColumns = [
     },
     {
         name: "Language",
+        width: "150px",
         selector: (row) => Language[row.language],
         sortable: true,
     },
     {
         name: "Submission Count",
+        width: "200px",
         center: true,
         selector: (row) => Number(row.submission_count),
         sortable: true,
@@ -84,16 +86,12 @@ const myProblemColumns = [
     {
         name: "",
         right: true,
+        width: "200px",
         selector: (row) => row.edit_button,
     },
     {
         name: "",
-        center: true,
         selector: (row) => row.view_button,
-    },
-    {
-        name: "",
-        selector: (row) => row.delete_button,
     },
 ];
 
@@ -102,7 +100,7 @@ const MyProfile = () => {
     const nevigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [allSubmissions,setallSubmissions] = useState([])
+    const [allSubmissions, setallSubmissions] = useState([])
 
     const [mySubmissions, setmySubmissions] = useState([]);
     const [filteredSubmissions, setfilteredSubmissions] = useState([]);
@@ -171,10 +169,10 @@ const MyProfile = () => {
                             View Problem
                         </Button>
                     ),
-                    
+
                 }))
         );
-    }, [mySubmissions,nevigate, mySubmissionsSearch]);
+    }, [mySubmissions, nevigate, mySubmissionsSearch]);
 
     useEffect(() => {
         setselectedRow([])
@@ -184,36 +182,70 @@ const MyProfile = () => {
                 .map((problem) => ({
                     ...problem,
                     edit_button: (
-                        <Button
-                            onClick={() =>
-                                nevigate(`/edit/${problem.problem_id}`)
-                            }
-                            className="text-white"
-                            color="info"
-                        >
-                            <FontAwesomeIcon icon={faPencil} className="mr-2" />
-                            Edit Problem
-                        </Button>
+                        <>
+                            <div className="hidden 2xl:block">
+                                <Button
+                                    onClick={() =>
+                                        nevigate(`/edit/${problem.problem_id}`)
+                                    }
+                                    className="text-white"
+                                    color="info"
+                                >
+                                    <FontAwesomeIcon icon={faPencil} className="mr-2" />
+                                    Edit Problem
+                                </Button>
+                            </div>
+                            <div className="2xl:hidden">
+                                <Button
+                                    onClick={() =>
+                                        nevigate(`/edit/${problem.problem_id}`)
+                                    }
+                                    className="text-white"
+                                    color="info"
+                                >
+                                    <FontAwesomeIcon icon={faPencil} className="mr-2" />
+                                    Edit
+                                </Button>
+                            </div>
+                        </>
+
                     ),
                     view_button: (
-                        <Button
-                            onClick={() =>
-                                nevigate(`/problems/${problem.problem_id}`)
-                            }
-                            className="text-white"
-                            color="success"
-                        >
-                            <FontAwesomeIcon icon={faEye} className="mr-2" />
-                            View Problem
-                        </Button>
+                        <>
+                            <div className="hidden 2xl:block">
+                                <Button
+                                    onClick={() =>
+                                        nevigate(`/problems/${problem.problem_id}`)
+                                    }
+                                    className="text-white"
+                                    color="success"
+                                >
+                                    <FontAwesomeIcon icon={faEye} className="mr-2" />
+                                    View Problem
+                                </Button>
+                            </div>
+                            <div className="2xl:hidden">
+                                <Button
+                                    onClick={() =>
+                                        nevigate(`/problems/${problem.problem_id}`)
+                                    }
+                                    className="text-white"
+                                    color="success"
+                                >
+                                    <FontAwesomeIcon icon={faEye} className="mr-2" />
+                                    View
+                                </Button>
+                            </div>
+                        </>
+
                     ),
                     submission_count: allSubmissions.filter(sub => sub.problem_id === problem.problem_id).length
                 }))
         );
-    }, [myProblems, nevigate, myProblemsSearch,allSubmissions]);
+    }, [myProblems, nevigate, myProblemsSearch, allSubmissions]);
 
     return (
-        <div>
+        <div className="pt-10 md:pt-24">
             <BackButton to={"/my"} />
 
             {/*------------ MY PROBLEMS ------------*/}

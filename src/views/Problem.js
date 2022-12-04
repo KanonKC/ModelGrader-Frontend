@@ -118,7 +118,7 @@ const Problem = () => {
     }, [problem_id]);
 
     return (
-        <div className="problem-views">
+        <div className="problem-views pt-10 md:pt-24">
             <BackButton to={"/problems"}/>
             <h1> {PROBLEM.title} </h1>
             <h4><i>Created By <span style={{color:"#ff8400"}}>{PROBLEM.creator && PROBLEM.creator.username}</span></i></h4>

@@ -1,5 +1,5 @@
 import "./App.css";
-import NevigationBar from "./components/NevigationBar";
+import NevigationBar from "./components/Navbar/NevigationBar";
 import Views from "./views";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";

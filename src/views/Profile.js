@@ -64,7 +64,7 @@ const Profile = () => {
     },[problems])
 
     return (
-        <div>
+        <div className="pt-10 md:pt-24">
             <h1 className="mb-10">You are visiting <span style={{color: "orange"}}>{account.username}</span></h1>
             <Row className="mx-20">
                 <Col>

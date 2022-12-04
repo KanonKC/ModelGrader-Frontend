@@ -22,12 +22,13 @@ import { viewAllSubmissions } from "../../services/submission.service";
 const mySubmissionColumns = [
     {
         name: "ID",
-        maxWidth: "15px",
+        maxWidth: "10px",
         selector: (row) => Number(row.submission_id),
         sortable: true,
     },
     {
         name: "Title",
+        width: "135px",
         compact: true,
         selector: (row) => row.problem.title,
         sortable: true,
@@ -52,10 +53,12 @@ const mySubmissionColumns = [
     },
     {
         name: "Result",
+        maxWidth: "200px",
         selector: (row) => row.result,
     },
     {
         name: "Sent Date",
+        width: "301px",
         selector: (row) => formatDate(row.date),
     },
     {
@@ -128,24 +131,40 @@ const MySubmission = () => {
                         ""
                     ),
                     view_button: (
-                        <Button
-                            onClick={() =>
-                                nevigate(`/problems/${submission.problem_id}`)
-                            }
-                            className="text-white"
-                            color="success"
-                        >
-                            <FontAwesomeIcon icon={faEye} className="mr-2" />
-                            View Problem
-                        </Button>
+                        <>
+                            <div className="hidden 2xl:block">
+                                <Button
+                                    onClick={() =>
+                                        nevigate(`/problems/${submission.problem_id}`)
+                                    }
+                                    className="text-white"
+                                    color="success"
+                                >
+                                    <FontAwesomeIcon icon={faEye} className="mr-2" />
+                                    View Problem
+                                </Button>
+                            </div>
+                            <div className="2xl:hidden">
+                                <Button
+                                    onClick={() =>
+                                        nevigate(`/problems/${submission.problem_id}`)
+                                    }
+                                    className="text-white"
+                                    color="success"
+                                >
+                                    <FontAwesomeIcon icon={faEye} className="mr-2" />
+                                    View
+                                </Button>
+                            </div>
+                        </>
                     ),
-                    
+
                 }))
         );
-    }, [mySubmissions,nevigate, mySubmissionsSearch]);
+    }, [mySubmissions, nevigate, mySubmissionsSearch]);
 
     return (
-        <div>
+        <div className="pt-10 md:pt-24">
             <BackButton to={"/my"} />
             {/*------------ MY SUBMISSIONS ------------*/}
             <div className="mb-5">

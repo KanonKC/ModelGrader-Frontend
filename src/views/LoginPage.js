@@ -53,8 +53,8 @@ const LoginPage = () => {
     }, [nevigate]);
 
     return (
-        <div>
-            <div className="login-card">
+        <div className="flex h-screen">
+            <div className="m-auto w-1/2">
                 <h1>Login</h1>
                 <Form onSubmit={(e) => handleSubmit(e)}>
                     <FormGroup>
@@ -98,7 +98,7 @@ const LoginPage = () => {
                     </Button>
 
                     <p className="text-base mt-2">
-                        Don't have an account?{" "}
+                        Doesn't has an account?{" "}
                         <Link to={"/register"}>Create here</Link>
                     </p>
                 </Form>

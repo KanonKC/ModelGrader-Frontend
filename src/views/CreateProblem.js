@@ -82,7 +82,7 @@ const CreateProblem = () => {
     };
 
     return (
-        <div className={invisible ? "d-none" : ""}>
+        <div className={invisible ? "d-none" : "" + "pt-10 md:pt-24"}>
             <h1>Create Problem</h1>
             <Form onSubmit={(e) => handleSubmit(e)} className="mt-5">
                 <Row>

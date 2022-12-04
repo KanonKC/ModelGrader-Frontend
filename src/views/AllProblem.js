@@ -1,4 +1,4 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faPuzzlePiece } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Input, Row } from "reactstrap";
@@ -16,11 +16,13 @@ import CreateNewProblemButton from "../components/Button/CreateNewProblemButton"
 const columns = [
     {
         name: "Title",
+        minWidth: "200px",
         selector: (row) => row.title,
         sortable: true,
     },
     {
         name: "Language",
+        maxWidth: "130px",
         selector: (row) => Language[row.language],
         sortable: true,
     },
@@ -28,6 +30,7 @@ const columns = [
     {
         name: "Status",
         center: true,
+        maxWidth: "100px",
         selector: (row) => row.pass_status,
         sortable: false,
     },
@@ -35,6 +38,7 @@ const columns = [
     {
         name: "Score",
         center: true,
+        maxWidth: "50px",  
         selector: (row) => row.best_submission_score,
         sortable: false,
     },
@@ -45,10 +49,11 @@ const columns = [
         selector: (row) => <span className="font-mono">{row.best_submission_result}</span>,
         sortable: false,
     },
-    
+
 
     {
         name: "Created By",
+        maxWidth: "130px",
         selector: (row) => row.creator.username,
         sortable: true,
     },
@@ -82,7 +87,7 @@ const AllProblem = () => {
     }, [allProblems]);
 
     useEffect(() => {
-        if(isloggin && account_id){
+        if (isloggin && account_id) {
             viewAllSubmissions({
                 account_id: account_id,
                 sort_score: 1,
@@ -90,7 +95,7 @@ const AllProblem = () => {
                 setallSubmissions(response.data.result);
             });
         }
-    }, [account_id,isloggin]);
+    }, [account_id, isloggin]);
 
     useEffect(() => {
         try {
@@ -114,16 +119,23 @@ const AllProblem = () => {
                         best_submission_score: best_submission
                             ? `${best_submission.score}/${best_submission.result.length}`
                             : "",
-                        solve_button: <Button onClick={() => nevigate(`/problems/${problem.problem_id}`)} className="text-white" color="success">Solve This Problem</Button>,
-                        pass_status: best_submission ? (best_submission.is_passed ? <img src={require("../imgs/passed_icon.png")}/> : <img src={require("../imgs/unpassed_icon.png")}/>) : ""
+                        solve_button: (<div>
+                            <div className="hidden 2xl:block">
+                                <Button onClick={() => nevigate(`/problems/${problem.problem_id}`)} className="text-white" color="success"><FontAwesomeIcon icon={faPuzzlePiece}/> Solve This Problem</Button>
+                            </div>
+                            <div className="2xl:hidden">
+                                <Button onClick={() => nevigate(`/problems/${problem.problem_id}`)} className="text-white" color="success"><FontAwesomeIcon icon={faPuzzlePiece}/> Solve</Button>
+                            </div>
+                        </div>),
+                        pass_status: best_submission ? (best_submission.is_passed ? <img src={require("../imgs/passed_icon.png")} /> : <img src={require("../imgs/unpassed_icon.png")} />) : ""
                     };
                 })
             );
-        } catch (err) {}
-    }, [allProblems,allSubmissions,search,nevigate]);
+        } catch (err) { }
+    }, [allProblems, allSubmissions, search, nevigate]);
 
     return (
-        <div className="">
+        <div className="pt-10 md:pt-24">
             <Row className="">
                 <Col >
                     <h1>All Problem</h1>
@@ -134,11 +146,12 @@ const AllProblem = () => {
                         onChange={(e) => setsearch(e.target.value)}
                     />
                 </Col>
-                
+
             </Row>
 
             <div className="problem-card-list">
                 <DataTable
+                    responsive
                     className="text-md border-2"
                     columns={columns}
                     data={displayProblems}

@@ -64,7 +64,7 @@ const MyProfile = () => {
     },[problems])
 
     return (
-        <div>
+        <div className="pt-10 md:pt-24">
             <h1 className="mb-10">Welcome, KanonKC</h1>
             <Row className="mx-20">
                 <Col>
