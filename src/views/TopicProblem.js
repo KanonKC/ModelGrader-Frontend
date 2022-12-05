@@ -14,12 +14,6 @@ const TopicProblem = () => {
                 <TopicCard />
                 <TopicCard />
             </div>
-            <Form onSubmit={e => handleSubmit(e)}>
-                <FormGroup>
-                    <Input id="file" type="file"/>
-                    <Button type="submit">OK</Button>
-                </FormGroup>
-            </Form>
         </div>
     );
 };
