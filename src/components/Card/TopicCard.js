@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody, CardSubtitle, CardTitle, CardText } from "reactstrap";
 
-const TopicCard = () => {
+const TopicCard = ({title,description,image}) => {
     return (
         <Card
             className="topic-card"
@@ -9,11 +9,11 @@ const TopicCard = () => {
                 width: "18rem",
             }}
         >
-            <img alt="Sample" src="https://picsum.photos/300/200" />
+            <img className="aspect-topic" alt="Sample" src={image === "" ? require('../../imgs/default_topic.png') : image} />
             <CardBody>
-                <CardTitle tag="h5">Introduction to Programming</CardTitle>
+                <CardTitle tag="h5">{title}</CardTitle>
                 <CardSubtitle className="mb-2 text-muted" tag="h6">
-                    Created by KanonKC
+                    {description}
                 </CardSubtitle>
                 
             </CardBody>

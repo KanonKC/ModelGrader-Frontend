@@ -115,6 +115,9 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
                                         <DropdownItem href="/my/problems">
                                             My Problems
                                         </DropdownItem>
+                                        <DropdownItem href="/my/topics">
+                                            My Topics
+                                        </DropdownItem>
                                         <DropdownItem divider />
                                         <DropdownItem onClick={handleLogout}>
                                             <span className="text-red-600">Log Out</span>

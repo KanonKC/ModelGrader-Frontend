@@ -14,6 +14,7 @@ import MySubmission from "./My/MySubmission";
 import MyProblem from "./My/MyProblem";
 import TopicProblem from "./TopicProblem";
 import Profile from "./Profile";
+import MyTopic from "./My/MyTopic";
 
 const Views = ({setshowNavbar,isLoggin}) => {
     
@@ -53,6 +54,10 @@ const Views = ({setshowNavbar,isLoggin}) => {
                         <Route
                             path={`/my/problems`}
                             element={<MyProblem />}
+                        />
+                        <Route
+                            path={`/my/topics`}
+                            element={<MyTopic />}
                         />
                         <Route
                             path={`/edit/:problem_id`}

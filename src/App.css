@@ -4,6 +4,10 @@
   /* padding-top: 110px; */
 }
 
+.aspect-topic {
+  aspect-ratio: 4/3;
+}
+
 .collapse {
   visibility: visible;
 }
@@ -115,4 +119,4 @@ pre.output {
 .dropdown-item:active {
   background-color: #ffc507;
   color: black;
-  }
+}

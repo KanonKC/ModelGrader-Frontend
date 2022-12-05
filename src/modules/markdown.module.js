@@ -26,7 +26,7 @@ export function descriptionFormatter(description){
 
         for(let i=0;i<description.length;i++){
             if(open.includes(i)){
-                formatted_text += '<u style="color:red;"><b>'
+                formatted_text += '<u style="color:#d90000;"><b>'
             }
             else if(close.includes(i)){
                 formatted_text += '</b></u>'
