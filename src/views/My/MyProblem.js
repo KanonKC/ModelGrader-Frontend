@@ -269,8 +269,7 @@ const MyProfile = () => {
                             onClick={() =>
                                 dispatch(
                                     openComfirmation({
-                                        message:
-                                            "Are you sure do you want to delete those problems?",
+                                        message: "Are you sure do you want to delete those problems?",
                                         onConfirm: handleDeleteProblem,
                                     })
                                 )

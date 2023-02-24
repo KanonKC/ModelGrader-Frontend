@@ -4,7 +4,7 @@ import TopicCard from "../components/Card/TopicCard";
 import { createProblem } from "../services/problem.service";
 import { getAllTopics } from "../services/topic.service";
 
-const TopicProblem = () => {
+const Topics = () => {
 
     const [topics,settopics] = useState([])
 
@@ -24,4 +24,4 @@ const TopicProblem = () => {
     );
 };
 
-export default TopicProblem;
+export default Topics;

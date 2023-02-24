@@ -74,7 +74,7 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/problems/topics">
+                                <NavLink href="/topics">
                                     <FontAwesomeIcon
                                         className="mr-2"
                                         icon={faListUl}

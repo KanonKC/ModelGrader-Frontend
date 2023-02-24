@@ -12,9 +12,10 @@ import RegisterPage from "./RegisterPage";
 import Dummy from "./Dummy";
 import MySubmission from "./My/MySubmission";
 import MyProblem from "./My/MyProblem";
-import TopicProblem from "./TopicProblem";
+import Topics from "./Topics";
 import Profile from "./Profile";
 import MyTopic from "./My/MyTopic";
+import CreateTopic from "./CreateTopic";
 
 const Views = ({setshowNavbar,isLoggin}) => {
     
@@ -35,13 +36,17 @@ const Views = ({setshowNavbar,isLoggin}) => {
                             path={"/problems/create"}
                             element={<CreateProblem />}
                         />
+                         <Route
+                            path={"/topics/create"}
+                            element={<CreateTopic />}
+                        />
                         <Route
                             path={"/problems/:problem_id"}
                             element={<Problem />}
                         />
                         <Route
-                            path={"/problems/topics"}
-                            element={<TopicProblem />}
+                            path={"/topics"}
+                            element={<Topics />}
                         />
                         <Route
                             path={`/my`}
