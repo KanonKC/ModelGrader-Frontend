@@ -19,6 +19,7 @@ import {
     getAllProblems,
 } from "../../services/problem.service";
 import { viewAllSubmissions } from "../../services/submission.service";
+import DateChip from "../../components/DateChip";
 
 const MyProfile = () => {
     const account_id = Number(localStorage.getItem("account_id"));
@@ -92,6 +93,8 @@ const MyProfile = () => {
                     />
                 </Col>
             </Row>
+
+            <DateChip/>
         </div>
     );
 };

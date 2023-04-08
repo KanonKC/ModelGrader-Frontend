@@ -5,6 +5,8 @@ import { Button, Form, Input } from "reactstrap";
 import rehypeRaw from "rehype-raw";
 import TestCard from "../components/Card/TestCard";
 import { createTopic } from "../services/topic.service";
+import DateChip from "../components/DateChip";
+import SubmissionCalendar from "../components/SubmissionCalendar";
 
 const Dummy = () => {
     
@@ -15,6 +17,7 @@ const Dummy = () => {
     return (
         <div className="pt-24">
             <TestCard whenClick={(n) => console.log(n*100)}/>
+            <SubmissionCalendar/>
             {/* <TestCard/> */}
             {/* <TestCard/> */}
             {/* <TestCard/> */}
