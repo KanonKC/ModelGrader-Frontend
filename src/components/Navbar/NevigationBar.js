@@ -9,7 +9,7 @@ import {
     faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     Navbar,
     Nav,
@@ -22,8 +22,11 @@ import {
 } from "reactstrap";
 import { getAuthorization, logout } from "../../services/auth.service";
 import Hamburger from "./Hamburger";
+import { AdminPermContext } from "../../App";
 
 function NevigationBar({ isShow, isLoggin, setisLoggin }) {
+
+    const [isAdmin] = useContext(AdminPermContext)
     const [isOpenDropdown, setisOpenDropdown] = useState(false);
     const [toggleCooldown, settoggleCooldown] = useState(false);
 
@@ -112,10 +115,10 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
                                         <DropdownItem href="/my/submissions">
                                             My Submissions
                                         </DropdownItem>
-                                        <DropdownItem href="/my/problems">
+                                        <DropdownItem disabled={!isAdmin} href="/my/problems">
                                             My Problems
                                         </DropdownItem>
-                                        <DropdownItem href="/my/topics">
+                                        <DropdownItem disabled={!isAdmin} href="/my/topics">
                                             My Topics
                                         </DropdownItem>
                                         <DropdownItem divider />

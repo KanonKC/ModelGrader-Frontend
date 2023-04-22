@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Button, Col, Row } from "reactstrap";
+import { Button, Col, Input, Row } from "reactstrap";
 import BackButton from "../../components/Button/BackButton";
 import CreateNewProblemButton from "../../components/Button/CreateNewProblemButton";
 import SearchBar from "../../components/SearchBar";
@@ -18,51 +18,7 @@ import {
     getAllProblems,
 } from "../../services/problem.service";
 import { viewAllSubmissions } from "../../services/submission.service";
-
-const mySubmissionColumns = [
-    {
-        name: "ID",
-        maxWidth: "15px",
-        selector: (row) => Number(row.submission_id),
-        sortable: true,
-    },
-    {
-        name: "Title",
-        compact: true,
-        selector: (row) => row.problem.title,
-        sortable: true,
-    },
-    {
-        name: "Language",
-        maxWidth: "150px",
-        selector: (row) => Language[row.problem.language],
-        sortable: true,
-    },
-    {
-        name: "Status",
-        maxWidth: "15px",
-        center: true,
-        selector: (row) => row.status_icon,
-        sortable: true,
-    },
-    {
-        name: "Score",
-        maxWidth: "15px",
-        selector: (row) => `${row.score}/${row.result.length}`,
-    },
-    {
-        name: "Result",
-        selector: (row) => row.result,
-    },
-    {
-        name: "Sent Date",
-        selector: (row) => formatDate(row.date),
-    },
-    {
-        name: "",
-        selector: (row) => row.view_button,
-    },
-];
+import PublishSwitch from "../../components/Switch/PublishSwitch";
 
 const myProblemColumns = [
     {
@@ -82,6 +38,11 @@ const myProblemColumns = [
         center: true,
         selector: (row) => Number(row.submission_count),
         sortable: true,
+    },
+    {
+        name: "Publish",
+        center: true,
+        selector: (row) => row.publish_switch
     },
     {
         name: "",
@@ -112,6 +73,8 @@ const MyProfile = () => {
 
     const [mySubmissionsSearch, setmySubmissionsSearch] = useState("");
     const [myProblemsSearch, setmyProblemsSearch] = useState("");
+
+    const [search, setsearch] = useState(null)
 
     const handleDeleteProblem = () => {
         deleteMultipleProblem(selectedRow.map((problem) => problem.problem_id))
@@ -152,6 +115,7 @@ const MyProfile = () => {
                 )
                 .map((submission) => ({
                     ...submission,
+
                     status_icon: submission.is_passed ? (
                         <img alt='' src={require(`../../imgs/passed_icon.png`)} />
                     ) : (
@@ -181,8 +145,10 @@ const MyProfile = () => {
                 .filter((prob) => hasSubstring(prob.title, myProblemsSearch))
                 .map((problem) => ({
                     ...problem,
+                    publish_switch: <PublishSwitch isPrivate={problem.is_private} problemId={problem.problem_id} />,
                     edit_button: (
                         <>
+                            {console.log(problem.problem_id, problem.is_private)}
                             <div className="hidden 2xl:block">
                                 <Button
                                     onClick={() =>
@@ -263,25 +229,32 @@ const MyProfile = () => {
                         />
                     </Col> */}
                     <Col xs={4} className="mt-1 flex justify-end">
-                        <CreateNewProblemButton />
-                        <Button
-                            disabled={selectedRow.length === 0}
-                            onClick={() =>
-                                dispatch(
-                                    openComfirmation({
-                                        message: "Are you sure do you want to delete those problems?",
-                                        onConfirm: handleDeleteProblem,
-                                    })
-                                )
-                            }
-                            className="text-white ml-1"
-                            color="danger"
-                        >
-                            <FontAwesomeIcon icon={faTrash} className="mr-2" />
-                            {selectedRow.length === 0
-                                ? "Delete Problem"
-                                : `Delete Problem (${selectedRow.length})`}
-                        </Button>
+                        <div>
+                            <Input
+                                value={myProblemsSearch}
+                                onChange={e => setmyProblemsSearch(e.target.value)}
+                                className="mb-2"
+                            />
+                            <CreateNewProblemButton />
+                            <Button
+                                disabled={selectedRow.length === 0}
+                                onClick={() =>
+                                    dispatch(
+                                        openComfirmation({
+                                            message: "Are you sure do you want to delete those problems?",
+                                            onConfirm: handleDeleteProblem,
+                                        })
+                                    )
+                                }
+                                className="text-white ml-1"
+                                color="danger"
+                            >
+                                <FontAwesomeIcon icon={faTrash} className="mr-2" />
+                                {selectedRow.length === 0
+                                    ? "Delete Problem"
+                                    : `Delete Problem (${selectedRow.length})`}
+                            </Button>
+                        </div>
                     </Col>
                 </Row>
 

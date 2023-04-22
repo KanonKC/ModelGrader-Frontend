@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { getAuthorization } from "../services/auth.service";
 import AllProblem from "./AllProblem";
@@ -12,12 +12,21 @@ import RegisterPage from "./RegisterPage";
 import Dummy from "./Dummy";
 import MySubmission from "./My/MySubmission";
 import MyProblem from "./My/MyProblem";
-import Topics from "./Topics";
 import Profile from "./Profile";
 import MyTopic from "./My/MyTopic";
 import CreateTopic from "./CreateTopic";
+import { AdminPermContext, AuthContext } from "../App";
+import Topics from "./Topics";
+import Topic from "./Topics/Topic";
 
-const Views = ({setshowNavbar,isLoggin}) => {
+const Views = ({setshowNavbar}) => {
+
+    const [isLoggin] = useContext(AuthContext)
+    const [isAdmin] = useContext(AdminPermContext)
+
+    useEffect(()=>{
+        console.log(isAdmin)
+    },[isAdmin])
     
     return (
         <Routes>
@@ -29,17 +38,9 @@ const Views = ({setshowNavbar,isLoggin}) => {
             <Route path={"/profiles/:account_id"} element={<Profile />} />
             <Route path={"/*"} element={<LoginPage />} />
             {
-                /* Authentication is Required */
+            /* Authentication is Required */
                 isLoggin && (
-                    <>
-                        <Route
-                            path={"/problems/create"}
-                            element={<CreateProblem />}
-                        />
-                         <Route
-                            path={"/topics/create"}
-                            element={<CreateTopic />}
-                        />
+                    <>  
                         <Route
                             path={"/problems/:problem_id"}
                             element={<Problem />}
@@ -49,12 +50,32 @@ const Views = ({setshowNavbar,isLoggin}) => {
                             element={<Topics />}
                         />
                         <Route
+                            path={"/topics/:topic_id"}
+                            element={<Topic/>}
+                        />
+                        <Route
                             path={`/my`}
                             element={<MyProfile />}
                         />
                         <Route
                             path={`/my/submissions`}
                             element={<MySubmission />}
+                        />
+                        
+                    </>
+                )
+            }
+            {
+            /* Admin permission is Required */
+                isLoggin && isAdmin && (
+                    <>
+                        <Route
+                            path={"/problems/create"}
+                            element={<CreateProblem />}
+                        />
+                         <Route
+                            path={"/topics/create"}
+                            element={<CreateTopic />}
                         />
                         <Route
                             path={`/my/problems`}

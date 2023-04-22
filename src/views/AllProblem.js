@@ -1,6 +1,6 @@
 import { faPlus, faPuzzlePiece } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Input, Row } from "reactstrap";
 import LinkButton from "../components/LinkButton";
 import { getAllProblems } from "../services/problem.service";
@@ -12,6 +12,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Language } from "../constants/language.constant";
 import SearchBar from "../components/SearchBar";
 import CreateNewProblemButton from "../components/Button/CreateNewProblemButton";
+import ProblemsTable from "../components/ProblemsTable";
+import { AuthContext } from "../App";
 
 const columns = [
     {
@@ -67,9 +69,10 @@ const columns = [
 const AllProblem = () => {
     const nevigate = useNavigate()
     const account_id = Number(localStorage.getItem("account_id"))
+    const [isLoggin, setisLoggin] = useContext(AuthContext)
+
     const [allProblems, setAllProblems] = useState([]);
     const [allSubmissions, setallSubmissions] = useState([]);
-    const [isloggin, setisloggin] = useState(false);
     const [displayProblems, setdisplayProblems] = useState([]);
 
     const [search, setsearch] = useState("");
@@ -82,12 +85,12 @@ const AllProblem = () => {
 
     useEffect(() => {
         getAuthorization().then((response) => {
-            setisloggin(response.data.result);
+            setisLoggin(response.data.result);
         });
     }, [allProblems]);
 
     useEffect(() => {
-        if (isloggin && account_id) {
+        if (isLoggin && account_id) {
             viewAllSubmissions({
                 account_id: account_id,
                 sort_score: 1,
@@ -95,15 +98,15 @@ const AllProblem = () => {
                 setallSubmissions(response.data.result);
             });
         }
-    }, [account_id, isloggin]);
+    }, [account_id, isLoggin]);
 
     useEffect(() => {
         try {
             const filterProblems = allProblems.filter(
                 (problem) =>
-                    hasSubstring(problem.title, search) ||
+                    (hasSubstring(problem.title, search) ||
                     hasSubstring(problem.language, search) ||
-                    hasSubstring(problem.creator.username, search)
+                    hasSubstring(problem.creator.username, search)) && (!problem.is_private)
             );
             setdisplayProblems(
                 filterProblems.map((problem) => {
@@ -150,27 +153,9 @@ const AllProblem = () => {
             </Row>
 
             <div className="problem-card-list">
-                <DataTable
-                    responsive
-                    className="text-md border-2"
-                    columns={columns}
-                    data={displayProblems}
-                    pagination
-                    highlightOnHover
-                    customStyles={{
-                        headCells: {
-                            style: {
-                                fontSize: "16px",
-                            },
-                        },
-                        cells: {
-                            style: {
-                                fontSize: "16px",
-                                fontFamily: "monospace"
-                            },
-                        },
-                    }}
-                    striped
+                <ProblemsTable
+                    problems={displayProblems}
+                    submissions={allSubmissions}
                 />
             </div>
         </div>

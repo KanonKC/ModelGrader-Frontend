@@ -47,18 +47,15 @@ const mySubmissionColumns = [
         sortable: true,
     },
     {
-        name: "Score",
-        maxWidth: "15px",
-        selector: (row) => `${row.score}/${row.result.length}`,
-    },
-    {
         name: "Result",
+        center: true,
         maxWidth: "200px",
         selector: (row) => row.result,
     },
     {
         name: "Sent Date",
         width: "301px",
+        center: true,
         selector: (row) => formatDate(row.date),
     },
     {

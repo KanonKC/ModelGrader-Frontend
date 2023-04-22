@@ -93,8 +93,6 @@ const MyProfile = () => {
                     />
                 </Col>
             </Row>
-
-            <DateChip/>
         </div>
     );
 };
