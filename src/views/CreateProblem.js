@@ -14,8 +14,12 @@ import {
 } from "reactstrap";
 import { createProblem } from "../services/problem.service";
 import { emitError, emitSuccess } from "../modules/toast.module";
+import { useNavigate } from "react-router-dom";
 
 const CreateProblem = () => {
+
+    const nevigate = useNavigate()
+
     // Form
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -175,13 +179,21 @@ const CreateProblem = () => {
                     </Col>
                 </Row>
                 <Button
-                    className="w-1/4"
+                    className="w-1/4 mr-5"
                     type="submit"
                     size="lg"
                     color="primary"
                     disabled={loading}
                 >
                     Create
+                </Button>
+                <Button
+                    className="w-1/4"
+                    size="lg"
+                    color="secondary"
+                    onClick={() => nevigate('./../')}
+                >
+                    Back
                 </Button>
             </Form>
 

@@ -46,12 +46,12 @@ const columns = [
     },
 
 
-    {
-        name: "Created By",
-        maxWidth: "130px",
-        selector: (row) => row.creator.username,
-        sortable: true,
-    },
+    // {
+    //     name: "Created By",
+    //     maxWidth: "130px",
+    //     selector: (row) => row.creator.username,
+    //     sortable: true,
+    // },
 
     {
         name: "",
@@ -59,7 +59,7 @@ const columns = [
     },
 ];
 
-const ProblemsTable = ({problems,submissions}) => {
+const ProblemsTable = ({problems,submissions,noPagination=false}) => {
 
     const nevigate = useNavigate()
     const [displayProblems, setdisplayProblems] = useState([]);
@@ -83,10 +83,10 @@ const ProblemsTable = ({problems,submissions}) => {
                             : "",
                         solve_button: (<div>
                             <div className="hidden 2xl:block">
-                                <Button onClick={() => nevigate(`/problems/${problem.problem_id}`)} className="text-white" color="success"><FontAwesomeIcon icon={faPuzzlePiece}/> Solve This Problem</Button>
+                                <Button onClick={() => nevigate(`./${problem.problem_id}`)} className="text-white" color="success"><FontAwesomeIcon icon={faPuzzlePiece}/> Solve This Problem</Button>
                             </div>
                             <div className="2xl:hidden">
-                                <Button onClick={() => nevigate(`/problems/${problem.problem_id}`)} className="text-white" color="success"><FontAwesomeIcon icon={faPuzzlePiece}/> Solve</Button>
+                                <Button onClick={() => nevigate(`./${problem.problem_id}`)} className="text-white" color="success"><FontAwesomeIcon icon={faPuzzlePiece}/> Solve</Button>
                             </div>
                         </div>),
                         pass_status: best_submission ? (best_submission.is_passed ? <img src={require("../imgs/passed_icon.png")} /> : <img src={require("../imgs/unpassed_icon.png")} />) : ""
@@ -102,7 +102,7 @@ const ProblemsTable = ({problems,submissions}) => {
             className="text-md border-2"
             columns={columns}
             data={displayProblems}
-            pagination
+            pagination={!noPagination}
             highlightOnHover
             customStyles={{
                 headCells: {

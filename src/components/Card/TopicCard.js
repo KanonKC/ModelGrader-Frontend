@@ -3,13 +3,13 @@ import { Card, CardBody, CardSubtitle, CardTitle, CardText } from "reactstrap";
 import { URL } from "../../services/constant.service";
 import { useNavigate } from "react-router-dom";
 
-const TopicCard = ({title,description,image,topicId}) => {
+const TopicCard = ({title,description,image,topicId,onClick}) => {
 
     const nevigate = useNavigate()
 
     return (
         <Card
-            onClick={() => nevigate(`/topics/${topicId}`)}
+            onClick={onClick}
             className="topic-card"
             style={{
                 width: "18rem",

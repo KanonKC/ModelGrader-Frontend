@@ -152,7 +152,7 @@ const MyProfile = () => {
                             <div className="hidden 2xl:block">
                                 <Button
                                     onClick={() =>
-                                        nevigate(`/edit/${problem.problem_id}`)
+                                        nevigate(`/my/problems/${problem.problem_id}`)
                                     }
                                     className="text-white"
                                     color="info"

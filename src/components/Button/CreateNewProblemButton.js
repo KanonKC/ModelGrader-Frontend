@@ -10,7 +10,7 @@ const CreateNewProblemButton = ({...args}) => {
     return (
             <Button
                 {...args}
-                onClick={() => nevigate("/problems/create")}
+                onClick={() => nevigate("/my/problems/create")}
                 className="text-white"
                 color="info"
             >

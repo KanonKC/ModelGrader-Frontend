@@ -10,8 +10,10 @@ export async function getTopic(topic_id){
     return axios.get(`${URL}/api/topics/${topic_id}`)
 }
 
-export async function getAllTopics(){
-    return axios.get(`${URL}/api/topics`)
+export async function getAllTopics(account_id){
+    let query = '?'
+    if (account_id) query += `account_id=${account_id}&`
+    return axios.get(`${URL}/api/topics` + query)
 }
 
 export async function updateTopic(topic_id,body){
@@ -25,14 +27,14 @@ export async function updateTopicImage(topic_id,image){
     })
 }
 
-export async function addTopicProblem(topic_id,problems_id){
-    return axios.put(`${URL}/api/topics/${topic_id}/problems`,{
-        problems_id: problems_id
+export async function addTopicCollection(topic_id,collection_ids){
+    return axios.put(`${URL}/api/topics/${topic_id}/collections`,{
+        collection_ids: collection_ids
     })
 }
 
-export async function removeTopicProblem(topic_id,problems_id){
-    return axios.delete(`${URL}/api/topics/${topic_id}/problems`,{
-        problems_id: problems_id
+export async function removeTopicCollection(topic_id,collection_ids){
+    return axios.delete(`${URL}/api/topics/${topic_id}/collections`,{
+        collection_ids: collection_ids
     })
 }

@@ -5,7 +5,8 @@ import { Button, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
 import Swal from 'sweetalert2'
 import RequiredSymbol from '../components/RequiredSymbol'
 import { getAllProblems } from '../services/problem.service'
-import { addTopicProblem, createTopic } from '../services/topic.service'
+import { addTopicCollection, addTopicProblem, createTopic } from '../services/topic.service'
+import { getAllCollections } from '../services/collection.service'
 
 const CreateTopic = () => {
 
@@ -14,23 +15,23 @@ const CreateTopic = () => {
     const [loading,setloading] = useState(false)
 
     const [banner, setbanner] = useState(null)
-    const [problemOptions, setproblemOptions] = useState([])
-    const [selectedProblems,setselectedProblems] = useState([])
+    const [collectionOptions, setcollectionOptions] = useState([])
+    const [selectedCollections,setselectedCollections] = useState([])
 
     useEffect(() => {
-        getAllProblems().then((response) => {
-            setproblemOptions(response.data.result.filter(
-                (problem) => problem.account_id === account_id
-            ).map(problem => ({
-                label: problem.title,
-                value: problem.problem_id
+        getAllCollections().then((response) => {
+            setcollectionOptions(response.data.collections.filter(
+                (collection) => collection.owner === account_id
+            ).map(collection => ({
+                label: collection.name,
+                value: collection.collection_id
             })))
         });
     }, [account_id])
 
     useEffect(() => {
-        console.log(problemOptions)
-    }, [problemOptions])
+        console.log(collectionOptions)
+    }, [collectionOptions])
 
     const setPreviewBanner = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -40,7 +41,7 @@ const CreateTopic = () => {
 
     const handleReset = () => {
         setbanner(null)
-        setselectedProblems(null)
+        setselectedCollections(null)
         document.getElementById('create-topic-form').reset()
     }
 
@@ -61,10 +62,10 @@ const CreateTopic = () => {
         createTopic(account_id,formData)
         .then(response => {
             // console.log("DONE",response.data.topic_id,selectedProblems.map(problem => problem.value))
-            console.log(selectedProblems)
-            if(selectedProblems){
-                const problems_id = selectedProblems.map(problem => problem.value)
-                return addTopicProblem(response.data.topic_id,problems_id)
+            console.log(selectedCollections)
+            if(selectedCollections){
+                const problems_id = selectedCollections.map(problem => problem.value)
+                return addTopicCollection(response.data.topic_id,problems_id)
             }
         })
         .then(response => {
@@ -102,18 +103,18 @@ const CreateTopic = () => {
                             </Col>
                             <Col>
                                 <FormGroup>
-                                    <Input id='is_active' type='checkbox' />
+                                    <Input checked id='is_active' type='checkbox' />
                                     <Label check className='ml-2'>Active</Label>
                                 </FormGroup>
                             </Col>
                         </Row>
 
                         <FormGroup>
-                            <Label>Problems</Label>
+                            <Label>Collections</Label>
                             <Select
-                                options={problemOptions}
-                                onChange={e => setselectedProblems(e)}
-                                value={selectedProblems}
+                                options={collectionOptions}
+                                onChange={e => setselectedCollections(e)}
+                                value={selectedCollections}
                                 isMulti 
                             />
                         </FormGroup>

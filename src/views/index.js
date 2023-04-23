@@ -54,6 +54,10 @@ const Views = ({setshowNavbar}) => {
                             element={<Topic/>}
                         />
                         <Route
+                            path={"/topics/:topic_id/:problem_id"}
+                            element={<Problem />}
+                        />
+                        <Route
                             path={`/my`}
                             element={<MyProfile />}
                         />
@@ -70,11 +74,11 @@ const Views = ({setshowNavbar}) => {
                 isLoggin && isAdmin && (
                     <>
                         <Route
-                            path={"/problems/create"}
+                            path={"/my/problems/create"}
                             element={<CreateProblem />}
                         />
                          <Route
-                            path={"/topics/create"}
+                            path={"/my/topics/create"}
                             element={<CreateTopic />}
                         />
                         <Route
@@ -86,7 +90,7 @@ const Views = ({setshowNavbar}) => {
                             element={<MyTopic />}
                         />
                         <Route
-                            path={`/edit/:problem_id`}
+                            path={`/my/problems/:problem_id`}
                             element={<EditProblem />}
                         />
                     </>
