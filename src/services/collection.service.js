@@ -6,16 +6,18 @@ export async function createCollection(account_id,body){
     return axios.post(`${URL}/api/accounts/${account_id}/collections`,body)
 }
 
-export async function getcollection(collection_id){
+export async function getCollection(collection_id){
     return axios.get(`${URL}/api/collections/${collection_id}`)
 }
 
-export async function getAllCollections(){
-    return axios.get(`${URL}/api/collections`)
+export async function getAllCollections({account_id}){
+    let query = "?"
+    if (account_id) query += `account=${account_id}&`
+    return axios.get(`${URL}/api/collections` + query)
 }
 
 export async function updateCollection(collection_id,body){
-    return axios.get(`${URL}/api/collections/${collection_id}`,body)
+    return axios.put(`${URL}/api/collections/${collection_id}`,body)
 }
 
 export async function updateCollectionImage(collection_id,image){

@@ -66,7 +66,7 @@ const MyProfile = () => {
 
     return (
         <div className="pt-10 md:pt-24">
-            <h1 className="mb-10">Welcome, KanonKC</h1>
+            <h1 className="mb-10">Welcome, {account.username}</h1>
             <Row className="mx-20">
                 <Col>
                     <TrackerCard

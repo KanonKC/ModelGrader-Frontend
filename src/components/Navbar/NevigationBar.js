@@ -118,6 +118,9 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
                                         <DropdownItem disabled={!isAdmin} href="/my/problems">
                                             My Problems
                                         </DropdownItem>
+                                        <DropdownItem disabled={!isAdmin} href="/my/collections">
+                                            My Collections
+                                        </DropdownItem>
                                         <DropdownItem disabled={!isAdmin} href="/my/topics">
                                             My Topics
                                         </DropdownItem>

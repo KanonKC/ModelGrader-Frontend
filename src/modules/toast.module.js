@@ -15,7 +15,7 @@ export function emitSuccess(text) {
     Swal.fire("Success",text,"success")
 }
 
-export function emitError(text) {
+export function emitError(text="Something went wrong!") {
     // toast.success(text, {
     //     position: "top-center",
     //     autoClose: 5000,
