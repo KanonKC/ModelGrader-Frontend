@@ -12,6 +12,7 @@ const columns = [
 	{
 		name: "Title",
 		minWidth: "200px",
+		maxWidth: "250px",
 		selector: (row) => row.title,
 		sortable: true,
 	},
@@ -140,7 +141,11 @@ const ProblemsTable = ({
 												)
 											}
 											className="text-white"
-											color="success"
+											color={
+												best_submission?.is_passed
+													? "secondary"
+													: "success"
+											}
 										>
 											<FontAwesomeIcon
 												icon={faPuzzlePiece}
@@ -156,7 +161,11 @@ const ProblemsTable = ({
 												)
 											}
 											className="text-white"
-											color="success"
+											color={
+												best_submission?.is_passed
+													? "secondary"
+													: "success"
+											}
 										>
 											<FontAwesomeIcon
 												icon={faPuzzlePiece}

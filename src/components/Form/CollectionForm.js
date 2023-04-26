@@ -14,11 +14,12 @@ import {
 	ListGroupItem,
 	Row,
 } from "reactstrap";
-import { emitError, emitSuccess } from "../../modules/toast.module";
+import { emitError, emitSuccess } from "../../modules/swal.module";
 import {
 	addCollectionProblem,
 	createCollection,
 	getCollection,
+	removeCollectionProblem,
 	updateCollection,
 } from "../../services/collection.service";
 import { getAllProblems } from "../../services/problem.service";
@@ -74,6 +75,10 @@ const CollectionForm = ({ editMode = false, collectionId }) => {
 			.sort((a, b) => a.order - b.order)
 			.map((problem) => problem.id);
 
+		const removeProblemIds = problems
+			.filter((problem) => !addProblemIds.includes(problem.problem_id))
+			.map((problem) => problem.problem_id);
+
 		setloading(true);
 
 		if (!editMode) {
@@ -89,10 +94,16 @@ const CollectionForm = ({ editMode = false, collectionId }) => {
 		} else {
 			// setloading(false);
 			updateCollection(collectionId, body)
-				.then((response) => {
+				.then(() => {
 					return addCollectionProblem(
 						collection.collection_id,
 						addProblemIds
+					);
+				})
+				.then(() => {
+					return removeCollectionProblem(
+						collection.collection_id,
+						removeProblemIds
 					);
 				})
 				.then(() => {
@@ -124,6 +135,13 @@ const CollectionForm = ({ editMode = false, collectionId }) => {
 				...problemList[index],
 				order: Number(e.target.value),
 			},
+			...problemList.slice(index + 1),
+		]);
+	};
+
+	const handleRemoveCollection = (index) => {
+		setproblemList([
+			...problemList.slice(0, index),
 			...problemList.slice(index + 1),
 		]);
 	};
@@ -264,6 +282,9 @@ const CollectionForm = ({ editMode = false, collectionId }) => {
 										value={problem.order}
 										onChange={(e) =>
 											handleEditProblemOrder(e, index)
+										}
+										onRemove={() =>
+											handleRemoveCollection(index)
 										}
 									/>
 								))}

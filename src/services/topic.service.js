@@ -20,6 +20,10 @@ export async function updateTopic(topic_id, body) {
 	return axios.put(`${URL}/api/topics/${topic_id}`, body);
 }
 
+export async function deleteTopic(topic_id) {
+	return axios.delete(`${URL}/api/topics/${topic_id}`);
+}
+
 export async function updateTopicImage(topic_id, image) {
 	const response = await uploadImage(image);
 	return axios.get(`${URL}/api/topics/${topic_id}`, {
@@ -28,13 +32,13 @@ export async function updateTopicImage(topic_id, image) {
 }
 
 export async function addTopicCollection(topic_id, collection_ids) {
-	return axios.put(`${URL}/api/topics/${topic_id}/collections`, {
+	return axios.put(`${URL}/api/topics/${topic_id}/collections/add`, {
 		collection_ids: collection_ids,
 	});
 }
 
 export async function removeTopicCollection(topic_id, collection_ids) {
-	return axios.delete(`${URL}/api/topics/${topic_id}/collections`, {
+	return axios.put(`${URL}/api/topics/${topic_id}/collections/remove`, {
 		collection_ids: collection_ids,
 	});
 }

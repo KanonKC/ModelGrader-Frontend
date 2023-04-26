@@ -18,13 +18,19 @@ import {
 	addTopicCollection,
 	addTopicProblem,
 	createTopic,
+	deleteTopic,
 	getTopic,
+	removeTopicCollection,
 	updateTopic,
 } from "../services/topic.service";
 import { getAllCollections } from "../services/collection.service";
 import { useNavigate, useParams } from "react-router-dom";
 import OrderInputListItem from "../components/OrderInputListItem";
-import { emitError, emitSuccess } from "../modules/toast.module";
+import {
+	emitConfirmation,
+	emitError,
+	emitSuccess,
+} from "../modules/swal.module";
 
 const EditTopic = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
@@ -132,10 +138,21 @@ const EditTopic = () => {
 			.sort((a, b) => a.order - b.order)
 			.map((collection) => collection.id);
 
+		const removeCollectionIds = collections
+			.filter(
+				(collection) =>
+					!addCollectionIds.includes(collection.collection_id)
+			)
+			.map((collection) => collection.collection_id);
+
 		setloading(true);
 		updateTopic(topic_id, formData)
 			.then(() => {
 				return addTopicCollection(topic_id, addCollectionIds);
+			})
+			.then(() => {
+				console.log(removeCollectionIds);
+				return removeTopicCollection(topic_id, removeCollectionIds);
 			})
 			.then(() => {
 				emitSuccess("Successfully edited Topic");
@@ -167,6 +184,24 @@ const EditTopic = () => {
 			},
 			...collectionList.slice(index + 1),
 		]);
+	};
+
+	const handleRemoveCollection = (index) => {
+		setcollectionList([
+			...collectionList.slice(0, index),
+			...collectionList.slice(index + 1),
+		]);
+	};
+
+	const handleDelete = () => {
+		emitConfirmation(
+			`Are you sure that you want to delete "${topic.name}"`,
+			() =>
+				deleteTopic(topic_id).then(() => {
+					nevigate("./../");
+					emitSuccess("Topic has been deleted");
+				})
+		);
 	};
 
 	return (
@@ -274,31 +309,48 @@ const EditTopic = () => {
 									onChange={(e) =>
 										handleEditCollectionOrder(e, index)
 									}
+									onRemove={() =>
+										handleRemoveCollection(index)
+									}
 								/>
 							))}
 						</ListGroup>
 					</Col>
 				</Row>
-				<Button
-					className="w-1/4 mr-5"
-					type="submit"
-					size="lg"
-					color="primary"
-					disabled={loading}
-				>
-					Save
-				</Button>
 
-				<Button
-					onClick={() => nevigate("./../")}
-					className="w-1/4"
-					type="button"
-					size="lg"
-					color="secondary"
-					disabled={loading}
-				>
-					Back
-				</Button>
+				<div className="mt-5">
+					<Button
+						className="w-1/4"
+						type="submit"
+						size="lg"
+						color="primary"
+						disabled={loading}
+					>
+						Save
+					</Button>
+
+					<Button
+						onClick={() => nevigate("./../")}
+						className="w-1/4 mx-5"
+						type="button"
+						size="lg"
+						color="secondary"
+						disabled={loading}
+					>
+						Back
+					</Button>
+
+					<Button
+						onClick={handleDelete}
+						className="w-1/4 float-right"
+						type="button"
+						size="lg"
+						color="danger"
+						disabled={loading}
+					>
+						Delete
+					</Button>
+				</div>
 			</Form>
 		</div>
 	);
