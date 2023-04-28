@@ -1,22 +1,14 @@
-import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Row } from "reactstrap";
 import BackButton from "../../components/Button/BackButton";
-import CreateNewProblemButton from "../../components/Button/CreateNewProblemButton";
 import SearchBar from "../../components/SearchBar";
 import { Language } from "../../constants/language.constant";
 import { formatDate } from "../../modules/date.module";
 import { hasSubstring } from "../../modules/search.module";
-import { emitError, emitSuccess } from "../../modules/swal.module";
-import { openComfirmation } from "../../redux/confirmation.reducer";
-import {
-	deleteMultipleProblem,
-	getAllProblems,
-} from "../../services/problem.service";
 import { viewAllSubmissions } from "../../services/submission.service";
 
 const mySubmissionColumns = [
@@ -61,39 +53,6 @@ const mySubmissionColumns = [
 	{
 		name: "",
 		selector: (row) => row.view_button,
-	},
-];
-
-const myProblemColumns = [
-	{
-		name: "Title",
-		selector: (row) => row.title,
-		sortable: true,
-	},
-	{
-		name: "Language",
-		selector: (row) => Language[row.language],
-		sortable: true,
-	},
-	{
-		name: "Submission Count",
-		center: true,
-		selector: (row) => Number(row.submission_count),
-		sortable: true,
-	},
-	{
-		name: "",
-		right: true,
-		selector: (row) => row.edit_button,
-	},
-	{
-		name: "",
-		center: true,
-		selector: (row) => row.view_button,
-	},
-	{
-		name: "",
-		selector: (row) => row.delete_button,
 	},
 ];
 

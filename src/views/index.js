@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { getAuthorization } from "../services/auth.service";
 import AllProblem from "./AllProblem";
 import CreateProblem from "./CreateProblem";
 import EditProblem from "./EditProblem";

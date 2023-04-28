@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import CollectionTable from "../../components/Table/CollectionTable";
 import { Button, Col, Input, Row } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-import CollectionProblems from "../../components/CollectionProblems";
 import {
 	deleteCollection,
 	getAllCollections,
@@ -50,7 +48,7 @@ const MyCollection = () => {
 		}
 	}, [search, collections]);
 
-	useEffect(loadAllCollections, []);
+	useEffect(loadAllCollections, [account_id]);
 
 	return (
 		<div className="pt-10 md:pt-24">

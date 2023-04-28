@@ -3,14 +3,11 @@ import { useParams } from "react-router-dom";
 import { getTopic } from "../../services/topic.service";
 import CollectionProblems from "../../components/CollectionProblems";
 import { viewAllSubmissions } from "../../services/submission.service";
-import { AuthContext } from "../../App";
-import { useContext } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import rehypeRaw from "rehype-raw";
 
 const Topic = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
-	const [isLoggin, setisLoggin] = useContext(AuthContext);
 
 	const { topic_id } = useParams();
 	const [topic, settopic] = useState({});
@@ -22,7 +19,7 @@ const Topic = () => {
 			settopic(response.data.topic);
 			setcollections(response.data.collections);
 		});
-	}, []);
+	}, [topic_id]);
 
 	useEffect(() => {
 		viewAllSubmissions({

@@ -19,7 +19,7 @@ const MyTopic = () => {
 		getAllTopics(account_id).then((response) => {
 			settopics(response.data.topics);
 		});
-	}, []);
+	}, [account_id]);
 
 	useEffect(() => {
 		if (!search || search === "") {

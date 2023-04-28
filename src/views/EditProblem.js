@@ -12,11 +12,7 @@ import {
 	ModalHeader,
 	Row,
 } from "reactstrap";
-import {
-	createProblem,
-	editProblem,
-	getProblem,
-} from "../services/problem.service";
+import { editProblem, getProblem } from "../services/problem.service";
 import { emitError, emitSuccess } from "../modules/swal.module";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -52,7 +48,7 @@ const EditProblem = () => {
 		getProblem(problem_id).then((response) => {
 			setproblem(response.data);
 		});
-	}, []);
+	}, [problem_id]);
 
 	useEffect(() => {
 		try {
@@ -66,14 +62,6 @@ const EditProblem = () => {
 			);
 		} catch (err) {}
 	}, [problem]);
-
-	const clearForm = () => {
-		setTitle("");
-		setDescription("");
-		setSolution("");
-		setTimelimit(1.5);
-		setTestcases("");
-	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -110,7 +98,7 @@ const EditProblem = () => {
 	};
 
 	return (
-		<div className={invisible ? "d-none" : "" + "pt-10 md:pt-24"}>
+		<div className={(invisible ? "d-none" : "") + "pt-10 md:pt-24"}>
 			<h1>Edit Problem</h1>
 			<Form onSubmit={(e) => handleSubmit(e)} className="mt-5">
 				<Row>

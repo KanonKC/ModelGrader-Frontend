@@ -7,9 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Col, Input, Row } from "reactstrap";
 import BackButton from "../../components/Button/BackButton";
 import CreateNewProblemButton from "../../components/Button/CreateNewProblemButton";
-import SearchBar from "../../components/SearchBar";
 import { Language } from "../../constants/language.constant";
-import { formatDate } from "../../modules/date.module";
 import { hasSubstring } from "../../modules/search.module";
 import { emitError, emitSuccess } from "../../modules/swal.module";
 import { openComfirmation } from "../../redux/confirmation.reducer";
@@ -63,22 +61,16 @@ const MyProfile = () => {
 
 	const [allSubmissions, setallSubmissions] = useState([]);
 
-	const [mySubmissions, setmySubmissions] = useState([]);
-	const [filteredSubmissions, setfilteredSubmissions] = useState([]);
-
 	const [myProblems, setmyProblems] = useState([]);
 	const [filteredProblems, setfilteredProblems] = useState([]);
 
 	const [selectedRow, setselectedRow] = useState([]);
 
-	const [mySubmissionsSearch, setmySubmissionsSearch] = useState("");
 	const [myProblemsSearch, setmyProblemsSearch] = useState("");
-
-	const [search, setsearch] = useState(null);
 
 	const handleDeleteProblem = () => {
 		deleteMultipleProblem(selectedRow.map((problem) => problem.problem_id))
-			.then((response) => {
+			.then(() => {
 				setfilteredProblems(
 					filteredProblems.filter(
 						(problem) => !selectedRow.includes(problem)
@@ -101,51 +93,8 @@ const MyProfile = () => {
 		});
 		viewAllSubmissions({ sort_date: 1 }).then((response) => {
 			setallSubmissions(response.data.result);
-			setmySubmissions(
-				response.data.result.filter(
-					(submission) => submission.account_id === account_id
-				)
-			);
 		});
 	}, [account_id]);
-
-	useEffect(() => {
-		setfilteredSubmissions(
-			mySubmissions
-				.filter(
-					(sub) =>
-						hasSubstring(sub.problem.title, mySubmissionsSearch) ||
-						hasSubstring(
-							String(sub.problem_id),
-							mySubmissionsSearch
-						)
-				)
-				.map((submission) => ({
-					...submission,
-
-					status_icon: submission.is_passed ? (
-						<img
-							alt=""
-							src={require(`../../imgs/passed_icon.png`)}
-						/>
-					) : (
-						""
-					),
-					view_button: (
-						<Button
-							onClick={() =>
-								nevigate(`/problems/${submission.problem_id}`)
-							}
-							className="text-white"
-							color="success"
-						>
-							<FontAwesomeIcon icon={faEye} className="mr-2" />
-							View Problem
-						</Button>
-					),
-				}))
-		);
-	}, [mySubmissions, nevigate, mySubmissionsSearch]);
 
 	useEffect(() => {
 		setselectedRow([]);

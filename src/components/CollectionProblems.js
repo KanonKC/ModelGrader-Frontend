@@ -63,6 +63,7 @@ const CollectionProblems = ({
 							<img
 								className="inline pb-[1px] mr-1"
 								src={require("../imgs/passed_icon.png")}
+								alt="Complete Icon"
 							/>
 						)}
 						{collectionName}

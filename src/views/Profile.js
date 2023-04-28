@@ -1,23 +1,9 @@
-import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
-import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { Button, Card, Col, Row } from "reactstrap";
-import CreateNewProblemButton from "../components/Button/CreateNewProblemButton";
+import { useParams } from "react-router-dom";
+import { Col, Row } from "reactstrap";
 import TrackerCard from "../components/Card/TrackerCard";
-import SearchBar from "../components/SearchBar";
-import { Language } from "../constants/language.constant";
-import { formatDate } from "../modules/date.module";
-import { hasSubstring } from "../modules/search.module";
-import { emitError, emitSuccess } from "../modules/swal.module";
-import { openComfirmation } from "../redux/confirmation.reducer";
 import { getAccount } from "../services/account.service";
-import {
-	deleteMultipleProblem,
-	getAllProblems,
-} from "../services/problem.service";
+import { getAllProblems } from "../services/problem.service";
 import { viewAllSubmissions } from "../services/submission.service";
 
 const Profile = () => {

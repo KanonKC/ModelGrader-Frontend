@@ -1,4 +1,3 @@
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import {
@@ -11,13 +10,9 @@ import {
 	ListGroup,
 	Row,
 } from "reactstrap";
-import Swal from "sweetalert2";
 import RequiredSymbol from "../components/RequiredSymbol";
-import { getAllProblems } from "../services/problem.service";
 import {
 	addTopicCollection,
-	addTopicProblem,
-	createTopic,
 	deleteTopic,
 	getTopic,
 	removeTopicCollection,
@@ -50,7 +45,6 @@ const EditTopic = () => {
 
 	const [banner, setbanner] = useState(null);
 	const [collectionOptions, setcollectionOptions] = useState([]);
-	const [selectedCollections, setselectedCollections] = useState([]);
 
 	useEffect(() => {
 		getAllCollections(account_id).then((response) => {
@@ -117,7 +111,6 @@ const EditTopic = () => {
 
 	const handleReset = () => {
 		setbanner(null);
-		setselectedCollections(null);
 		document.getElementById("create-topic-form").reset();
 	};
 
@@ -289,7 +282,11 @@ const EditTopic = () => {
 								accept="image/jpg, image/jpeg, image/png"
 								onChange={(e) => setPreviewBanner(e)}
 							/>
-							<img className="mt-2" src={banner} />
+							<img
+								className="mt-2"
+								alt="Preview"
+								src={banner}
+							/>
 						</FormGroup>
 
 						<div className="mb-3">

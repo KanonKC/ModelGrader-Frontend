@@ -1,71 +1,15 @@
-import { faPlus, faPuzzlePiece } from "@fortawesome/free-solid-svg-icons";
+import { faPuzzlePiece } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Col, Input, Row } from "reactstrap";
-import LinkButton from "../components/LinkButton";
+import { Button, Col, Row } from "reactstrap";
 import { getAllProblems } from "../services/problem.service";
 import { hasSubstring } from "../modules/search.module";
 import { viewAllSubmissions } from "../services/submission.service";
 import { getAuthorization } from "../services/auth.service";
-import DataTable from "react-data-table-component";
-import { useNavigate, useParams } from "react-router-dom";
-import { Language } from "../constants/language.constant";
+import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import CreateNewProblemButton from "../components/Button/CreateNewProblemButton";
 import ProblemsTable from "../components/ProblemsTable";
 import { AuthContext } from "../App";
-
-const columns = [
-	{
-		name: "Title",
-		minWidth: "200px",
-		selector: (row) => row.title,
-		sortable: true,
-	},
-	{
-		name: "Language",
-		maxWidth: "130px",
-		selector: (row) => Language[row.language],
-		sortable: true,
-	},
-
-	{
-		name: "Status",
-		center: true,
-		maxWidth: "100px",
-		selector: (row) => row.pass_status,
-		sortable: false,
-	},
-
-	{
-		name: "Score",
-		center: true,
-		maxWidth: "50px",
-		selector: (row) => row.best_submission_score,
-		sortable: false,
-	},
-
-	{
-		name: "Best Submission",
-		center: true,
-		selector: (row) => (
-			<span className="font-mono">{row.best_submission_result}</span>
-		),
-		sortable: false,
-	},
-
-	{
-		name: "Created By",
-		maxWidth: "130px",
-		selector: (row) => row.creator.username,
-		sortable: true,
-	},
-
-	{
-		name: "",
-		selector: (row) => row.solve_button,
-	},
-];
 
 const AllProblem = () => {
 	const nevigate = useNavigate();
@@ -88,7 +32,7 @@ const AllProblem = () => {
 		getAuthorization().then((response) => {
 			setisLoggin(response.data.result);
 		});
-	}, [allProblems]);
+	}, [allProblems, setisLoggin]);
 
 	useEffect(() => {
 		if (isLoggin && account_id) {
@@ -158,10 +102,14 @@ const AllProblem = () => {
 						),
 						pass_status: best_submission ? (
 							best_submission.is_passed ? (
-								<img src={require("../imgs/passed_icon.png")} />
+								<img
+									src={require("../imgs/passed_icon.png")}
+									alt="Passed"
+								/>
 							) : (
 								<img
 									src={require("../imgs/unpassed_icon.png")}
+									alt="Failed"
 								/>
 							)
 						) : (
