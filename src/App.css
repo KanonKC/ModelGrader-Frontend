@@ -8,6 +8,10 @@
   aspect-ratio: 4/3;
 }
 
+.topic-img-border {
+  border-radius: 5px 5px 0 0;
+}
+
 .collapse {
   visibility: visible;
 }
