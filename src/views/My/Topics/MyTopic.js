@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Input, Row } from "reactstrap";
-import TopicsGrid from "../../components/TopicsGrid";
-import { getAllTopics } from "../../services/topic.service";
-import TopicCard from "../../components/Card/TopicCard";
+import TopicsGrid from "../../../components/TopicsGrid";
+import { getAllTopics } from "../../../services/topic.service";
+import TopicCard from "../../../components/Card/TopicCard";
 
 const MyTopic = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
@@ -64,7 +64,7 @@ const MyTopic = () => {
 						title={topic.name}
 						description={topic.description}
 						image={topic.image_url}
-						onClick={() => nevigate(`./${topic.topic_id}`)}
+						onClick={() => nevigate(`./${topic.topic_id}/edit`)}
 					/>
 				))}
 			</TopicsGrid>

@@ -23,7 +23,10 @@ const AllProblem = () => {
 	const [search, setsearch] = useState("");
 
 	useEffect(() => {
-		getAllProblems().then((response) => {
+		getAllProblems({
+			get_private: false,
+			get_deactive: false,
+		}).then((response) => {
 			setAllProblems(response.data.result);
 		});
 	}, []);

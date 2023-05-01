@@ -84,7 +84,11 @@ const MyProfile = () => {
 	};
 
 	useEffect(() => {
-		getAllProblems().then((response) => {
+		getAllProblems({
+			get_deactive: true,
+			get_private: true,
+			account_id: account_id,
+		}).then((response) => {
 			setmyProblems(
 				response.data.result.filter(
 					(problem) => problem.account_id === account_id
