@@ -30,7 +30,6 @@ const PublishSwitch = ({problemId,isPrivate}) => {
             disabled={isLoading}
             type='switch'
             role='switch'
-
         />
         </FormGroup>
     )

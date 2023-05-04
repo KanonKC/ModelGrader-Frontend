@@ -17,6 +17,7 @@ import {
 } from "../../services/problem.service";
 import { viewAllSubmissions } from "../../services/submission.service";
 import PublishSwitch from "../../components/Switch/PublishSwitch";
+import ActiveSwitch from "../../components/Switch/ActiveSwitch";
 
 const myProblemColumns = [
 	{
@@ -41,6 +42,11 @@ const myProblemColumns = [
 		name: "Publish",
 		center: true,
 		selector: (row) => row.publish_switch,
+	},
+	{
+		name: "Active",
+		center: true,
+		selector: (row) => row.active_switch,
 	},
 	{
 		name: "",
@@ -110,6 +116,12 @@ const MyProfile = () => {
 					publish_switch: (
 						<PublishSwitch
 							isPrivate={problem.is_private}
+							problemId={problem.problem_id}
+						/>
+					),
+					active_switch: (
+						<ActiveSwitch
+							isActive={problem.is_active}
 							problemId={problem.problem_id}
 						/>
 					),
