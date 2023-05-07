@@ -1,0 +1,1 @@
+PORT=3000 npm start --host 0.0.0.0

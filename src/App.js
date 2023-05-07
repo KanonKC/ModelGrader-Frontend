@@ -3,7 +3,7 @@ import NevigationBar from "./components/Navbar/NevigationBar";
 import Views from "./views";
 import { ToastContainer } from "react-toastify";
 import { createContext, useEffect, useState } from "react";
-import { getAuthorization } from "./services/auth.service";
+import { getAuthorization, logout } from "./services/auth.service";
 import ConfirmationModal from "./components/ConfirmationModal";
 
 export const AuthContext = createContext();
@@ -19,6 +19,10 @@ function App() {
 			.then((response) => {
 				setisLoggin(response.data.result);
 				setisAdmin(response.data.is_admin);
+
+				if (!response.data.result) {
+					logout();
+				}
 			})
 			.catch((err) => {});
 	}, []);

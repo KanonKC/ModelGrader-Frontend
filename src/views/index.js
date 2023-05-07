@@ -12,7 +12,7 @@ import Dummy from "./Dummy";
 import MySubmission from "./My/MySubmission";
 import MyProblem from "./My/MyProblem";
 import Profile from "./Profile";
-import MyTopic from "./My/MyTopic";
+import MyTopic from "./My/Topics/MyTopic";
 import CreateTopic from "./CreateTopic";
 import { AdminPermContext, AuthContext } from "../App";
 import Topics from "./Topics";
@@ -21,6 +21,7 @@ import MyCollection from "./My/MyCollection";
 import CreateCollection from "./CreateCollection";
 import EditCollection from "./EditCollection";
 import EditTopic from "./EditTopic";
+import MyTopicDashboard from "./My/Topics/MyTopicDashboard";
 
 const Views = ({ setshowNavbar }) => {
 	const [isLoggin] = useContext(AuthContext);
@@ -96,6 +97,10 @@ const Views = ({ setshowNavbar }) => {
 						/>
 						<Route
 							path={`/my/topics/:topic_id`}
+							element={<MyTopicDashboard />}
+						/>
+						<Route
+							path={`/my/topics/:topic_id/edit`}
 							element={<EditTopic />}
 						/>
 					</>

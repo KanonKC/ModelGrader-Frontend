@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProblem } from "../services/problem.service";
 import ReactMarkdown from "react-markdown";
-import { Button, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import {
+	Button,
+	Col,
+	Form,
+	FormGroup,
+	Input,
+	Label,
+	Row,
+	Tooltip,
+} from "reactstrap";
 import {
 	submitProblem,
 	viewAllSubmissions,
@@ -14,6 +23,7 @@ import Select from "react-select";
 import { formatDate } from "../modules/date.module";
 import { descriptionFormatter } from "../modules/markdown.module";
 import BackButton from "../components/Button/BackButton";
+import { ColorSubmissionLetter } from "../constants/submission.constant";
 
 const Problem = () => {
 	const { problem_id } = useParams();
@@ -26,6 +36,9 @@ const Problem = () => {
 	const [textRow, setTextRow] = useState(5);
 
 	const [recentOption, setrecentOption] = useState([]);
+
+	const [tooltipOpen, setTooltipOpen] = useState(false);
+	const toggle = () => setTooltipOpen(!tooltipOpen);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -41,6 +54,12 @@ const Problem = () => {
 	const handleTextChange = (e) => {
 		e.preventDefault();
 		setSubmissionCode(e.target.value);
+	};
+
+	const handlePreviousSubmission = (e) => {
+		setSubmissionCode(e.value.code);
+		setSubmissionResult({ result: e.value.result });
+		setIsShowSub(true);
 	};
 
 	// Get Recent Submitted
@@ -68,7 +87,10 @@ const Problem = () => {
 					label: `${formatDate(recentSubmitted.result[i].date)} ${
 						recentSubmitted.result[i].result
 					}`,
-					value: recentSubmitted.result[i].submission_code,
+					value: {
+						code: recentSubmitted.result[i].submission_code,
+						result: recentSubmitted.result[i].result,
+					},
 				});
 			}
 			setrecentOption([
@@ -79,8 +101,11 @@ const Problem = () => {
 							label: `${formatDate(
 								recentSubmitted.result[index].date
 							)} ${recentSubmitted.result[index].result}`,
-							value: recentSubmitted.result[index]
-								.submission_code,
+							value: {
+								code: recentSubmitted.result[index]
+									.submission_code,
+								result: recentSubmitted.result[index].result,
+							},
 						},
 					],
 				},
@@ -137,7 +162,16 @@ const Problem = () => {
 			<Form className="my-10" onSubmit={(e) => handleSubmit(e)}>
 				<FormGroup row>
 					<Label for="code">
-						<h3>Submit Your Code</h3>
+						<h3 className="">
+							Submit Your Code{" "}
+							<img
+								id="submission-letter-tooltip"
+								width={20}
+								height={20}
+								className="ml-2 inline"
+								src={require("./../imgs/info.png")}
+							/>
+						</h3>
 					</Label>
 					<Row>
 						<Col>
@@ -156,11 +190,20 @@ const Problem = () => {
 									) : (
 										<h5>
 											Recent Submission Result:
-											<span
-												className="ml-1"
-												style={{ color: "red" }}
-											>
-												{submissionResult.result}
+											<span className="ml-1 font-mono text-red-600">
+												{submissionResult.result
+													.split("")
+													.map((letter) => (
+														<span
+															style={{
+																color: ColorSubmissionLetter[
+																	letter
+																],
+															}}
+														>
+															{letter}
+														</span>
+													))}
 											</span>
 										</h5>
 									)}
@@ -171,7 +214,7 @@ const Problem = () => {
 						</Col>
 						<Col>
 							<Select
-								onChange={(e) => setSubmissionCode(e.value)}
+								onChange={(e) => handlePreviousSubmission(e)}
 								options={recentOption}
 								className="pb-3 text-base font-mono"
 								placeholder="Previous Submission"
@@ -230,6 +273,34 @@ const Problem = () => {
 					</Col>
 				</Row>
 			</Form>
+
+			<Tooltip
+				isOpen={tooltipOpen}
+				toggle={toggle}
+				target="submission-letter-tooltip"
+				placement="right"
+			>
+				<p>
+					<b className="text-orange-500">P (Passed)</b> - โค้ดทำงานได้
+					และได้คำตอบที่ถูกต้อง
+				</p>
+				<p>
+					<b className="text-orange-500">- (Failed)</b> - โค้ดทำงานได้
+					แต่ให้คำตอบที่ผิด
+					ตรวจสอบให้แน่ใจว่าไม่มีตัวอักษรตัวไหนตกหล่น หรือพิมพ์ผิดไป
+					และเข้าใจโจทย์อย่างถูกต้อง
+				</p>
+				<p>
+					<b className="text-orange-500">E (Error)</b> - โค้ดเกิดการ
+					Error ระหว่างทำงาน ลองตรวจสอบความถูกต้องของโค้ดใหม่
+				</p>
+				<p>
+					<b className="text-orange-500">T (Timeout)</b> -
+					โค้ดใช้เวลาทำงานนานเกินกำหนด ลองตรวจสอบดึๆ
+					ว่ามีส่วนไหนของโค้ดที่ทำให้โปรแกรมมค้างหรือไม่
+					หรือไม่ก็ลองออกแบบโค้ดใหม่ให้ทำงานได้เร็วขึ้น
+				</p>
+			</Tooltip>
 		</div>
 	);
 };

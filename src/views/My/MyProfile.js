@@ -23,7 +23,7 @@ const MyProfile = () => {
 		viewAllSubmissions({ account_id: account_id }).then((response) => {
 			setsubmissions(response.data.result);
 		});
-		getAllProblems().then((response) => {
+		getAllProblems({}).then((response) => {
 			setproblems(
 				response.data.result.filter(
 					(problem) => problem.account_id === account_id

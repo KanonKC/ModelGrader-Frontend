@@ -162,7 +162,7 @@ const CollectionForm = ({ editMode = false, collectionId }) => {
 			);
 		});
 
-		getAllProblems().then((response) => {
+		getAllProblems({}).then((response) => {
 			setproblems(response.data.result);
 		});
 	}, []);
