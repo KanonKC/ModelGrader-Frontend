@@ -214,6 +214,7 @@ const EditProblem = () => {
 			</Form>
 
 			<TestCaseModal
+				problemId={problem_id}
 				isOpen={isOpenTestcaseModal}
 				toggle={() => setisOpenTestcaseModal(!isOpenTestcaseModal)}
 				testcases={problem.testcases}
