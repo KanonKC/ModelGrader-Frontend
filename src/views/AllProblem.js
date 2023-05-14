@@ -8,7 +8,7 @@ import { viewAllSubmissions } from "../services/submission.service";
 import { getAuthorization } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import ProblemsTable from "../components/ProblemsTable";
+import ProblemsTable from "../components/Table/ProblemsTable";
 import { AuthContext } from "../App";
 
 const AllProblem = () => {

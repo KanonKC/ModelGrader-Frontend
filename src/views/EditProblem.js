@@ -15,6 +15,7 @@ import {
 import { editProblem, getProblem } from "../services/problem.service";
 import { emitError, emitSuccess } from "../modules/swal.module";
 import { useNavigate, useParams } from "react-router-dom";
+import TestCaseModal from "../components/Modal/TestCaseModal";
 
 const EditProblem = () => {
 	const nevigate = useNavigate();
@@ -35,6 +36,7 @@ const EditProblem = () => {
 	const [openModal, setopenModal] = useState(false);
 	const [testAmount, settestAmount] = useState(1);
 	const [testLine, settestLine] = useState(1);
+	const [isOpenTestcaseModal, setisOpenTestcaseModal] = useState(false);
 
 	const [invisible, setinvisible] = useState(true);
 
@@ -184,7 +186,7 @@ const EditProblem = () => {
 					</Col>
 				</Row>
 				<Button
-					className="w-1/4 mr-5"
+					className="w-1/4"
 					type="submit"
 					size="lg"
 					color="primary"
@@ -193,14 +195,30 @@ const EditProblem = () => {
 					Save
 				</Button>
 				<Button
-					className="w-1/4"
+					className="w-1/4 mx-5"
 					size="lg"
 					color="secondary"
 					onClick={() => nevigate("./../")}
 				>
 					Back
 				</Button>
+				<Button
+					className="w-1/4 text-white"
+					size="lg"
+					color="info"
+					type="button"
+					onClick={() => setisOpenTestcaseModal(true)}
+				>
+					View Testcases
+				</Button>
 			</Form>
+
+			<TestCaseModal
+				problemId={problem_id}
+				isOpen={isOpenTestcaseModal}
+				toggle={() => setisOpenTestcaseModal(!isOpenTestcaseModal)}
+				testcases={problem.testcases}
+			/>
 
 			<Modal isOpen={openModal} toggle={() => setopenModal(false)}>
 				<ModalHeader>Auto-Generate Testcase</ModalHeader>

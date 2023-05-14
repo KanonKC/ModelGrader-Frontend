@@ -22,6 +22,7 @@ import CreateCollection from "./CreateCollection";
 import EditCollection from "./EditCollection";
 import EditTopic from "./EditTopic";
 import MyTopicDashboard from "./My/Topics/MyTopicDashboard";
+import TestcaseDisplay from "./TestcaseDisplay";
 
 const Views = ({ setshowNavbar }) => {
 	const [isLoggin] = useContext(AuthContext);
@@ -69,6 +70,10 @@ const Views = ({ setshowNavbar }) => {
 				/* Admin permission is Required */
 				isLoggin && isAdmin && (
 					<>
+						<Route
+							path="/problems/:problem_id/testcases/:testcases_no"
+							element={<TestcaseDisplay />}
+						/>
 						<Route
 							path={"/my/problems/create"}
 							element={<CreateProblem />}

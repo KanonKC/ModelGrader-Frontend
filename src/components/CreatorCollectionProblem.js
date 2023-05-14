@@ -6,8 +6,9 @@ import {
 	AccordionItem,
 } from "reactstrap";
 import ProblemsTable from "./Table/ProblemsTable";
+import CreatorProblemTable from "./Table/CreatorProblemTable";
 
-const CollectionProblems = ({
+const CreatorCollectionProblem = ({
 	collectionName,
 	description,
 	problems,
@@ -71,7 +72,7 @@ const CollectionProblems = ({
 					</AccordionHeader>
 					<AccordionBody accordionId="1">
 						<p className="text-base">{description}</p>
-						<ProblemsTable
+						<CreatorProblemTable
 							problems={problems}
 							submissions={submissions}
 							noPagination
@@ -83,4 +84,4 @@ const CollectionProblems = ({
 	);
 };
 
-export default CollectionProblems;
+export default CreatorCollectionProblem;

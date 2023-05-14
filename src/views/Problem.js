@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProblem } from "../services/problem.service";
 import ReactMarkdown from "react-markdown";
 import {
@@ -18,7 +18,7 @@ import {
 } from "../services/submission.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import rehypeRaw from "rehype-raw";
-import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 import { formatDate } from "../modules/date.module";
 import { descriptionFormatter } from "../modules/markdown.module";
@@ -27,6 +27,10 @@ import { ColorSubmissionLetter } from "../constants/submission.constant";
 
 const Problem = () => {
 	const { problem_id } = useParams();
+	const account_id = Number(localStorage.getItem("account_id"))
+
+	const nevigate = useNavigate()
+
 	const [PROBLEM, setPROBLEM] = useState({});
 	const [submissionCode, setSubmissionCode] = useState("");
 	const [submissionResult, setSubmissionResult] = useState({});
@@ -84,9 +88,8 @@ const Problem = () => {
 					index = i;
 				}
 				option.push({
-					label: `${formatDate(recentSubmitted.result[i].date)} ${
-						recentSubmitted.result[i].result
-					}`,
+					label: `${formatDate(recentSubmitted.result[i].date)} ${recentSubmitted.result[i].result
+						}`,
 					value: {
 						code: recentSubmitted.result[i].submission_code,
 						result: recentSubmitted.result[i].result,
@@ -114,7 +117,7 @@ const Problem = () => {
 					options: option,
 				},
 			]);
-		} catch (err) {}
+		} catch (err) { }
 	}, [recentSubmitted]);
 
 	useEffect(() => {
@@ -259,6 +262,21 @@ const Problem = () => {
 						</Button>
 					</Col>
 					<Col>
+						{(PROBLEM.account_id === account_id) && (
+							<Button
+								onClick={() => nevigate(`/my/problems/${problem_id}`)}
+								size="lg"
+								type="submit"
+								color="info"
+								disabled={loadingSub}
+								className="px-10 text-white float-right"
+							>
+								<FontAwesomeIcon icon={faPencil} className="pr-2" />
+								Edit This Problem
+							</Button>
+						)}
+					</Col>
+					<Col xs={2}>
 						<Button
 							className="float-right"
 							size="lg"
