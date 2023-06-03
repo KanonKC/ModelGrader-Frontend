@@ -10,22 +10,26 @@ import {
 	ListGroup,
 	Row,
 } from "reactstrap";
-import RequiredSymbol from "../components/RequiredSymbol";
+import RequiredSymbol from "../../../components/RequiredSymbol";
 import {
+	addAccountAccess,
 	addTopicCollection,
 	deleteTopic,
 	getTopic,
+	removeAccountAccess,
 	removeTopicCollection,
 	updateTopic,
-} from "../services/topic.service";
-import { getAllCollections } from "../services/collection.service";
+} from "../../../services/topic.service";
+import { getAllCollections } from "../../../services/collection.service";
 import { useNavigate, useParams } from "react-router-dom";
-import OrderInputListItem from "../components/OrderInputListItem";
+import OrderInputListItem from "../../../components/OrderInputListItem";
 import {
 	emitConfirmation,
 	emitError,
 	emitSuccess,
-} from "../modules/swal.module";
+} from "../../../modules/swal.module";
+import Container from "../../../components/Container";
+import { getAllAccounts } from "../../../services/account.service";
 
 const EditTopic = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
@@ -35,6 +39,7 @@ const EditTopic = () => {
 	const [topic, settopic] = useState({});
 	const [collectionList, setcollectionList] = useState([]);
 	const [collections, setcollections] = useState([]);
+	const [accounts, setAccounts] = useState([]);
 
 	const [loading, setloading] = useState(false);
 
@@ -45,6 +50,25 @@ const EditTopic = () => {
 
 	const [banner, setbanner] = useState(null);
 	const [collectionOptions, setcollectionOptions] = useState([]);
+
+	const [initialAccessAccountIds, setInitialAccessAccountIds] = useState([]);
+	const [addAccountTray, setAddAccountTray] = useState([]);
+	const [accountOptions, setAccountOptions] = useState([]);
+
+	useEffect(() => {
+		getAllAccounts().then((response) => {
+			setAccounts(response.data.accounts);
+		});
+	}, []);
+
+	useEffect(() => {
+		setAccountOptions(
+			accounts.map((account) => ({
+				label: account.username,
+				value: account.account_id,
+			}))
+		);
+	}, [accounts]);
 
 	useEffect(() => {
 		getAllCollections(account_id).then((response) => {
@@ -65,6 +89,15 @@ const EditTopic = () => {
 				}))
 			);
 
+			const initialIds = setInitialAccessAccountIds(
+				data.accessed_accounts.map((account) => account.account_id)
+			);
+			setAddAccountTray(
+				data.accessed_accounts.map((account) => ({
+					value: account.account_id,
+					label: account.username,
+				}))
+			);
 			setname(data.topic.name);
 			setdescription(data.topic.description);
 			setisPrivate(data.topic.is_private);
@@ -116,6 +149,15 @@ const EditTopic = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		const addAccessAccountIds = addAccountTray.map(
+			(account) => account.value
+		);
+
+		const removeAccessAccountIds = initialAccessAccountIds.filter(
+			(account_id) => !addAccessAccountIds.includes(account_id)
+		);
+
 		let formData = new FormData();
 
 		formData.append("name", e.target.name.value);
@@ -144,8 +186,13 @@ const EditTopic = () => {
 				return addTopicCollection(topic_id, addCollectionIds);
 			})
 			.then(() => {
-				console.log(removeCollectionIds);
 				return removeTopicCollection(topic_id, removeCollectionIds);
+			})
+			.then(() => {
+				return addAccountAccess(topic_id, addAccessAccountIds);
+			})
+			.then(() => {
+				return removeAccountAccess(topic_id, removeAccessAccountIds);
 			})
 			.then(() => {
 				emitSuccess("Successfully edited Topic");
@@ -197,8 +244,19 @@ const EditTopic = () => {
 		);
 	};
 
+	const handleAddAccessAccount = (e) => {
+		setAddAccountTray([...addAccountTray, e]);
+	};
+
+	const handleRemoveAccessAccount = (index) => {
+		setAddAccountTray([
+			...addAccountTray.slice(0, index),
+			...addAccountTray.slice(index + 1),
+		]);
+	};
+
 	return (
-		<div className="pt-24">
+		<Container>
 			<h1>Edit Topic</h1>
 			<Form
 				id="create-topic-form"
@@ -206,114 +264,133 @@ const EditTopic = () => {
 				onSubmit={(e) => handleSubmit(e)}
 				onReset={handleReset}
 			>
-				<Row>
-					<Col>
-						<FormGroup>
-							<Label>
-								Topic Name <RequiredSymbol />
-							</Label>
-							<Input
-								value={name}
-								onChange={(e) => setname(e.target.value)}
-								required
-								type="text"
-								id="name"
-							/>
-						</FormGroup>
-						<FormGroup>
-							<Label>Description</Label>
-							<Input
-								value={description}
-								onChange={(e) => setdescription(e.target.value)}
-								type="textarea"
-								id="description"
-								rows={5}
-							/>
-						</FormGroup>
-						<Row>
-							<Col>
-								<FormGroup>
-									<Input
-										checked={isPrivate}
-										onChange={(e) =>
-											setisPrivate(e.target.checked)
-										}
-										id="is_private"
-										type="checkbox"
-									/>
-									<Label check className="ml-2">
-										Private
-									</Label>
-								</FormGroup>
-							</Col>
-							<Col>
-								<FormGroup>
-									<Input
-										checked={isActive}
-										onChange={(e) =>
-											setisActive(e.target.checked)
-										}
-										id="is_active"
-										type="checkbox"
-									/>
-									<Label check className="ml-2">
-										Active
-									</Label>
-								</FormGroup>
-							</Col>
-						</Row>
-
-						{/* <FormGroup>
-							<Label>Collections</Label>
-							<Select
-								options={collectionOptions}
-								onChange={(e) => setselectedCollections(e)}
-								value={selectedCollections}
-								isMulti
-							/>
-						</FormGroup> */}
-					</Col>
-					<Col>
-						<FormGroup>
-							<Label>Topic Banner</Label>
-							<Input
-								type="file"
-								id="image_url"
-								accept="image/jpg, image/jpeg, image/png"
-								onChange={(e) => setPreviewBanner(e)}
-							/>
-							<img
-								className="mt-2"
-								alt="Preview"
-								src={banner}
-							/>
-						</FormGroup>
-
-						<div className="mb-3">
-							<Label>Collection</Label>
-							<Select
-								onChange={(e) => handleAddCollection(e)}
-								options={collectionOptions}
-							/>
-						</div>
-
-						<Label>Added Collections</Label>
-						<ListGroup>
-							{collectionList?.map((collection, index) => (
-								<OrderInputListItem
-									title={collection.title}
-									value={collection.order}
-									onChange={(e) =>
-										handleEditCollectionOrder(e, index)
-									}
-									onRemove={() =>
-										handleRemoveCollection(index)
-									}
+				<div className="h-[60vh] overflow-y-scroll pr-5">
+					<Row>
+						<Col>
+							<FormGroup>
+								<Label>
+									Topic Name <RequiredSymbol />
+								</Label>
+								<Input
+									value={name}
+									onChange={(e) => setname(e.target.value)}
+									required
+									type="text"
+									id="name"
 								/>
-							))}
-						</ListGroup>
-					</Col>
-				</Row>
+							</FormGroup>
+							<FormGroup>
+								<Label>Description</Label>
+								<Input
+									value={description}
+									onChange={(e) =>
+										setdescription(e.target.value)
+									}
+									type="textarea"
+									id="description"
+									rows={5}
+								/>
+							</FormGroup>
+							<Row>
+								<Col>
+									<FormGroup>
+										<Input
+											checked={isPrivate}
+											onChange={(e) =>
+												setisPrivate(e.target.checked)
+											}
+											id="is_private"
+											type="checkbox"
+										/>
+										<Label check className="ml-2">
+											Private
+										</Label>
+									</FormGroup>
+								</Col>
+								<Col>
+									<FormGroup>
+										<Input
+											checked={isActive}
+											onChange={(e) =>
+												setisActive(e.target.checked)
+											}
+											id="is_active"
+											type="checkbox"
+										/>
+										<Label check className="ml-2">
+											Active
+										</Label>
+									</FormGroup>
+								</Col>
+							</Row>
+						</Col>
+						<Col>
+							<FormGroup>
+								<Label>Topic Banner</Label>
+								<Input
+									type="file"
+									id="image_url"
+									accept="image/jpg, image/jpeg, image/png"
+									onChange={(e) => setPreviewBanner(e)}
+								/>
+								<img
+									className="mt-2"
+									alt="Preview"
+									src={banner}
+								/>
+							</FormGroup>
+						</Col>
+					</Row>
+
+					<Row>
+						<Col>
+							<div className="mb-3">
+								<Label>Collection</Label>
+								<Select
+									onChange={(e) => handleAddCollection(e)}
+									options={collectionOptions}
+								/>
+							</div>
+
+							<ListGroup>
+								{collectionList?.map((collection, index) => (
+									<OrderInputListItem
+										title={collection.title}
+										value={collection.order}
+										onChange={(e) =>
+											handleEditCollectionOrder(e, index)
+										}
+										onRemove={() =>
+											handleRemoveCollection(index)
+										}
+									/>
+								))}
+							</ListGroup>
+						</Col>
+
+						<Col>
+							<div className="mb-3">
+								<Label>Access Account</Label>
+								<Select
+									onChange={(e) => handleAddAccessAccount(e)}
+									options={accountOptions}
+								/>
+							</div>
+
+							<ListGroup>
+								{addAccountTray?.map((account, index) => (
+									<OrderInputListItem
+										title={account.label}
+										disabled
+										onRemove={() =>
+											handleRemoveAccessAccount(index)
+										}
+									/>
+								))}
+							</ListGroup>
+						</Col>
+					</Row>
+				</div>
 
 				<div className="mt-5">
 					<Button
@@ -349,7 +426,7 @@ const EditTopic = () => {
 					</Button>
 				</div>
 			</Form>
-		</div>
+		</Container>
 	);
 };
 

@@ -42,3 +42,15 @@ export async function removeTopicCollection(topic_id, collection_ids) {
 		collection_ids: collection_ids,
 	});
 }
+
+export async function addAccountAccess(topic_id, account_ids) {
+	return axios.post(`${URL}/api/topics/${topic_id}/access`, {
+		account_ids: account_ids,
+	});
+}
+
+export async function removeAccountAccess(topic_id, account_ids) {
+	return axios.put(`${URL}/api/topics/${topic_id}/access`, {
+		account_ids: account_ids,
+	});
+}

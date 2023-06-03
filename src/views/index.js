@@ -12,15 +12,14 @@ import Dummy from "./Dummy";
 import MySubmission from "./My/MySubmission";
 import MyProblem from "./My/MyProblem";
 import Profile from "./Profile";
-import MyTopic from "./My/Topics/MyTopic";
+import MyTopic from "./My/Topics/index";
 import CreateTopic from "./CreateTopic";
 import { AdminPermContext, AuthContext } from "../App";
 import Topics from "./Topics";
-import Topic from "./Topics/Topic";
 import MyCollection from "./My/MyCollection";
 import CreateCollection from "./CreateCollection";
 import EditCollection from "./EditCollection";
-import EditTopic from "./EditTopic";
+import EditTopic from "./My/Topics/EditTopic";
 import MyTopicDashboard from "./My/Topics/MyTopicDashboard";
 import TestcaseDisplay from "./TestcaseDisplay";
 
@@ -53,7 +52,10 @@ const Views = ({ setshowNavbar }) => {
 							element={<Problem />}
 						/>
 						<Route path={"/topics"} element={<Topics />} />
-						<Route path={"/topics/:topic_id"} element={<Topic />} />
+						<Route
+							path={"/topics/:topic_id"}
+							element={<MyTopic />}
+						/>
 						<Route
 							path={"/topics/:topic_id/:problem_id"}
 							element={<Problem />}
