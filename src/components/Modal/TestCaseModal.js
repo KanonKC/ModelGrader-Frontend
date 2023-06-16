@@ -35,7 +35,7 @@ const TestcaseRow = ({ problemId, no, input, output }) => {
 			// nevigate(`/problems/${problemId}/testcases/${no}`);
 			// break;
 			case 1:
-				window.open(`/problems/${problemId}/testcases/${no}`);
+				nevigate(`/problems/${problemId}/testcases/${no}`);
 
 				break;
 		}

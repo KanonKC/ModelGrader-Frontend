@@ -25,3 +25,5 @@ yarn-error.log*
 tempCodeRunnerFile*
 
 .env
+# Local Netlify folder
+.netlify
