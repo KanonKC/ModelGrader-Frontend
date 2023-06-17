@@ -1,9 +1,12 @@
 import { faPuzzlePiece } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 
 const Homepage = ({ setshowNavbar }) => {
+	const nevigate = useNavigate();
+
 	useEffect(() => {
 		setshowNavbar(false);
 	}, [setshowNavbar]);
@@ -19,7 +22,10 @@ const Homepage = ({ setshowNavbar }) => {
 					className="homepage-btn px-4 text-white"
 					color="tertiary"
 					size="lg"
-					onClick={() => (window.location.pathname = "/problems")}
+					onClick={() => {
+						nevigate("/problems");
+						setshowNavbar(true);
+					}}
 				>
 					<FontAwesomeIcon icon={faPuzzlePiece} className="mr-2" />
 					Solving Problem

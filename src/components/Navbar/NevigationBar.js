@@ -23,11 +23,14 @@ import {
 import { getAuthorization, logout } from "../../services/auth.service";
 import Hamburger from "./Hamburger";
 import { AdminPermContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 	const [isAdmin] = useContext(AdminPermContext);
 	const [isOpenDropdown, setisOpenDropdown] = useState(false);
 	const [toggleCooldown, settoggleCooldown] = useState(false);
+
+	const nevigate = useNavigate();
 
 	const toggleDropdown = () => {
 		if (!toggleCooldown) {
@@ -40,7 +43,7 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 	const handleLogout = () => {
 		logout();
 		setisLoggin(false);
-		window.location.reload(false);
+		nevigate("/");
 	};
 
 	useEffect(() => {
@@ -58,7 +61,11 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 					<Navbar light color="primary" fixed="top">
 						<Nav>
 							<NavItem>
-								<NavLink className="bg-white" href="/">
+								<NavLink
+									className="bg-white"
+									onClick={() => nevigate("/")}
+									href="#"
+								>
 									<FontAwesomeIcon
 										icon={faClipboard}
 										className="pr-2"
@@ -67,7 +74,11 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 								</NavLink>
 							</NavItem>
 							<NavItem>
-								<NavLink className="mx-3" href="/problems">
+								<NavLink
+									className="mx-3"
+									onClick={() => nevigate("/problems")}
+									href="#"
+								>
 									<FontAwesomeIcon
 										className="mr-2"
 										icon={faBorderAll}
@@ -76,7 +87,10 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 								</NavLink>
 							</NavItem>
 							<NavItem>
-								<NavLink href="/topics">
+								<NavLink
+									onClick={() => nevigate("/topics")}
+									href="#"
+								>
 									<FontAwesomeIcon
 										className="mr-2"
 										icon={faListUl}
@@ -108,29 +122,48 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 										<DropdownItem header>
 											My Profile
 										</DropdownItem>
-										<DropdownItem href="/my">
+										<DropdownItem
+											onClick={() => nevigate("/my")}
+											href="#"
+										>
 											View Profile
 										</DropdownItem>
-										<DropdownItem href="/my/submissions">
+										<DropdownItem
+											onClick={() =>
+												nevigate("/my/submissions")
+											}
+											href="#"
+										>
 											My Submissions
 										</DropdownItem>
 										{isAdmin && (
 											<>
 												<DropdownItem
 													disabled={!isAdmin}
-													href="/my/problems"
+													onClick={() =>
+														nevigate("/my/problems")
+													}
+													href="#"
 												>
 													My Problems
 												</DropdownItem>
 												<DropdownItem
 													disabled={!isAdmin}
-													href="/my/collections"
+													onClick={() =>
+														nevigate(
+															"/my/collections"
+														)
+													}
+													href="#"
 												>
 													My Collections
 												</DropdownItem>
 												<DropdownItem
 													disabled={!isAdmin}
-													href="/my/topics"
+													onClick={() =>
+														nevigate("/my/topics")
+													}
+													href="#"
 												>
 													My Topics
 												</DropdownItem>
@@ -147,7 +180,11 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 							</Nav>
 						) : (
 							<Nav className="float-right">
-								<NavLink className="login-btn" href="/login">
+								<NavLink
+									className="login-btn"
+									onClick={() => nevigate("/login")}
+									href="#"
+								>
 									<FontAwesomeIcon
 										className="mr-2"
 										icon={faRightToBracket}
@@ -156,7 +193,8 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 								</NavLink>
 								<NavLink
 									className="login-btn mx-2"
-									href="/register"
+									onClick={() => nevigate("/register")}
+									href="#"
 								>
 									<FontAwesomeIcon
 										className="mr-2"
@@ -171,7 +209,11 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 					<Navbar light color="primary" fixed="top">
 						<Nav>
 							<NavItem>
-								<NavLink className=" bg-white" href="/">
+								<NavLink
+									className=" bg-white"
+									onClick={() => nevigate("/")}
+									href="#"
+								>
 									<FontAwesomeIcon
 										icon={faClipboard}
 										className="pr-2"
