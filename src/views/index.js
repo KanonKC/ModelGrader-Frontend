@@ -22,6 +22,7 @@ import EditCollection from "./EditCollection";
 import EditTopic from "./My/Topics/EditTopic";
 import MyTopicDashboard from "./My/Topics/MyTopicDashboard";
 import TestcaseDisplay from "./TestcaseDisplay";
+import Topic from "./Topics/Topic";
 
 const Views = ({ setshowNavbar }) => {
 	const [isLoggin] = useContext(AuthContext);
@@ -52,10 +53,7 @@ const Views = ({ setshowNavbar }) => {
 							element={<Problem />}
 						/>
 						<Route path={"/topics"} element={<Topics />} />
-						<Route
-							path={"/topics/:topic_id"}
-							element={<MyTopic />}
-						/>
+						<Route path={"/topics/:topic_id"} element={<Topic />} />
 						<Route
 							path={"/topics/:topic_id/:problem_id"}
 							element={<Problem />}

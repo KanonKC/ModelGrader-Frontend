@@ -63,8 +63,8 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 							<NavItem>
 								<NavLink
 									className="bg-white"
-									onClick={() => nevigate("/")}
-									href="#"
+									// onClick={() => nevigate("/")}
+									href="/"
 								>
 									<FontAwesomeIcon
 										icon={faClipboard}
@@ -76,8 +76,8 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 							<NavItem>
 								<NavLink
 									className="mx-3"
-									onClick={() => nevigate("/problems")}
-									href="#"
+									// onClick={() => nevigate("/problems")}
+									href="/problems"
 								>
 									<FontAwesomeIcon
 										className="mr-2"
@@ -88,8 +88,8 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 							</NavItem>
 							<NavItem>
 								<NavLink
-									onClick={() => nevigate("/topics")}
-									href="#"
+									// onClick={() => nevigate("/topics")}
+									href="/topics"
 								>
 									<FontAwesomeIcon
 										className="mr-2"
@@ -123,16 +123,16 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 											My Profile
 										</DropdownItem>
 										<DropdownItem
-											onClick={() => nevigate("/my")}
-											href="#"
+											// onClick={() => nevigate("/my")}
+											href="/my"
 										>
 											View Profile
 										</DropdownItem>
 										<DropdownItem
-											onClick={() =>
-												nevigate("/my/submissions")
-											}
-											href="#"
+											// onClick={() =>
+											// nevigate("/my/submissions")
+											// }
+											href="/my/submissions"
 										>
 											My Submissions
 										</DropdownItem>
@@ -140,30 +140,30 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 											<>
 												<DropdownItem
 													disabled={!isAdmin}
-													onClick={() =>
-														nevigate("/my/problems")
-													}
-													href="#"
+													// onClick={() =>
+													// 	nevigate("/my/problems")
+													// }
+													href="/my/problems"
 												>
 													My Problems
 												</DropdownItem>
 												<DropdownItem
 													disabled={!isAdmin}
-													onClick={() =>
-														nevigate(
-															"/my/collections"
-														)
-													}
-													href="#"
+													// onClick={() =>
+													// nevigate(
+													// 		"/my/collections"
+													// 	)
+													// }
+													href="/my/collections"
 												>
 													My Collections
 												</DropdownItem>
 												<DropdownItem
 													disabled={!isAdmin}
-													onClick={() =>
-														nevigate("/my/topics")
-													}
-													href="#"
+													// onClick={() =>
+													// nevigate("/my/topics")
+													// }
+													href="/my/topics"
 												>
 													My Topics
 												</DropdownItem>
@@ -182,8 +182,8 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 							<Nav className="float-right">
 								<NavLink
 									className="login-btn"
-									onClick={() => nevigate("/login")}
-									href="#"
+									// onClick={() => nevigate("/login")}
+									href="/login"
 								>
 									<FontAwesomeIcon
 										className="mr-2"
@@ -193,8 +193,8 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 								</NavLink>
 								<NavLink
 									className="login-btn mx-2"
-									onClick={() => nevigate("/register")}
-									href="#"
+									// onClick={() => nevigate("/register")}
+									href="/register"
 								>
 									<FontAwesomeIcon
 										className="mr-2"
@@ -211,8 +211,8 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 							<NavItem>
 								<NavLink
 									className=" bg-white"
-									onClick={() => nevigate("/")}
-									href="#"
+									// onClick={() => nevigate("/")}
+									href="/"
 								>
 									<FontAwesomeIcon
 										icon={faClipboard}

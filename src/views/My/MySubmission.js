@@ -66,13 +66,11 @@ const MySubmission = () => {
 	const [mySubmissionsSearch, setmySubmissionsSearch] = useState("");
 
 	useEffect(() => {
-		viewAllSubmissions({ sort_date: 1 }).then((response) => {
-			setmySubmissions(
-				response.data.result.filter(
-					(submission) => submission.account_id === account_id
-				)
-			);
-		});
+		viewAllSubmissions({ sort_date: 1, account_id: account_id }).then(
+			(response) => {
+				setmySubmissions(response.data.result);
+			}
+		);
 	}, [account_id]);
 
 	useEffect(() => {
@@ -102,7 +100,7 @@ const MySubmission = () => {
 								<Button
 									onClick={() =>
 										nevigate(
-											`/problems/${submission.problem_id}`
+											`/problems/${submission.problem.problem_id}`
 										)
 									}
 									className="text-white"

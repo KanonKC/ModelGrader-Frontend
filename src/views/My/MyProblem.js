@@ -60,7 +60,7 @@ const myProblemColumns = [
 	},
 ];
 
-const MyProfile = () => {
+const MyProblem = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
 	const nevigate = useNavigate();
 	const dispatch = useDispatch();
@@ -95,11 +95,7 @@ const MyProfile = () => {
 			get_private: true,
 			account_id: account_id,
 		}).then((response) => {
-			setmyProblems(
-				response.data.result.filter(
-					(problem) => problem.account_id === account_id
-				)
-			);
+			setmyProblems(response.data.result);
 		});
 		viewAllSubmissions({ sort_date: 1 }).then((response) => {
 			setallSubmissions(response.data.result);
@@ -291,4 +287,4 @@ const MyProfile = () => {
 		</div>
 	);
 };
-export default MyProfile;
+export default MyProblem;
