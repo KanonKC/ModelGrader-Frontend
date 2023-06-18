@@ -35,11 +35,13 @@ const CreatorCollectionProblem = ({
 			for (const submission of submissions) {
 				if (
 					submission.is_passed &&
-					problem_ids.includes(submission.problem_id) &&
-					!duplicatedProblemIds.includes(submission.problem_id)
+					problem_ids.includes(submission.problem.problem_id) &&
+					!duplicatedProblemIds.includes(
+						submission.problem.problem_id
+					)
 				) {
 					passedSubmissionCount++;
-					duplicatedProblemIds.push(submission.problem_id);
+					duplicatedProblemIds.push(submission.problem.problem_id);
 				}
 			}
 

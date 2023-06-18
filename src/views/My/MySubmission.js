@@ -117,7 +117,7 @@ const MySubmission = () => {
 								<Button
 									onClick={() =>
 										nevigate(
-											`/problems/${submission.problem_id}`
+											`/problems/${submission.problem.problem_id}`
 										)
 									}
 									className="text-white"

@@ -112,7 +112,8 @@ const CreatorProblemTable = ({
 					problems.map((problem) => {
 						let best_submission = submissions.filter(
 							(submission) =>
-								submission.problem_id === problem.problem_id
+								submission.problem.problem_id ===
+								problem.problem_id
 						)[0];
 						return {
 							...problem,
