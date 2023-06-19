@@ -1,20 +1,18 @@
 import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Input, Row } from "reactstrap";
 import BackButton from "../../components/Button/BackButton";
 import CreateNewProblemButton from "../../components/Button/CreateNewProblemButton";
-import { Language } from "../../constants/language.constant";
 import { hasSubstring } from "../../modules/search.module";
-import { emitError, emitSuccess } from "../../modules/swal.module";
-import { openComfirmation } from "../../redux/confirmation.reducer";
 import {
-	deleteMultipleProblem,
-	getAllProblems,
-} from "../../services/problem.service";
+	emitConfirmation,
+	emitError,
+	emitSuccess,
+} from "../../modules/swal.module";
+import { deleteProblem, getAllProblems } from "../../services/problem.service";
 import { viewAllSubmissions } from "../../services/submission.service";
 import PublishSwitch from "../../components/Switch/PublishSwitch";
 import ActiveSwitch from "../../components/Switch/ActiveSwitch";
@@ -22,74 +20,50 @@ import ActiveSwitch from "../../components/Switch/ActiveSwitch";
 const myProblemColumns = [
 	{
 		name: "Title",
+		minWidth: "150px",
+		maxWidth: "250px",
 		selector: (row) => row.title,
 		sortable: true,
 	},
 	{
-		name: "Language",
-		width: "150px",
-		selector: (row) => Language[row.language],
-		sortable: true,
-	},
-	{
 		name: "Submission Count",
-		width: "200px",
+		// width: "200px",
 		center: true,
 		selector: (row) => Number(row.submission_count),
 		sortable: true,
 	},
 	{
 		name: "Publish",
+		width: "100px",
 		center: true,
 		selector: (row) => row.publish_switch,
 	},
 	{
 		name: "Active",
+		width: "100px",
 		center: true,
 		selector: (row) => row.active_switch,
 	},
 	{
 		name: "",
 		right: true,
-		width: "200px",
-		selector: (row) => row.edit_button,
-	},
-	{
-		name: "",
-		selector: (row) => row.view_button,
+		minWidth: "400px",
+		selector: (row) => row.button_row,
 	},
 ];
 
 const MyProblem = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
 	const nevigate = useNavigate();
-	const dispatch = useDispatch();
 
 	const [allSubmissions, setallSubmissions] = useState([]);
 
 	const [myProblems, setmyProblems] = useState([]);
 	const [filteredProblems, setfilteredProblems] = useState([]);
 
-	const [selectedRow, setselectedRow] = useState([]);
-
 	const [myProblemsSearch, setmyProblemsSearch] = useState("");
 
-	const handleDeleteProblem = () => {
-		deleteMultipleProblem(selectedRow.map((problem) => problem.problem_id))
-			.then(() => {
-				setfilteredProblems(
-					filteredProblems.filter(
-						(problem) => !selectedRow.includes(problem)
-					)
-				);
-				emitSuccess("Your problems have been deleted!");
-			})
-			.catch((err) => {
-				emitError("Something went wrong! Please try again");
-			});
-	};
-
-	useEffect(() => {
+	const loadProblems = useCallback(() => {
 		getAllProblems({
 			get_deactive: true,
 			get_private: true,
@@ -97,13 +71,35 @@ const MyProblem = () => {
 		}).then((response) => {
 			setmyProblems(response.data.result);
 		});
+	}, [setmyProblems, account_id]);
+
+	const handleDeleteProblem = useCallback(
+		(problem) => {
+			emitConfirmation(
+				`Are you sure that you want to delete "${problem.title}" ?`,
+				() => {
+					deleteProblem(problem.problem_id)
+						.then(() => {
+							loadProblems();
+							emitSuccess("Successfully deleted this Problem");
+						})
+						.catch(() => {
+							emitError("Failed to delete this Problem");
+						});
+				}
+			);
+		},
+		[loadProblems]
+	);
+
+	useEffect(() => {
+		loadProblems();
 		viewAllSubmissions({ sort_date: 1 }).then((response) => {
 			setallSubmissions(response.data.result);
 		});
-	}, [account_id]);
+	}, [account_id, loadProblems]);
 
 	useEffect(() => {
-		setselectedRow([]);
 		setfilteredProblems(
 			myProblems
 				.filter((prob) => hasSubstring(prob.title, myProblemsSearch))
@@ -121,12 +117,8 @@ const MyProblem = () => {
 							problemId={problem.problem_id}
 						/>
 					),
-					edit_button: (
-						<>
-							{console.log(
-								problem.problem_id,
-								problem.is_private
-							)}
+					button_row: (
+						<div className="flex space-x-4">
 							<div className="hidden 2xl:block">
 								<Button
 									onClick={() =>
@@ -141,7 +133,7 @@ const MyProblem = () => {
 										icon={faPencil}
 										className="mr-2"
 									/>
-									Edit Problem
+									Edit
 								</Button>
 							</div>
 							<div className="2xl:hidden">
@@ -159,10 +151,7 @@ const MyProblem = () => {
 									Edit
 								</Button>
 							</div>
-						</>
-					),
-					view_button: (
-						<>
+
 							<div className="hidden 2xl:block">
 								<Button
 									onClick={() =>
@@ -177,7 +166,7 @@ const MyProblem = () => {
 										icon={faEye}
 										className="mr-2"
 									/>
-									View Problem
+									View
 								</Button>
 							</div>
 							<div className="2xl:hidden">
@@ -197,14 +186,47 @@ const MyProblem = () => {
 									View
 								</Button>
 							</div>
-						</>
+
+							<div className="hidden 2xl:block">
+								<Button
+									onClick={() => handleDeleteProblem(problem)}
+									className="text-white"
+									color="danger"
+								>
+									<FontAwesomeIcon
+										icon={faTrash}
+										className="mr-2"
+									/>
+									Delete
+								</Button>
+							</div>
+							<div className="2xl:hidden">
+								<Button
+									onClick={() => handleDeleteProblem(problem)}
+									className="text-white"
+									color="danger"
+								>
+									<FontAwesomeIcon
+										icon={faTrash}
+										className="mr-2"
+									/>
+									Delete
+								</Button>
+							</div>
+						</div>
 					),
 					submission_count: allSubmissions.filter(
 						(sub) => sub.problem_id === problem.problem_id
 					).length,
 				}))
 		);
-	}, [myProblems, nevigate, myProblemsSearch, allSubmissions]);
+	}, [
+		myProblems,
+		nevigate,
+		myProblemsSearch,
+		allSubmissions,
+		handleDeleteProblem,
+	]);
 
 	return (
 		<div className="pt-10 md:pt-24">
@@ -213,7 +235,7 @@ const MyProblem = () => {
 			{/*------------ MY PROBLEMS ------------*/}
 			<div className="mb-5">
 				<Row className="mb-1">
-					<Col>
+					<Col xs={6}>
 						<h2>My Problems</h2>
 					</Col>
 					{/* <Col>
@@ -224,45 +246,22 @@ const MyProblem = () => {
                             }
                         />
                     </Col> */}
-					<Col xs={4} className="mt-1 flex justify-end">
-						<div>
-							<Input
-								value={myProblemsSearch}
-								onChange={(e) =>
-									setmyProblemsSearch(e.target.value)
-								}
-								className="mb-2"
-							/>
-							<CreateNewProblemButton />
-							<Button
-								disabled={selectedRow.length === 0}
-								onClick={() =>
-									dispatch(
-										openComfirmation({
-											message:
-												"Are you sure do you want to delete those problems?",
-											onConfirm: handleDeleteProblem,
-										})
-									)
-								}
-								className="text-white ml-1"
-								color="danger"
-							>
-								<FontAwesomeIcon
-									icon={faTrash}
-									className="mr-2"
-								/>
-								{selectedRow.length === 0
-									? "Delete Problem"
-									: `Delete Problem (${selectedRow.length})`}
-							</Button>
-						</div>
+					<Col className="">
+						<Input
+							value={myProblemsSearch}
+							onChange={(e) =>
+								setmyProblemsSearch(e.target.value)
+							}
+							className="mb-2"
+						/>
+					</Col>
+					<Col xs={2}>
+						<CreateNewProblemButton />
 					</Col>
 				</Row>
 
 				<DataTable
-					selectableRows
-					onSelectedRowsChange={(e) => setselectedRow(e.selectedRows)}
+					// selectableRows
 					className="text-md border-2"
 					columns={myProblemColumns}
 					data={filteredProblems}

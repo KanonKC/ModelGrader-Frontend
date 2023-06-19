@@ -89,7 +89,7 @@ const EditTopic = () => {
 				}))
 			);
 
-			const initialIds = setInitialAccessAccountIds(
+			setInitialAccessAccountIds(
 				data.accessed_accounts.map((account) => account.account_id)
 			);
 			setAddAccountTray(

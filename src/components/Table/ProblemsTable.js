@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 
-import { Language } from "../../constants/language.constant";
 import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
