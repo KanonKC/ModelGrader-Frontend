@@ -1,12 +1,13 @@
 import React from "react";
 import CollectionForm from "../components/Form/CollectionForm";
+import Container from "../components/Container";
 
 const CreateCollection = () => {
 	return (
-		<div className="pt-10 md:pt-24">
+		<Container>
 			<h1>Create Collection</h1>
 			<CollectionForm />
-		</div>
+		</Container>
 	);
 };
 

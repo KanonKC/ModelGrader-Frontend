@@ -5,6 +5,7 @@ import TrackerCard from "../components/Card/TrackerCard";
 import { getAccount } from "../services/account.service";
 import { getAllProblems } from "../services/problem.service";
 import { viewAllSubmissions } from "../services/submission.service";
+import Container from "../components/Container";
 
 const Profile = () => {
 	const { account_id } = useParams();
@@ -52,7 +53,7 @@ const Profile = () => {
 	}, [problems]);
 
 	return (
-		<div className="pt-10 md:pt-24">
+		<Container>
 			<h1 className="mb-10">
 				You are visiting{" "}
 				<span style={{ color: "orange" }}>{account.username}</span>
@@ -83,7 +84,7 @@ const Profile = () => {
 					/>
 				</Col>
 			</Row>
-		</div>
+		</Container>
 	);
 };
 export default Profile;

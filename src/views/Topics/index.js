@@ -3,6 +3,7 @@ import TopicCard from "../../components/Card/TopicCard";
 import { getAllTopics } from "../../services/topic.service";
 import TopicsGrid from "../../components/TopicsGrid";
 import { useNavigate } from "react-router-dom";
+import Container from "../../components/Container";
 
 const Topics = () => {
 	const [topics, settopics] = useState([]);
@@ -15,7 +16,7 @@ const Topics = () => {
 	}, []);
 
 	return (
-		<div className="pt-10 md:pt-24">
+		<Container>
 			<h1>Topics</h1>
 			<TopicsGrid>
 				{topics.reverse().map((topic) => (
@@ -27,7 +28,7 @@ const Topics = () => {
 					/>
 				))}
 			</TopicsGrid>
-		</div>
+		</Container>
 	);
 };
 

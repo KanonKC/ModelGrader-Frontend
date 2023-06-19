@@ -16,6 +16,7 @@ import { deleteProblem, getAllProblems } from "../../services/problem.service";
 import { viewAllSubmissions } from "../../services/submission.service";
 import PublishSwitch from "../../components/Switch/PublishSwitch";
 import ActiveSwitch from "../../components/Switch/ActiveSwitch";
+import Container from "../../components/Container";
 
 const myProblemColumns = [
 	{
@@ -229,7 +230,7 @@ const MyProblem = () => {
 	]);
 
 	return (
-		<div className="pt-10 md:pt-24">
+		<Container>
 			<BackButton to={"/my"} />
 
 			{/*------------ MY PROBLEMS ------------*/}
@@ -283,7 +284,7 @@ const MyProblem = () => {
 					striped
 				/>
 			</div>
-		</div>
+		</Container>
 	);
 };
 export default MyProblem;

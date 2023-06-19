@@ -5,6 +5,7 @@ import CollectionProblems from "../../components/CollectionProblems";
 import { viewAllSubmissions } from "../../services/submission.service";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import rehypeRaw from "rehype-raw";
+import Container from "../../components/Container";
 
 const Topic = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
@@ -31,7 +32,7 @@ const Topic = () => {
 	}, [account_id]);
 
 	return (
-		<div className="pt-10 md:pt-24">
+		<Container>
 			<h1>{topic.name}</h1>
 
 			<ReactMarkdown rehypePlugins={[rehypeRaw]}>
@@ -49,7 +50,7 @@ const Topic = () => {
 					/>
 				))}
 			</div>
-		</div>
+		</Container>
 	);
 };
 

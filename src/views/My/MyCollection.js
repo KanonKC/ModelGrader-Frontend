@@ -7,6 +7,7 @@ import {
 } from "../../services/collection.service";
 import CollectionCard from "../../components/Card/CollectionCard";
 import { emitConfirmation } from "../../modules/swal.module";
+import Container from "../../components/Container";
 
 const MyCollection = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
@@ -51,7 +52,7 @@ const MyCollection = () => {
 	useEffect(loadAllCollections, [account_id]);
 
 	return (
-		<div className="pt-10 md:pt-24">
+		<Container>
 			<h1>My Collections</h1>
 			<div className="my-4">
 				<Row>
@@ -89,7 +90,7 @@ const MyCollection = () => {
 					/>
 				))}
 			</div>
-		</div>
+		</Container>
 	);
 };
 

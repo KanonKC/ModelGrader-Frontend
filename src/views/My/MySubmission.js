@@ -10,6 +10,7 @@ import { Language } from "../../constants/language.constant";
 import { formatDate } from "../../modules/date.module";
 import { hasSubstring } from "../../modules/search.module";
 import { viewAllSubmissions } from "../../services/submission.service";
+import Container from "../../components/Container";
 
 const mySubmissionColumns = [
 	{
@@ -137,7 +138,7 @@ const MySubmission = () => {
 	}, [mySubmissions, nevigate, mySubmissionsSearch]);
 
 	return (
-		<div className="pt-10 md:pt-24">
+		<Container>
 			<BackButton to={"/my"} />
 			{/*------------ MY SUBMISSIONS ------------*/}
 			<div className="mb-5">
@@ -178,7 +179,7 @@ const MySubmission = () => {
 					striped
 				/>
 			</div>
-		</div>
+		</Container>
 	);
 };
 export default MySubmission;

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import ProblemsTable from "../components/Table/ProblemsTable";
 import { AuthContext } from "../App";
+import Container from "../components/Container";
 
 const AllProblem = () => {
 	const nevigate = useNavigate();
@@ -125,7 +126,7 @@ const AllProblem = () => {
 	}, [allProblems, allSubmissions, search, nevigate]);
 
 	return (
-		<div className="pt-10 md:pt-24">
+		<Container>
 			<Row className="">
 				<Col>
 					<h1>All Problem</h1>
@@ -144,7 +145,7 @@ const AllProblem = () => {
 					submissions={allSubmissions}
 				/>
 			</div>
-		</div>
+		</Container>
 	);
 };
 

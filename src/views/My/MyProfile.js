@@ -4,6 +4,7 @@ import TrackerCard from "../../components/Card/TrackerCard";
 import { getAccount } from "../../services/account.service";
 import { getAllProblems } from "../../services/problem.service";
 import { viewAllSubmissions } from "../../services/submission.service";
+import Container from "../../components/Container";
 
 const MyProfile = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
@@ -48,7 +49,7 @@ const MyProfile = () => {
 	}, [problems]);
 
 	return (
-		<div className="pt-10 md:pt-24">
+		<Container>
 			<h1 className="mb-10">Welcome, {account.username}</h1>
 			<Row className="mx-20">
 				<Col>
@@ -76,7 +77,7 @@ const MyProfile = () => {
 					/>
 				</Col>
 			</Row>
-		</div>
+		</Container>
 	);
 };
 export default MyProfile;
