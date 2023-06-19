@@ -1,5 +1,3 @@
-import { faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
@@ -11,7 +9,6 @@ import {
 	Input,
 	Label,
 	ListGroup,
-	ListGroupItem,
 	Row,
 } from "reactstrap";
 import { emitError, emitSuccess } from "../../modules/swal.module";
@@ -24,24 +21,6 @@ import {
 } from "../../services/collection.service";
 import { getAllProblems } from "../../services/problem.service";
 import OrderInputListItem from "../OrderInputListItem";
-
-const ProblemList = () => {
-	return (
-		<ListGroupItem>
-			<Row>
-				<Col xs={2}>
-					<Input />
-				</Col>
-				<Col>Cras justo odio</Col>
-				<Col xs={1}>
-					<Button color="danger">
-						<FontAwesomeIcon icon={faX} />
-					</Button>
-				</Col>
-			</Row>
-		</ListGroupItem>
-	);
-};
 
 const CollectionForm = ({ editMode = false, collectionId }) => {
 	const account_id = Number(localStorage.getItem("account_id"));
@@ -149,10 +128,6 @@ const CollectionForm = ({ editMode = false, collectionId }) => {
 	};
 
 	useEffect(() => {
-		console.log("PL", problemList);
-	}, [problemList]);
-
-	useEffect(() => {
 		getCollection(collectionId).then((response) => {
 			setcollection(response.data.collection);
 			setproblemList(
@@ -167,7 +142,7 @@ const CollectionForm = ({ editMode = false, collectionId }) => {
 		getAllProblems({}).then((response) => {
 			setproblems(response.data.result);
 		});
-	}, []);
+	}, [collectionId]);
 
 	useEffect(() => {
 		setname(collection.name);

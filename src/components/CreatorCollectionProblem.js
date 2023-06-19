@@ -5,7 +5,6 @@ import {
 	AccordionHeader,
 	AccordionItem,
 } from "reactstrap";
-import ProblemsTable from "./Table/ProblemsTable";
 import CreatorProblemTable from "./Table/CreatorProblemTable";
 
 const CreatorCollectionProblem = ({

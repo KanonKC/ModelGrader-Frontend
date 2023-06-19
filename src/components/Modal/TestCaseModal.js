@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal, ModalBody, Table } from "reactstrap";
 
@@ -32,11 +32,13 @@ const TestcaseRow = ({ problemId, no, input, output }) => {
 	const handleClick = (e) => {
 		switch (e.button) {
 			case 0:
-			// nevigate(`/problems/${problemId}/testcases/${no}`);
-			// break;
+				// nevigate(`/problems/${problemId}/testcases/${no}`);
+				break;
 			case 1:
 				nevigate(`/problems/${problemId}/testcases/${no}`);
+				break;
 
+			default:
 				break;
 		}
 	};

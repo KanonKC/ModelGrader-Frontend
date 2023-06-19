@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import Container from "../../../components/Container";
 import { getTopic } from "../../../services/topic.service";
 import { useParams } from "react-router-dom";
-import { responsivePropType } from "react-bootstrap/esm/createUtilityClasses";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import rehypeRaw from "rehype-raw";
-import CollectionProblems from "../../../components/CollectionProblems";
 import CreatorCollectionProblem from "../../../components/CreatorCollectionProblem";
 
 const MyTopicDashboard = () => {
@@ -20,7 +18,7 @@ const MyTopicDashboard = () => {
 			settopic(response.data.topic);
 			setcollections(response.data.collections);
 		});
-	}, []);
+	}, [topic_id]);
 
 	return (
 		<Container>

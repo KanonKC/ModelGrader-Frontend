@@ -44,7 +44,7 @@ const TestcaseDisplay = () => {
 				response.data.testcases[parseInt(testcases_no) - 1].output
 			);
 		});
-	}, [problem_id]);
+	}, [problem_id, testcases_no]);
 
 	return (
 		<Container>

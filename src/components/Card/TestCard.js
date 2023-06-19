@@ -1,13 +1,8 @@
-import React, { useEffect } from 'react'
+import React from "react";
 
-const TestCard = ({whenClick}) => {
+const TestCard = ({ whenClick }) => {
+	const num = Math.random();
+	return <div onClick={() => whenClick(num)}>TestCard {num}</div>;
+};
 
-    const num = Math.random()    
-    return (
-        <div onClick={() => whenClick(num)}>
-            TestCard {num}
-        </div>
-    )
-}
-
-export default TestCard
+export default TestCard;

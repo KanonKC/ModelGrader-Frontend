@@ -2,8 +2,6 @@ import { faClipboard } from "@fortawesome/free-regular-svg-icons";
 import {
 	faBorderAll,
 	faListUl,
-	faPlus,
-	faRightFromBracket,
 	faRightToBracket,
 	faUser,
 	faUserPlus,
@@ -52,7 +50,7 @@ function NevigationBar({ isShow, isLoggin, setisLoggin }) {
 				setisLoggin(response.data.result);
 			})
 			.catch((err) => {});
-	}, []);
+	}, [setisLoggin]);
 
 	return (
 		<>
