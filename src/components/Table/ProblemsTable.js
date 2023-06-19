@@ -12,20 +12,21 @@ const columns = [
 	{
 		name: "Title",
 		minWidth: "200px",
-		maxWidth: "250px",
+		maxWidth: "500px",
 		selector: (row) => row.title,
 		sortable: true,
 	},
-	{
-		name: "Language",
-		maxWidth: "130px",
-		selector: (row) => Language[row.language],
-		sortable: true,
-	},
+	// {
+	// 	name: "Language",
+	// 	maxWidth: "130px",
+	// 	selector: (row) => Language[row.language],
+	// 	sortable: true,
+	// },
 
 	{
 		name: "Status",
 		center: true,
+		minWidth: "100px",
 		maxWidth: "100px",
 		selector: (row) => row.pass_status,
 		sortable: false,
@@ -34,6 +35,8 @@ const columns = [
 	{
 		name: "Best Submission",
 		center: true,
+		minWidth: "300px",
+		maxWidth: "500px",
 		selector: (row) => (
 			<span className="font-mono">{row.best_submission_result}</span>
 		),
