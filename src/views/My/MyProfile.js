@@ -23,12 +23,8 @@ const MyProfile = () => {
 		viewAllSubmissions({ account_id: account_id }).then((response) => {
 			setsubmissions(response.data.result);
 		});
-		getAllProblems({}).then((response) => {
-			setproblems(
-				response.data.result.filter(
-					(problem) => problem.account_id === account_id
-				)
-			);
+		getAllProblems({ account_id: account_id }).then((response) => {
+			setproblems(response.data.result);
 		});
 	}, [account_id]);
 
@@ -39,10 +35,11 @@ const MyProfile = () => {
 		);
 		let result = [];
 		for (let i in passedSubmissions) {
-			if (!result.includes(passedSubmissions[i].problem_id)) {
-				result.push(passedSubmissions[i].problem_id);
+			if (!result.includes(passedSubmissions[i].problem.problem_id)) {
+				result.push(passedSubmissions[i].problem.problem_id);
 			}
 		}
+		console.log(result);
 		setpassedCount(result.length);
 	}, [submissions]);
 
