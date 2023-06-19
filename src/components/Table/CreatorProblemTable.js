@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { viewsubmissions } from "../../services/submission.service";
-import { getAuthorization } from "../../services/auth.service";
+
 import { Language } from "../../constants/language.constant";
 import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
@@ -169,10 +168,12 @@ const CreatorProblemTable = ({
 							pass_status: best_submission ? (
 								best_submission.is_passed ? (
 									<img
+										alt="passed_icon"
 										src={require("../../imgs/passed_icon.png")}
 									/>
 								) : (
 									<img
+										alt="failed_icon"
 										src={require("../../imgs/unpassed_icon.png")}
 									/>
 								)

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FormGroup, Input } from "reactstrap";
 import { editProblem } from "../../services/problem.service";
 
