@@ -28,7 +28,7 @@ import {
 	emitError,
 	emitSuccess,
 } from "../../../modules/swal.module";
-import Container from "../../../components/Container";
+import Container from "../../../components/Layout/Container";
 import { getAllAccounts } from "../../../services/account.service";
 
 const EditTopic = () => {
@@ -256,7 +256,7 @@ const EditTopic = () => {
 	};
 
 	return (
-		<Container>
+		<div >
 			<h1>Edit Topic</h1>
 			<Form
 				id="create-topic-form"
@@ -264,7 +264,7 @@ const EditTopic = () => {
 				onSubmit={(e) => handleSubmit(e)}
 				onReset={handleReset}
 			>
-				<div className="h-[60vh] overflow-y-scroll pr-5">
+				<div className="">
 					<Row>
 						<Col>
 							<FormGroup>
@@ -342,7 +342,7 @@ const EditTopic = () => {
 						</Col>
 					</Row>
 
-					<Row>
+					{/* <Row>
 						<Col>
 							<div className="mb-3">
 								<Label>Collection</Label>
@@ -389,7 +389,7 @@ const EditTopic = () => {
 								))}
 							</ListGroup>
 						</Col>
-					</Row>
+					</Row> */}
 				</div>
 
 				<div className="mt-5">
@@ -426,7 +426,7 @@ const EditTopic = () => {
 					</Button>
 				</div>
 			</Form>
-		</Container>
+		</div>
 	);
 };
 

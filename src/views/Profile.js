@@ -5,7 +5,7 @@ import TrackerCard from "../components/Card/TrackerCard";
 import { getAccount } from "../services/account.service";
 import { getAllProblems } from "../services/problem.service";
 import { viewAllSubmissions } from "../services/submission.service";
-import Container from "../components/Container";
+import Container from "../components/Layout/Container";
 
 const Profile = () => {
 	const { account_id } = useParams();

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getProblem } from "../services/problem.service";
 import { useParams } from "react-router-dom";
-import Container from "../components/Container";
+import Container from "../components/Layout/Container";
 import {
 	Accordion,
 	AccordionBody,

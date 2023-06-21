@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import ProblemsTable from "../components/Table/ProblemsTable";
 import { AuthContext } from "../App";
-import Container from "../components/Container";
+import Container from "../components/Layout/Container";
 
 const AllProblem = () => {
 	const nevigate = useNavigate();

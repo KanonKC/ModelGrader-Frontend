@@ -6,6 +6,7 @@ import { Button, Col, Input, Row } from "reactstrap";
 import TopicsGrid from "../../../components/TopicsGrid";
 import { getAllTopics } from "../../../services/topic.service";
 import TopicCard from "../../../components/Card/TopicCard";
+import Container from "../../../components/Layout/Container";
 
 const MyTopic = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
@@ -32,7 +33,7 @@ const MyTopic = () => {
 	}, [topics, search]);
 
 	return (
-		<div className="pt-24">
+		<Container>
 			<h1>My Topic</h1>
 
 			<div className="mt-4">
@@ -64,11 +65,11 @@ const MyTopic = () => {
 						title={topic.name}
 						description={topic.description}
 						image={topic.image_url}
-						onClick={() => nevigate(`./${topic.topic_id}/edit`)}
+						onClick={() => nevigate(`./${topic.topic_id}`)}
 					/>
 				))}
 			</TopicsGrid>
-		</div>
+		</Container>
 	);
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import CollectionForm from "../components/Form/CollectionForm";
 import { useParams } from "react-router-dom";
-import Container from "../components/Container";
+import Container from "../components/Layout/Container";
 
 const EditCollection = () => {
 	const { collection_id } = useParams();

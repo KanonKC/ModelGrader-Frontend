@@ -16,7 +16,7 @@ import { deleteProblem, getAllProblems } from "../../services/problem.service";
 import { viewAllSubmissions } from "../../services/submission.service";
 import PublishSwitch from "../../components/Switch/PublishSwitch";
 import ActiveSwitch from "../../components/Switch/ActiveSwitch";
-import Container from "../../components/Container";
+import Container from "../../components/Layout/Container";
 
 const myProblemColumns = [
 	{

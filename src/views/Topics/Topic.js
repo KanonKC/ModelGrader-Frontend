@@ -5,7 +5,7 @@ import CollectionProblems from "../../components/CollectionProblems";
 import { viewAllSubmissions } from "../../services/submission.service";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import rehypeRaw from "rehype-raw";
-import Container from "../../components/Container";
+import Container from "../../components/Layout/Container";
 
 const Topic = () => {
 	const account_id = Number(localStorage.getItem("account_id"));

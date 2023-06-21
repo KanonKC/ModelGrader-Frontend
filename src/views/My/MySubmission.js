@@ -10,7 +10,7 @@ import { Language } from "../../constants/language.constant";
 import { formatDate } from "../../modules/date.module";
 import { hasSubstring } from "../../modules/search.module";
 import { viewAllSubmissions } from "../../services/submission.service";
-import Container from "../../components/Container";
+import Container from "../../components/Layout/Container";
 
 const mySubmissionColumns = [
 	{

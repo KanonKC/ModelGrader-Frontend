@@ -3,7 +3,7 @@ import TopicCard from "../../components/Card/TopicCard";
 import { getAllTopics } from "../../services/topic.service";
 import TopicsGrid from "../../components/TopicsGrid";
 import { useNavigate } from "react-router-dom";
-import Container from "../../components/Container";
+import Container from "../../components/Layout/Container";
 
 const Topics = () => {
 	const [topics, settopics] = useState([]);

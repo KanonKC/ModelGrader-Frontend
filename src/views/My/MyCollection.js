@@ -7,7 +7,7 @@ import {
 } from "../../services/collection.service";
 import CollectionCard from "../../components/Card/CollectionCard";
 import { emitConfirmation } from "../../modules/swal.module";
-import Container from "../../components/Container";
+import Container from "../../components/Layout/Container";
 
 const MyCollection = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
