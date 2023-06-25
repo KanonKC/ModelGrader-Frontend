@@ -25,7 +25,6 @@ const MembersAccess = ({ topic }) => {
 	const loadAccessAccounts = useCallback(() => {
 		getTopic(topic_id).then((response) => {
 			const { data } = response;
-			console.log(data.topic.accessed_accounts);
 			setAccessAccounts(data.accessed_accounts);
 
 			const accessedAccountIds = data.accessed_accounts.map(
@@ -83,7 +82,6 @@ const MembersAccess = ({ topic }) => {
 		const accessedAccountIds = accessAccounts.map(
 			(account) => account.account_id
 		);
-		console.log(accessedAccountIds);
 		setAccountOptions(
 			accounts
 				.filter(
@@ -97,12 +95,9 @@ const MembersAccess = ({ topic }) => {
 		);
 	}, [accounts, accessAccounts]);
 
-	useEffect(loadAccessAccounts, [
-		topic_id,
-		accounts,
-		accessAccounts,
-		loadAccessAccounts,
-	]);
+	useEffect(() => {
+		loadAccessAccounts();
+	}, [loadAccessAccounts]);
 
 	return (
 		<div>

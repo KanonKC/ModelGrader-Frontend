@@ -40,7 +40,6 @@ const MyProfile = () => {
 				result.push(passedSubmissions[i].problem.problem_id);
 			}
 		}
-		console.log(result);
 		setpassedCount(result.length);
 	}, [submissions]);
 

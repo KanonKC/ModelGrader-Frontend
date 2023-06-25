@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal, ModalBody, Table } from "reactstrap";
 
@@ -57,10 +57,6 @@ const TestcaseRow = ({ problemId, no, input, output }) => {
 };
 
 const TestCaseModal = ({ problemId, isOpen, toggle, testcases }) => {
-	useEffect(() => {
-		console.log(testcases);
-	}, [testcases]);
-
 	return (
 		<Modal isOpen={isOpen} toggle={toggle}>
 			<ModalBody>

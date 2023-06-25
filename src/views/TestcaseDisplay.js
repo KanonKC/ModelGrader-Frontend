@@ -40,9 +40,6 @@ const TestcaseDisplay = () => {
 			setoutput(
 				response.data.testcases[parseInt(testcases_no) - 1].output
 			);
-			console.log(
-				response.data.testcases[parseInt(testcases_no) - 1].output
-			);
 		});
 	}, [problem_id, testcases_no]);
 

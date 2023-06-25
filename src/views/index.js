@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import AllProblem from "./AllProblem";
 import CreateProblem from "./CreateProblem";
@@ -27,10 +27,6 @@ import Topic from "./Topics/Topic";
 const Views = ({ setshowNavbar }) => {
 	const [isLoggin] = useContext(AuthContext);
 	const [isAdmin] = useContext(AdminPermContext);
-
-	useEffect(() => {
-		console.log(isAdmin);
-	}, [isAdmin]);
 
 	return (
 		<Routes>

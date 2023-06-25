@@ -28,10 +28,6 @@ const CreateTopic = () => {
 		});
 	}, [account_id]);
 
-	useEffect(() => {
-		console.log(collectionOptions);
-	}, [collectionOptions]);
-
 	const setPreviewBanner = (e) => {
 		if (e.target.files && e.target.files[0]) {
 			setbanner(URL.createObjectURL(e.target.files[0]));
@@ -60,8 +56,6 @@ const CreateTopic = () => {
 		setloading(true);
 		createTopic(account_id, formData)
 			.then((response) => {
-				// console.log("DONE",response.data.topic_id,selectedProblems.map(problem => problem.value))
-				console.log(selectedCollections);
 				if (selectedCollections) {
 					const problems_id = selectedCollections.map(
 						(problem) => problem.value
@@ -78,7 +72,6 @@ const CreateTopic = () => {
 				handleReset();
 			})
 			.catch((err) => {
-				console.log(err);
 				setloading(false);
 				Swal.fire(
 					"Error",

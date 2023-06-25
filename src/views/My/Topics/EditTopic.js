@@ -6,7 +6,6 @@ import {
 	getTopic,
 	updateTopic,
 } from "../../../services/topic.service";
-import { getAllCollections } from "../../../services/collection.service";
 import { useNavigate, useParams } from "react-router-dom";
 import {
 	emitConfirmation,
@@ -15,13 +14,10 @@ import {
 } from "../../../modules/swal.module";
 
 const EditTopic = () => {
-	const account_id = Number(localStorage.getItem("account_id"));
 	const nevigate = useNavigate();
 	const { topic_id } = useParams();
 
 	const [topic, settopic] = useState({});
-	const [collectionList, setcollectionList] = useState([]);
-	const [collections, setcollections] = useState([]);
 
 	const [loading, setloading] = useState(false);
 
@@ -31,26 +27,12 @@ const EditTopic = () => {
 	const [isActive, setisActive] = useState(true);
 
 	const [banner, setbanner] = useState(null);
-	const [collectionOptions, setcollectionOptions] = useState([]);
-
-	useEffect(() => {
-		getAllCollections(account_id).then((response) => {
-			setcollections(response.data.collections);
-		});
-	}, [account_id]);
 
 	useEffect(() => {
 		getTopic(topic_id).then((response) => {
 			const { data } = response;
 
 			settopic(data.topic);
-			setcollectionList(
-				data.collections.map((collection) => ({
-					title: collection.name,
-					order: collection.order,
-					id: collection.collection_id,
-				}))
-			);
 
 			setname(data.topic.name);
 			setdescription(data.topic.description);
@@ -58,37 +40,6 @@ const EditTopic = () => {
 			setisActive(data.topic.is_active);
 		});
 	}, [topic_id]);
-
-	useEffect(() => {
-		setcollectionOptions(
-			collections.map((collection) => ({
-				label: collection.name,
-				value: collection.collection_id,
-			}))
-		);
-	}, [collections]);
-
-	useEffect(() => {
-		let collectionListIds = collectionList.map(
-			(collection) => collection.collection_id
-		);
-
-		setcollectionOptions(
-			collections
-				.filter(
-					(collection) =>
-						!collectionListIds.includes(collection.collection_id)
-				)
-				.map((collection) => ({
-					label: collection.name,
-					value: collection.collection_id,
-				}))
-		);
-	}, [collections, collectionList]);
-
-	useEffect(() => {
-		console.log(collectionOptions);
-	}, [collectionOptions]);
 
 	const setPreviewBanner = (e) => {
 		if (e.target.files && e.target.files[0]) {

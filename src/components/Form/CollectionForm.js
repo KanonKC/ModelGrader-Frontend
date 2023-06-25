@@ -71,9 +71,6 @@ const CollectionForm = ({ editMode = false, collectionId }) => {
 					setloading(false);
 				});
 		} else {
-			// setloading(false);
-			// console.log("All Problem", problems);
-			// console.log("Collection", addProblemIds, removeProblemIds);
 			updateCollection(collectionId, body)
 				.then(() => {
 					return addCollectionProblem(
