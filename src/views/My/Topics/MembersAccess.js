@@ -1,37 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Select from "react-select";
-import {
-	Button,
-	Col,
-	Form,
-	FormGroup,
-	Input,
-	Label,
-	ListGroup,
-	Row,
-} from "reactstrap";
-import RequiredSymbol from "../../../components/RequiredSymbol";
+import { Button, ListGroup } from "reactstrap";
 import {
 	addAccountAccess,
-	addTopicCollection,
-	deleteTopic,
 	getTopic,
 	removeAccountAccess,
-	removeTopicCollection,
-	updateTopic,
 } from "../../../services/topic.service";
-import { getAllCollections } from "../../../services/collection.service";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import OrderInputListItem from "../../../components/OrderInputListItem";
-import {
-	emitConfirmation,
-	emitError,
-	emitSuccess,
-} from "../../../modules/swal.module";
-import Container from "../../../components/Layout/Container";
+import { emitConfirmation, emitSuccess } from "../../../modules/swal.module";
 import { getAllAccounts } from "../../../services/account.service";
 
-const MembersAccess = () => {
+const MembersAccess = ({ topic }) => {
 	const { topic_id } = useParams();
 
 	const [loading, setLoading] = useState(false);
@@ -40,12 +20,58 @@ const MembersAccess = () => {
 	const [accountOptions, setAccountOptions] = useState([]);
 
 	const [accessAccounts, setAccessAccounts] = useState([]);
-    const [addAccounts, setAddAccounts] = useState([]);
-    const [removeAccounts, setRemoveAccounts] = useState([]);
+	const [addAccounts, setAddAccounts] = useState([]);
 
-    const handleUpdateAccessAccount = (e) => {
-        setAddAccounts(e);
-    }
+	const loadAccessAccounts = useCallback(() => {
+		getTopic(topic_id).then((response) => {
+			const { data } = response;
+			console.log(data.topic.accessed_accounts);
+			setAccessAccounts(data.accessed_accounts);
+
+			const accessedAccountIds = data.accessed_accounts.map(
+				(account) => account.account_id
+			);
+
+			setAccountOptions(
+				accounts
+					.filter(
+						(account) =>
+							!accessedAccountIds.includes(account.account_id)
+					)
+					.map((account) => ({
+						label: account.username,
+						value: account.account_id,
+					}))
+			);
+		});
+	}, [topic_id, accounts]);
+
+	const handleUpdateAccessAccount = (e) => {
+		setAddAccounts(e);
+	};
+
+	const handleRemoveAccessAccount = (accountId) => {
+		emitConfirmation(
+			"Are you sure that you want to remove this account?",
+			() => {
+				removeAccountAccess(topic_id, [accountId]).then(() => {
+					emitSuccess("Success", "Account has been removed.");
+					loadAccessAccounts();
+				});
+			}
+		);
+	};
+
+	const handleSave = () => {
+		const addAccountIds = addAccounts.map((account) => account.value);
+		setLoading(true);
+		addAccountAccess(topic_id, addAccountIds).then(() => {
+			emitSuccess("Success", "Accounts have been added.");
+			setAddAccounts([]);
+			loadAccessAccounts();
+			setLoading(false);
+		});
+	};
 
 	useEffect(() => {
 		getAllAccounts().then((response) => {
@@ -54,51 +80,73 @@ const MembersAccess = () => {
 	}, []);
 
 	useEffect(() => {
-		setAccountOptions(
-			accounts.map((account) => ({
-				label: account.username,
-				value: account.account_id,
-			}))
+		const accessedAccountIds = accessAccounts.map(
+			(account) => account.account_id
 		);
-	}, [accounts]);
+		console.log(accessedAccountIds);
+		setAccountOptions(
+			accounts
+				.filter(
+					(account) =>
+						!accessedAccountIds.includes(account.account_id)
+				)
+				.map((account) => ({
+					label: account.username,
+					value: account.account_id,
+				}))
+		);
+	}, [accounts, accessAccounts]);
 
-	useEffect(() => {
-		getTopic(topic_id).then((response) => {
-			const { data } = response;
-			setAccessAccounts(data.topic.access_accounts);
-		});
-	}, [topic_id]);
+	useEffect(loadAccessAccounts, [
+		topic_id,
+		accounts,
+		accessAccounts,
+		loadAccessAccounts,
+	]);
 
 	return (
 		<div>
-			<div className="mb-3">
-				<Label>Access Account</Label>
-				<Select
-					isMulti
-					onChange={(e) => handleUpdateAccessAccount(e)}
-					options={accountOptions}
-				/>
-			</div>
+			<h1>Member Access</h1>
 
-			<ListGroup>
-				{accessAccounts?.map((account, index) => (
-					<OrderInputListItem
-						title={account.username}
-						disabled
-						// onRemove={() => handleRemoveAccessAccount(index)}
-					/>
-				))}
-			</ListGroup>
+			{topic.is_private ? (
+				<>
+					<div className="mb-3">
+						<Select
+							isMulti
+							value={addAccounts}
+							onChange={(e) => handleUpdateAccessAccount(e)}
+							options={accountOptions}
+						/>
+					</div>
 
-			<Button
-				className="w-1/4"
-				type="submit"
-				size="lg"
-				color="primary"
-				disabled={loading}
-			>
-				Save
-			</Button>
+					<ListGroup>
+						{accessAccounts?.map((account) => (
+							<OrderInputListItem
+								title={account.username}
+								disabled
+								onRemove={() =>
+									handleRemoveAccessAccount(
+										account.account_id
+									)
+								}
+							/>
+						))}
+					</ListGroup>
+
+					<Button
+						className="w-1/4 mt-3"
+						type="submit"
+						size="lg"
+						color="primary"
+						disabled={loading}
+						onClick={handleSave}
+					>
+						Save
+					</Button>
+				</>
+			) : (
+				<i>Member Access is only available in Private Topic</i>
+			)}
 		</div>
 	);
 };

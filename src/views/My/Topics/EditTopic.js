@@ -1,35 +1,18 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import {
-	Button,
-	Col,
-	Form,
-	FormGroup,
-	Input,
-	Label,
-	ListGroup,
-	Row,
-} from "reactstrap";
+import { Button, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import RequiredSymbol from "../../../components/RequiredSymbol";
 import {
-	addAccountAccess,
-	addTopicCollection,
 	deleteTopic,
 	getTopic,
-	removeAccountAccess,
-	removeTopicCollection,
 	updateTopic,
 } from "../../../services/topic.service";
 import { getAllCollections } from "../../../services/collection.service";
 import { useNavigate, useParams } from "react-router-dom";
-import OrderInputListItem from "../../../components/OrderInputListItem";
 import {
 	emitConfirmation,
 	emitError,
 	emitSuccess,
 } from "../../../modules/swal.module";
-import Container from "../../../components/Layout/Container";
-import { getAllAccounts } from "../../../services/account.service";
 
 const EditTopic = () => {
 	const account_id = Number(localStorage.getItem("account_id"));
@@ -39,7 +22,6 @@ const EditTopic = () => {
 	const [topic, settopic] = useState({});
 	const [collectionList, setcollectionList] = useState([]);
 	const [collections, setcollections] = useState([]);
-	const [accounts, setAccounts] = useState([]);
 
 	const [loading, setloading] = useState(false);
 
@@ -50,25 +32,6 @@ const EditTopic = () => {
 
 	const [banner, setbanner] = useState(null);
 	const [collectionOptions, setcollectionOptions] = useState([]);
-
-	const [initialAccessAccountIds, setInitialAccessAccountIds] = useState([]);
-	const [addAccountTray, setAddAccountTray] = useState([]);
-	const [accountOptions, setAccountOptions] = useState([]);
-
-	useEffect(() => {
-		getAllAccounts().then((response) => {
-			setAccounts(response.data.accounts);
-		});
-	}, []);
-
-	useEffect(() => {
-		setAccountOptions(
-			accounts.map((account) => ({
-				label: account.username,
-				value: account.account_id,
-			}))
-		);
-	}, [accounts]);
 
 	useEffect(() => {
 		getAllCollections(account_id).then((response) => {
@@ -89,15 +52,6 @@ const EditTopic = () => {
 				}))
 			);
 
-			setInitialAccessAccountIds(
-				data.accessed_accounts.map((account) => account.account_id)
-			);
-			setAddAccountTray(
-				data.accessed_accounts.map((account) => ({
-					value: account.account_id,
-					label: account.username,
-				}))
-			);
 			setname(data.topic.name);
 			setdescription(data.topic.description);
 			setisPrivate(data.topic.is_private);
@@ -150,14 +104,6 @@ const EditTopic = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		const addAccessAccountIds = addAccountTray.map(
-			(account) => account.value
-		);
-
-		const removeAccessAccountIds = initialAccessAccountIds.filter(
-			(account_id) => !addAccessAccountIds.includes(account_id)
-		);
-
 		let formData = new FormData();
 
 		formData.append("name", e.target.name.value);
@@ -169,31 +115,8 @@ const EditTopic = () => {
 			formData.append("image_url", e.target.image_url.files[0]);
 		}
 
-		const addCollectionIds = collectionList
-			.sort((a, b) => a.order - b.order)
-			.map((collection) => collection.id);
-
-		const removeCollectionIds = collections
-			.filter(
-				(collection) =>
-					!addCollectionIds.includes(collection.collection_id)
-			)
-			.map((collection) => collection.collection_id);
-
 		setloading(true);
 		updateTopic(topic_id, formData)
-			.then(() => {
-				return addTopicCollection(topic_id, addCollectionIds);
-			})
-			.then(() => {
-				return removeTopicCollection(topic_id, removeCollectionIds);
-			})
-			.then(() => {
-				return addAccountAccess(topic_id, addAccessAccountIds);
-			})
-			.then(() => {
-				return removeAccountAccess(topic_id, removeAccessAccountIds);
-			})
 			.then(() => {
 				emitSuccess("Successfully edited Topic");
 				setloading(false);
@@ -202,35 +125,6 @@ const EditTopic = () => {
 				emitError();
 				setloading(false);
 			});
-	};
-
-	const handleAddCollection = (e) => {
-		setcollectionList([
-			...collectionList,
-			{
-				title: e.label,
-				order: collectionList.length,
-				id: e.value,
-			},
-		]);
-	};
-
-	const handleEditCollectionOrder = (e, index) => {
-		setcollectionList([
-			...collectionList.slice(0, index),
-			{
-				...collectionList[index],
-				order: Number(e.target.value),
-			},
-			...collectionList.slice(index + 1),
-		]);
-	};
-
-	const handleRemoveCollection = (index) => {
-		setcollectionList([
-			...collectionList.slice(0, index),
-			...collectionList.slice(index + 1),
-		]);
 	};
 
 	const handleDelete = () => {
@@ -244,19 +138,8 @@ const EditTopic = () => {
 		);
 	};
 
-	const handleAddAccessAccount = (e) => {
-		setAddAccountTray([...addAccountTray, e]);
-	};
-
-	const handleRemoveAccessAccount = (index) => {
-		setAddAccountTray([
-			...addAccountTray.slice(0, index),
-			...addAccountTray.slice(index + 1),
-		]);
-	};
-
 	return (
-		<div >
+		<div>
 			<h1>Edit Topic</h1>
 			<Form
 				id="create-topic-form"

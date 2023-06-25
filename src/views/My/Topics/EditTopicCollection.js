@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { Button, Label, ListGroup } from "reactstrap";
+import { Button, ListGroup } from "reactstrap";
 import OrderInputListItem from "../../../components/OrderInputListItem";
 import { getAllCollections } from "../../../services/collection.service";
 import { useParams } from "react-router-dom";
@@ -61,7 +61,7 @@ const EditTopicCollection = () => {
 					!addCollectionIds.includes(collection.collection_id)
 			)
 			.map((collection) => collection.collection_id);
-		
+
 		setLoading(true);
 		addTopicCollection(topic_id, addCollectionIds)
 			.then(() => {
