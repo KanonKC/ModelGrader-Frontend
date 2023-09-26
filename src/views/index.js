@@ -23,6 +23,7 @@ import EditTopic from "./My/Topics/EditTopic";
 import MyTopicDashboard from "./My/Topics/MyTopicDashboard";
 import TestcaseDisplay from "./TestcaseDisplay";
 import Topic from "./Topics/Topic";
+import ViewTopicSubmission from "./My/Topics/ViewTopicSubmission";
 
 const Views = ({ setshowNavbar }) => {
 	const [isLoggin] = useContext(AuthContext);
@@ -103,6 +104,10 @@ const Views = ({ setshowNavbar }) => {
 						<Route
 							path={`/my/topics/:topic_id/edit`}
 							element={<EditTopic />}
+						/>
+						<Route
+							path={`/my/topics/:topic_id/submissions`}
+							element={<ViewTopicSubmission />}
 						/>
 					</>
 				)

@@ -1,8 +1,6 @@
 import React from "react";
-import { Col, Row } from "reactstrap";
-import SidebarChoice from "../../SidebarChoice";
-import BackButton from "../../Button/BackButton";
-import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import { Col } from "reactstrap";
+import { Sidebar, Menu } from "react-pro-sidebar";
 
 const SidebarMenu = ({ children }) => {
 	return (

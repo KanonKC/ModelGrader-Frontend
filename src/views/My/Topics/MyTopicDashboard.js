@@ -9,12 +9,13 @@ import EditTopic from "./EditTopic";
 import { Col, Row } from "reactstrap";
 import EditTopicCollection from "./EditTopicCollection";
 import MembersAccess from "./MembersAccess";
+import ViewTopicSubmission from "./ViewTopicSubmission";
 
 const MyTopicDashboard = () => {
 	const { topic_id } = useParams();
 
 	const [topic, settopic] = useState({});
-	const [selectedNo, setselectedNo] = useState(0);
+	const [selectedNo, setselectedNo] = useState(4);
 
 	useEffect(() => {
 		getTopic(topic_id).then((response) => {
@@ -34,6 +35,9 @@ const MyTopicDashboard = () => {
 				</MenuItem>
 				<MenuItem onClick={() => setselectedNo(3)}>
 					Members Access
+				</MenuItem>
+				<MenuItem onClick={() => setselectedNo(4)}>
+					View Submissions
 				</MenuItem>
 			</SidebarMenu>
 
@@ -61,6 +65,12 @@ const MyTopicDashboard = () => {
 			{selectedNo === 3 && (
 				<SidebarLayoutContent>
 					<MembersAccess topic={topic} />
+				</SidebarLayoutContent>
+			)}
+
+			{selectedNo === 4 && (
+				<SidebarLayoutContent>
+					<ViewTopicSubmission topic={topic} />
 				</SidebarLayoutContent>
 			)}
 		</SidebarContainer>
